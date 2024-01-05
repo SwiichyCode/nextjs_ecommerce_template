@@ -2,14 +2,14 @@ import Link from "next/link";
 import { getServerAuthSession } from "@/server/auth";
 import { Button } from "@/components/ui/button";
 
-export const LoginButton = async () => {
+export const AdminButton = async () => {
   const session = await getServerAuthSession();
 
-  if (session) return null;
+  if (session?.user.role !== "admin") return null;
 
   return (
     <Button>
-      <Link href="api/auth/signin">Login</Link>
+      <Link href="/admin">Admin</Link>
     </Button>
   );
 };
