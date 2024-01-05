@@ -11,7 +11,7 @@ export const POST = async (request: Request) => {
     mode: "payment",
     payment_method_types: ["card", "paypal"],
     success_url: `https://${env.NEXTAUTH_URL}/success`,
-    cancel_url: `${env.NEXTAUTH_URL}`,
+    cancel_url: `https://${env.NEXTAUTH_URL}`,
   });
 
   return NextResponse.json({ url: session.url });
