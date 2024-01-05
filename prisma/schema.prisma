@@ -72,3 +72,12 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Product {
+    id          Int      @id @default(autoincrement())
+    name        String
+    description String
+    pictures    String[]
+    price       Float
+    stock       Int
+}
