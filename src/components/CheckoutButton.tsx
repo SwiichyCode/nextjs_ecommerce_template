@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import type { ResponseData } from "@/lib/types";
 
 export const CheckoutButton = () => {
   const handleCheckout = async () => {
@@ -26,8 +27,7 @@ export const CheckoutButton = () => {
         }),
       })
         .then((res) => res.json())
-        .then((res) => {
-          console.log(res.url);
+        .then((res: ResponseData) => {
           if (res.url) {
             window.location.href = res.url;
           }
