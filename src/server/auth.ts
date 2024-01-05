@@ -59,6 +59,12 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      httpOptions: {
+        headers: {
+          "X-Custom-Header": "Discord OAuth2",
+        },
+        timeout: 5000,
+      },
     }),
     /**
      * ...add more providers here.
