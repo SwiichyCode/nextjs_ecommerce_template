@@ -26,6 +26,7 @@ export const addProduct = async (data: Inputs) => {
     });
 
     revalidatePath("/admin");
+
     return {
       status: "success",
       message: "Produit ajouté avec succès",

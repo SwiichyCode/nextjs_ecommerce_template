@@ -10,7 +10,7 @@ export const POST = async (request: Request) => {
     line_items: products,
     mode: "payment",
     payment_method_types: ["card", "paypal"],
-    success_url: `${env.NEXTAUTH_URL}/success`,
+    success_url: `https://${env.NEXTAUTH_URL}/success`,
     cancel_url: `${env.NEXTAUTH_URL}`,
   });
 
