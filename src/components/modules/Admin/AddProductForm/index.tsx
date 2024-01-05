@@ -1,4 +1,5 @@
 "use client";
+import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,29 +18,45 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { formSchema } from "./schema";
+import { addProduct } from "./action";
+import { SubmitButton } from "@/components/SubmitButton";
 
-export const AddProductForm = () => {
+type Props = {
+  setOpenDialog: (open: boolean) => void;
+};
+
+export const AddProductForm = ({ setOpenDialog }: Props) => {
+  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      stock: 0,
+      name: "test",
+      description: "test",
+      pictures: [],
+      price: 499,
+      stock: 50,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    startTransition(async () => {
+      const result = await addProduct(values);
 
-    toast({
-      title: "Produit ajouté",
-      description: "Le produit a été ajouté avec succès",
+      if (result?.error) {
+        toast({ title: "Error", description: result?.message });
+      }
+
+      toast({
+        title: "Success",
+        description: result?.message,
+      });
+
+      !isPending && setOpenDialog(false);
     });
-  }
+  };
 
   return (
     <Form {...form}>
@@ -76,7 +93,7 @@ export const AddProductForm = () => {
         />
         <FormField
           control={form.control}
-          name="picture"
+          name="pictures"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Image du produit</FormLabel>
@@ -123,7 +140,7 @@ export const AddProductForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <SubmitButton pending={isPending}>Submit</SubmitButton>
       </form>
     </Form>
   );

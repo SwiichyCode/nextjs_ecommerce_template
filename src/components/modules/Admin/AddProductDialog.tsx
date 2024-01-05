@@ -1,10 +1,11 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,8 +13,10 @@ import {
 import { AddProductForm } from "./AddProductForm";
 
 export const AddProductDialog = () => {
+  const [isOpenDialog, setOpenDialog] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={isOpenDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Image src="/plus.svg" width={12} height={12} alt="" />
@@ -28,7 +31,7 @@ export const AddProductDialog = () => {
             boutique.
           </DialogDescription>
         </DialogHeader>
-        <AddProductForm />
+        <AddProductForm setOpenDialog={setOpenDialog} />
       </DialogContent>
     </Dialog>
   );
