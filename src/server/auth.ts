@@ -15,19 +15,23 @@ import { db } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: "user" | "admin";
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  export interface UserRole {
+    role: "user" | "admin";
+  }
+
+  interface User {
+    role: UserRole;
+  }
 }
 
 /**
@@ -42,8 +46,13 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        role: user.role,
       },
     }),
+    redirect: ({ baseUrl }) => {
+      // If the user is logged in, redirect to the dashboard.
+      return Promise.resolve(`${baseUrl}`);
+    },
   },
   adapter: PrismaAdapter(db),
   providers: [
@@ -61,6 +70,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  secret: env.NEXTAUTH_SECRET,
 };
 
 /**

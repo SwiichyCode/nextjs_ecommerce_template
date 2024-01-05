@@ -1,5 +1,16 @@
+import { getServerAuthSession } from "@/server/auth";
+import { LoginButton } from "@/components/LoginButton";
+import { LogoutButton } from "@/components/LogoutButton";
+import { CheckoutButton } from "@/components/CheckoutButton";
+
 export default async function HomePage() {
+  const session = await getServerAuthSession();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white"></main>
+    <main>
+      <CheckoutButton />
+      <LoginButton />
+      {session && <LogoutButton />}
+    </main>
   );
 }
