@@ -21,7 +21,7 @@ import { addProduct } from "./action";
 import { TipTap } from "@/components/ui/tip-tap";
 
 type Props = {
-  setOpenDialog: (open: boolean) => void;
+  setOpenDialog?: (open: boolean) => void;
 };
 
 export const AddProductForm = ({ setOpenDialog }: Props) => {
@@ -61,110 +61,105 @@ export const AddProductForm = ({ setOpenDialog }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex max-h-[calc(100vh-200px)] w-auto flex-col space-y-8"
+        className="mx-auto flex w-full max-w-5xl  px-14"
       >
-        <div className="flex w-full space-x-12">
-          <div className="flex w-1/2 flex-col space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nom du produit</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Goodies..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description du produit</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Entrez la description du produit ici..."
-                      className="h-32 resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="richtext"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description détaillé du produit</FormLabel>
-                  <FormControl>
-                    <TipTap
-                      description={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex w-1/2 flex-col space-y-8">
-            <FormField
-              control={form.control}
-              name="pictures"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image du produit</FormLabel>
-                  <FormControl>
-                    <Input type="file" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prix du produit</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="29.99"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantité disponible</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="545"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+        <div className="w-full max-w-xl space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Nom du produit</FormLabel>
+                <FormControl>
+                  <Input placeholder="Goodies..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Description du produit</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Entrez la description du produit ici..."
+                    className="h-32 resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="richtext"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Description détaillé du produit</FormLabel>
+                <FormControl>
+                  <TipTap description={field.value} onChange={field.onChange} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="pictures"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Image du produit</FormLabel>
+                <FormControl>
+                  <Input type="file" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Prix du produit</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="29.99"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="stock"
+            render={({ field }) => (
+              <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+                <FormLabel>Quantité disponible</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="545"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <SubmitButton pending={isPending}>Submit</SubmitButton>
         </div>
-        <SubmitButton pending={isPending}>Submit</SubmitButton>
       </form>
     </Form>
   );

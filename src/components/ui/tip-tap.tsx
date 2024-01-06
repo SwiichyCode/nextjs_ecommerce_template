@@ -31,7 +31,7 @@ export const TipTap = ({ description, onChange }: Props) => {
     },
   });
   return (
-    <div className="flex min-h-[250px] flex-col justify-stretch space-y-4">
+    <div className="flex flex-col space-y-4">
       <ToolBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

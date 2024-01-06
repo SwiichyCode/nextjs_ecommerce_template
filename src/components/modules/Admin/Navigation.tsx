@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import IconWrite from "@/components/ui/icons/IconWrite";
+import IconCart from "@/components/ui/icons/IconCart";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -13,13 +14,15 @@ export const Navigation = () => {
       <ul className="flex flex-col items-center gap-4">
         <li className="flex py-4">
           <Link
-            href="/admin/write"
+            href="/admin/products"
             className={cn(
               "px-3 py-2",
-              pathname === "/admin/write" ? "text-[#4945FF]" : "text-[#8E8EA9]",
+              pathname === "/admin/products"
+                ? "text-[#4945FF]"
+                : "text-[#8E8EA9]",
             )}
           >
-            <IconWrite width={24} height={24} fill="#4945FF" />
+            <IconCart width={24} height={24} />
           </Link>
         </li>
       </ul>
