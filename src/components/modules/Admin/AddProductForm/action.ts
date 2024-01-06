@@ -1,5 +1,5 @@
 "use server";
-import * as z from "zod";
+import type * as z from "zod";
 import { formSchema } from "./schema";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
