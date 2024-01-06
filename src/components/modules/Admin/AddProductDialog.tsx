@@ -23,7 +23,7 @@ export const AddProductDialog = () => {
           Ajouter un produit
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:min-w-[425px] sm:max-w-[950px]">
         <DialogHeader>
           <DialogTitle>Ajoute un produit</DialogTitle>
           <DialogDescription>

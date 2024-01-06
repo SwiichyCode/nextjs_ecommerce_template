@@ -9,6 +9,10 @@ export const formSchema = z.object({
     .string()
     .min(2, { message: "La description doit comporter au moins 2 caractères" })
     .max(50, { message: "La description ne peut pas dépasser 50 caractères" }),
+  richtext: z
+    .string()
+    .min(2, { message: "La description doit comporter au moins 2 caractères" })
+    .max(50, { message: "La description ne peut pas dépasser 50 caractères" }),
   pictures: z.array(z.string()).optional(),
   price: z
     .number()
