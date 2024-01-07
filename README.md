@@ -1,28 +1,30 @@
-# Create T3 App
+# Next.js E-commerce Template
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This project, `nextjs_ecommerce_template`, is a comprehensive e-commerce solution built with the T3 Stack and bootstrapped with `create-t3-app`. It leverages the power of Next.js 14, TypeScript, Zustand, Tailwind, NextAuth, Prisma, and Stripe.
 
-## What's next? How do I make an app with this?
+## Project Status
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+This template is currently a work in progress. It already includes an admin dashboard and various e-commerce components, but I'm continuously working on it to add more features and improve its functionality. Regular updates will be made to enhance the project and add new features.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Built With
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+This project is built with the following technologies:
 
-## Learn More
+- [Next.js 14](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zustand](https://github.com/pmndrs/zustand)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [Prisma](https://www.prisma.io/)
+- [Stripe](https://stripe.com/)
+- [T3 Stack](https://create.t3.gg/)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Collaboration
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+This project is open for collaboration. If you're interested in contributing, whether it's adding new features, improving existing ones, or helping with documentation, your help would be greatly appreciated. The project is in its early stages, and there's a lot of room for growth and improvement.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+By collaborating, you'll have the opportunity to work on a real-world project and gain experience with the T3 Stack and other modern web technologies. Plus, you'll be part of a community that's passionate about learning and growing together.
 
-## How do I deploy this?
+If you're interested, feel free to fork the repository, make your changes, and submit a pull request. If you have any questions or need help getting started, don't hesitate to reach out.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Let's work together to make this project even better!
