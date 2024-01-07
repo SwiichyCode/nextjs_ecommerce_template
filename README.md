@@ -70,6 +70,7 @@ This project includes the following features:
 - **Stock Tracking**: Keep track of your stock levels to ensure you never run out of your key products.
 - **Latest Sales Tracking**: Stay up-to-date with your latest sales.
 - **Traffic Analytics Management**: Monitor and analyze your website traffic to understand your audience better and optimize your strategies.
+- **Ecommerce Component**: A ready-to-use e-commerce library that provides a solid starting point for your online store.
 
 We're always working to add more features and improve the existing ones. Stay tuned for updates!
 
