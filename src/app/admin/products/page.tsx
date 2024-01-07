@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
-import { Header } from "@/components/modules/Admin/Header";
-import { AddProductForm } from "@/components/modules/Admin/AddProductForm";
+import { Header } from "@/modules/Admin/components/Header";
+import { AddProductForm } from "@/modules/Admin/actions/AddProductForm";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 

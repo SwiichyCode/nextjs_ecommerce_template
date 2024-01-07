@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SubmitButton } from "@/components/SubmitButton";
+import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
 import { formSchema } from "./schema";
 import { addProduct } from "./action";
 import { TipTap } from "@/components/ui/tip-tap";
-import { DragAndDrop } from "@/components/DragAndDropList";
-import { FileCard } from "../FileCard";
+import { DragAndDrop } from "@/modules/Admin/components/DragAndDropList";
+import { FileCard } from "../../components/FileCard";
 
 export const AddProductForm = () => {
   const [isPending, startTransition] = useTransition();

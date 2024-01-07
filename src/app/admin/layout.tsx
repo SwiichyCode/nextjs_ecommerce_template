@@ -1,5 +1,5 @@
-import { Sidebar } from "@/components/modules/Admin/Sidebar";
-import { SubNavigation } from "@/components/modules/Admin/SubNavigation";
+import { Sidebar } from "@/modules/Admin/components/Sidebar";
+import { SubNavigation } from "@/modules/Admin/components/SubNavigation";
 
 type Props = {
   children: React.ReactNode;
