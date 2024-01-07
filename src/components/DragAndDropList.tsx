@@ -11,12 +11,14 @@ type Props<T> = {
   items: T[];
   setItems: (items: T[]) => void;
   children: (item: T, provided: DraggableProvided) => React.ReactElement;
+  className?: string;
 };
 
 export const DragAndDrop = <T extends React.Key>({
   items,
   setItems,
   children,
+  className,
 }: Props<T>) => {
   const reorder = <T,>(
     list: T[],
@@ -53,7 +55,11 @@ export const DragAndDrop = <T extends React.Key>({
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className={className}
+          >
             {items.map((item, index) => (
               <Draggable key={item} draggableId={item.toString()} index={index}>
                 {(provided) => React.cloneElement(children(item, provided))}
