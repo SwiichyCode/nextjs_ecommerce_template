@@ -61,6 +61,18 @@ Your application should now be running at http://localhost:3000.
 
 Happy coding!
 
+## Features
+
+This project includes the following features:
+
+- **Product Administration**: Manage your products effectively with our comprehensive administration features.
+- **Product Addition**: Easily add new products to your inventory.
+- **Stock Tracking**: Keep track of your stock levels to ensure you never run out of your key products.
+- **Latest Sales Tracking**: Stay up-to-date with your latest sales.
+- **Traffic Analytics Management**: Monitor and analyze your website traffic to understand your audience better and optimize your strategies.
+
+We're always working to add more features and improve the existing ones. Stay tuned for updates!
+
 ## Collaboration
 
 This project is open for collaboration. If you're interested in contributing, whether it's adding new features, improving existing ones, or helping with documentation, your help would be greatly appreciated. The project is in its early stages, and there's a lot of room for growth and improvement.
