@@ -18,7 +18,7 @@ export const formSchema = z.object({
     .min(2, { message: "La description doit comporter au moins 2 caractères" })
     .max(50, { message: "La description ne peut pas dépasser 50 caractères" }),
   pictures: z
-    .any()
+    .instanceof(File)
     .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
     .refine(
       (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),

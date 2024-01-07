@@ -1,8 +1,8 @@
-import React from "react";
+import { DraggableProvided } from "react-beautiful-dnd";
 
 type Props = {
-  item: any;
-  provided?: any;
+  item: unknown;
+  provided: DraggableProvided;
 };
 
 export const FileCard = ({ item, provided }: Props) => {
@@ -14,7 +14,7 @@ export const FileCard = ({ item, provided }: Props) => {
       {...provided.dragHandleProps}
     >
       <img
-        src={item}
+        src={item as string}
         className="max-h-40 w-full rounded-t border-b border-[#EAEAEF] object-cover"
       />
 

@@ -21,7 +21,6 @@ export const addProduct = async (data: Inputs) => {
         description,
         price,
         stock,
-        pictures,
       },
     });
 

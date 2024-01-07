@@ -31,7 +31,7 @@ export const AddProductForm = () => {
     defaultValues: {
       name: "test",
       description: "test",
-      pictures: [],
+      pictures: undefined,
       price: 499,
       stock: 50,
     },
