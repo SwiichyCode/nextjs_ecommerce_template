@@ -19,6 +19,48 @@ This project is built with the following technologies:
 - [Stripe](https://stripe.com/)
 - [T3 Stack](https://create.t3.gg/)
 
+## Installation
+
+To install and run this project on your local machine, follow these steps:
+
+1. **Clone the repository**
+   Use the following command to clone the repository:
+
+   ```bash
+   git clone https://github.com/SwiichyCode/nextjs_ecommerce_template.git
+   ```
+
+2. **Install the dependencies**
+   Navigate into the project directory and install the necessary dependencies with npm:
+
+   ```bash
+   cd nextjs_ecommerce_template
+   npm install
+   ```
+
+3. **Set up environment variables**
+
+   This project uses environment variables for configuration. You can find an example of the necessary variables in the .env.example file in the root of the project. Create a new file named .env and populate it with your own values
+
+4. **Initialize the database**
+   This project uses Prisma for database management. After setting up your database and adding its connection string to the .env file, you can initialize the database with the following command:
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. **Start the development server**
+
+Finally, you can start the development server with:
+
+```bash
+   npm run dev
+```
+
+Your application should now be running at http://localhost:3000.
+
+Happy coding!
+
 ## Collaboration
 
 This project is open for collaboration. If you're interested in contributing, whether it's adding new features, improving existing ones, or helping with documentation, your help would be greatly appreciated. The project is in its early stages, and there's a lot of room for growth and improvement.
