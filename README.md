@@ -61,6 +61,18 @@ Your application should now be running at http://localhost:3000.
 
 Happy coding!
 
+## Folder Structure
+
+The project has the following folder structure:
+
+- **app**: This folder contains the router for the application.
+- **components/ui**: This folder contains shared components and more.
+- **modules**: This folder contains components related to the different modules of the project such as auth, shop, admin, etc.
+- **server**: This folder contains the auth and database configuration.
+- **env.js**: This file is used to define and type environment variables. For more information, refer to [this guide](https://create.t3.gg/en/usage/env-variables).
+
+This structure helps in maintaining the project and makes it easier for new contributors to understand the codebase.
+
 ## Features
 
 This project includes the following features:
