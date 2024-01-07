@@ -69,17 +69,6 @@ export const AddProductForm = () => {
     // });
   };
 
-  // const [file, setFile] = useState<File | undefined>();
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const file = event.target.files[0];
-  //     setFile(file);
-  //   }
-  // };
-
-  // console.log(file);
-
   return (
     <Form {...form}>
       <form
