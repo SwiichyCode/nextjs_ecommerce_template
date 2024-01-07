@@ -20,6 +20,7 @@ import { formSchema } from "./schema";
 import { addProduct } from "./action";
 import { TipTap } from "@/components/ui/tip-tap";
 import { DragAndDrop } from "@/components/DragAndDropList";
+import { FileCard } from "../FileCard";
 
 export const AddProductForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -47,10 +48,13 @@ export const AddProductForm = () => {
     }
   };
 
+  const file = form.watch("pictures");
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    console.log(file);
 
     // startTransition(async () => {
     //   const result = await addProduct(values);
@@ -64,6 +68,17 @@ export const AddProductForm = () => {
 
     // });
   };
+
+  // const [file, setFile] = useState<File | undefined>();
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const file = event.target.files[0];
+  //     setFile(file);
+  //   }
+  // };
+
+  // console.log(file);
 
   return (
     <Form {...form}>
@@ -107,7 +122,17 @@ export const AddProductForm = () => {
               <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
                 <FormLabel>Image du produit</FormLabel>
                 <FormControl>
-                  <Input type="file" {...field} onChange={handleImageChange} />
+                  <Input
+                    type="file"
+                    {...field}
+                    value={undefined}
+                    onChange={(e) => {
+                      handleImageChange(e);
+                      if (e.target.files) {
+                        field.onChange(e.target.files[0]);
+                      }
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
 
@@ -115,7 +140,9 @@ export const AddProductForm = () => {
                   items={selectedImages}
                   setItems={setSelectedImages}
                 >
-                  {(item) => <img src={item} width={50} height={50} alt="" />}
+                  {(item, provided) => (
+                    <FileCard item={item} provided={provided} />
+                  )}
                 </DragAndDrop>
               </FormItem>
             )}

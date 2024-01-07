@@ -4,12 +4,13 @@ import {
   Droppable,
   Draggable,
   DropResult,
+  DraggableProvided,
 } from "react-beautiful-dnd";
 
 type Props<T> = {
   items: T[];
   setItems: (items: T[]) => void;
-  children: (item: T) => React.ReactElement;
+  children: (item: T, provided: DraggableProvided) => React.ReactElement;
 };
 
 export const DragAndDrop = <T extends React.Key>({
@@ -55,13 +56,7 @@ export const DragAndDrop = <T extends React.Key>({
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {items.map((item, index) => (
               <Draggable key={item} draggableId={item.toString()} index={index}>
-                {(provided) =>
-                  React.cloneElement(children(item), {
-                    ref: provided.innerRef,
-                    ...provided.draggableProps,
-                    ...provided.dragHandleProps,
-                  })
-                }
+                {(provided) => React.cloneElement(children(item, provided))}
               </Draggable>
             ))}
             {provided.placeholder}
