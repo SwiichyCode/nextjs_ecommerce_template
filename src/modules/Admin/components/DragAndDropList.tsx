@@ -7,7 +7,7 @@ import {
   DraggableProvided,
 } from "@hello-pangea/dnd";
 
-type Props<T> = {
+export type Props<T> = {
   items: T[];
   setItems: (items: T[]) => void;
   children: (item: T, provided: DraggableProvided) => React.ReactElement;

@@ -21,7 +21,7 @@ export interface FormInputControllerProps<FieldsType extends FieldValues> {
   error?: FieldError;
   control: Control<FieldsType>;
   type?: string;
-  onChange?: (value: any) => void;
+  onChange?: (value: unknown) => void;
 }
 
 export interface Field<FieldsType extends FieldValues>
@@ -52,7 +52,7 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
               id={name as string}
               type={type}
               onChange={
-                onChange ||
+                onChange ??
                 ((e) =>
                   field.onChange(
                     type === "number" ? Number(e.target.value) : e.target.value,
