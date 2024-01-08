@@ -1,4 +1,4 @@
-import { DraggableProvided } from "react-beautiful-dnd";
+import { DraggableProvided } from "@hello-pangea/dnd";
 
 type Props = {
   item: unknown;

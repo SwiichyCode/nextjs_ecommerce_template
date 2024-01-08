@@ -5,7 +5,7 @@ import {
   Draggable,
   DropResult,
   DraggableProvided,
-} from "react-beautiful-dnd";
+} from "@hello-pangea/dnd";
 
 type Props<T> = {
   items: T[];
