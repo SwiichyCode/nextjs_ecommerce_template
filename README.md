@@ -88,7 +88,7 @@ We're always working to add more features and improve the existing ones. Stay tu
 
 ## Image Storage
 
-For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/concepts/projects/advanced/blobs). This service provides us with a secure and scalable solution for our image storage needs.
+For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/storage/vercel-blob). This service provides us with a secure and scalable solution for our image storage needs.
 
 In our `next.config.js` file, we have configured Next.js to recognize images from our Vercel Blob Storage:
 
