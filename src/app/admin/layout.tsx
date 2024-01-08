@@ -13,7 +13,9 @@ export default function AdminLayout({ children }: Props) {
         <SubNavigation />
       </div>
 
-      <main className="flex w-full flex-col bg-[#F6F6F9] pb-9">{children}</main>
+      <main className="flex min-h-screen w-full flex-col bg-[#F6F6F9] pb-9">
+        {children}
+      </main>
     </div>
   );
 }

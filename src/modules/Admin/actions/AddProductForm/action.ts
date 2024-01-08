@@ -16,9 +16,11 @@ export const addProduct = async ({
 }) => {
   try {
     const session = await getServerAuthSession();
-    if (session?.user.role !== "admin") throw new Error("Unauthorized");
+    if (session && session.user.role !== "admin")
+      throw new Error("Unauthorized");
 
-    const { name, description, price, stock } = actionSchema.parse(data);
+    const { name, description, price, stock, weight } =
+      actionSchema.parse(data);
 
     await db.product.create({
       data: {
@@ -27,6 +29,7 @@ export const addProduct = async ({
         price,
         stock,
         pictures: imagesUrls,
+        weight,
       },
     });
 

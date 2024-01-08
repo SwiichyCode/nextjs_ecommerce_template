@@ -31,8 +31,9 @@ export const AddProductForm = () => {
       name: "test",
       description: "test",
       pictures: [],
-      price: 499,
-      stock: 50,
+      price: 0,
+      stock: 0,
+      weight: 0,
     },
   });
 
@@ -46,6 +47,7 @@ export const AddProductForm = () => {
           description: values.description,
           price: values.price,
           stock: values.stock,
+          weight: values.weight,
         },
         imagesUrls,
       });
@@ -105,6 +107,14 @@ export const AddProductForm = () => {
             type="number"
             label="Quantité disponible"
             placeholder="545"
+          />
+
+          <ControlledTextField<z.infer<typeof formSchema>>
+            control={form.control}
+            name="weight"
+            type="number"
+            label="Poids du produit (kg)"
+            placeholder="2.500"
           />
 
           <SubmitButton pending={isPending}>Submit</SubmitButton>
