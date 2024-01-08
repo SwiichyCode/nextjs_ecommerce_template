@@ -13,7 +13,7 @@ export const productColumns: ColumnDef<Product>[] = [
       return (
         <Image
           className="h-10 w-10 rounded object-cover"
-          src={pictures[0] as string}
+          src={pictures[0]!}
           width={40}
           height={40}
           alt=""
