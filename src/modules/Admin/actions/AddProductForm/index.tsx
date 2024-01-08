@@ -3,6 +3,7 @@ import { useState, useTransition, type ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
+import type { PutBlobResult } from "@vercel/blob";
 
 import {
   Form,
@@ -50,7 +51,7 @@ export const AddProductForm = () => {
 
   const file = form.watch("pictures");
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -67,6 +68,17 @@ export const AddProductForm = () => {
     //   });
 
     // });
+
+    const response = await fetch(
+      `/api/products/image/upload?filename=${file.name}`,
+      {
+        method: "POST",
+        body: file,
+      },
+    );
+
+    const newBlob = (await response.json()) as PutBlobResult;
+    console.log(newBlob);
   };
 
   return (

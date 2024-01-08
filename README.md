@@ -86,6 +86,22 @@ This project includes the following features:
 
 We're always working to add more features and improve the existing ones. Stay tuned for updates!
 
+## Image Storage
+
+For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/concepts/projects/advanced/blobs). This service provides us with a secure and scalable solution for our image storage needs.
+
+In our `next.config.js` file, we have configured Next.js to recognize images from our Vercel Blob Storage:
+
+```javascript
+images: {
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "k4jlln3aspazn4y4.public.blob.vercel-storage.com",
+    },
+  ],
+},
+
 ## Collaboration
 
 This project is open for collaboration. If you're interested in contributing, whether it's adding new features, improving existing ones, or helping with documentation, your help would be greatly appreciated. The project is in its early stages, and there's a lot of room for growth and improvement.
@@ -95,3 +111,4 @@ By collaborating, you'll have the opportunity to work on a real-world project an
 If you're interested, feel free to fork the repository, make your changes, and submit a pull request. If you have any questions or need help getting started, don't hesitate to reach out.
 
 Let's work together to make this project even better!
+```

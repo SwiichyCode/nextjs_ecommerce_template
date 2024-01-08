@@ -7,6 +7,14 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "k4jlln3aspazn4y4.public.blob.vercel-storage.com",
+      },
+    ],
+  },
 };
 
 export default config;
