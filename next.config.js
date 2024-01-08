@@ -8,9 +8,14 @@ await import("./src/env.js");
 const config = {
   reactStrictMode: false,
   images: {
+    // The `remotePatterns` array allows Next.js to optimize images from external sources.
+    // Each object in the array represents a pattern for the URLs of the images that should be optimized.
     remotePatterns: [
       {
+        // The `protocol` property specifies the protocol of the URLs. In this case, it's "https".
         protocol: "https",
+        // The `hostname` property specifies the hostname of the URLs. In this case, it's the hostname of your Vercel Blob Storage.
+        // So, any image from "https://k4jlln3aspazn4y4.public.blob.vercel-storage.com" will be optimized by Next.js.
         hostname: "k4jlln3aspazn4y4.public.blob.vercel-storage.com",
       },
     ],

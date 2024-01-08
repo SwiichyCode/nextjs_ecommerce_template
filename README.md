@@ -101,6 +101,7 @@ images: {
     },
   ],
 },
+```
 
 ## Collaboration
 
@@ -111,4 +112,3 @@ By collaborating, you'll have the opportunity to work on a real-world project an
 If you're interested, feel free to fork the repository, make your changes, and submit a pull request. If you have any questions or need help getting started, don't hesitate to reach out.
 
 Let's work together to make this project even better!
-```

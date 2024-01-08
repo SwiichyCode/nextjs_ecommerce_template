@@ -18,12 +18,17 @@ export const formSchema = z.object({
     .min(2, { message: "La description doit comporter au moins 2 caractères" })
     .max(50, { message: "La description ne peut pas dépasser 50 caractères" }),
   pictures: z
-    .instanceof(File)
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .array(z.instanceof(File))
     .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      (files) => files.every((file) => file.size <= MAX_FILE_SIZE),
+      `Max image size is 5MB.`,
+    )
+    .refine(
+      (files) =>
+        files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
       "Only .jpg, .jpeg, .png and .webp formats are supported.",
     ),
+
   price: z
     .number()
     .min(0, { message: "Le prix ne peut pas être inférieur à 0" })
@@ -33,3 +38,5 @@ export const formSchema = z.object({
     .min(0, { message: "Le stock ne peut pas être inférieur à 0" })
     .max(1000000, { message: "Le stock ne peut pas dépasser 1 000 000" }),
 });
+
+export const actionSchema = formSchema.omit({ pictures: true });

@@ -1,19 +1,24 @@
 "use server";
 import type * as z from "zod";
-import { formSchema } from "./schema";
+import { actionSchema } from "./schema";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 
-type Inputs = z.infer<typeof formSchema>;
+type Inputs = z.infer<typeof actionSchema>;
 
-export const addProduct = async (data: Inputs) => {
+export const addProduct = async ({
+  data,
+  imagesUrls,
+}: {
+  data?: Inputs;
+  imagesUrls?: string[];
+}) => {
   try {
     const session = await getServerAuthSession();
     if (session?.user.role !== "admin") throw new Error("Unauthorized");
 
-    const { name, description, price, stock, pictures } =
-      formSchema.parse(data);
+    const { name, description, price, stock } = actionSchema.parse(data);
 
     await db.product.create({
       data: {
@@ -21,10 +26,11 @@ export const addProduct = async (data: Inputs) => {
         description,
         price,
         stock,
+        pictures: imagesUrls,
       },
     });
 
-    revalidatePath("/admin");
+    revalidatePath("/admin/products");
 
     return {
       status: "success",
