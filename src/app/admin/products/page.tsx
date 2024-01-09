@@ -18,7 +18,7 @@ export default async function WritePage() {
       </Header>
 
       <div className="mx-auto w-full max-w-5xl px-14">
-        <DataTable columns={productColumns} data={products} />
+        <DataTable columns={productColumns} data={products} asRowLink />
       </div>
     </>
   );

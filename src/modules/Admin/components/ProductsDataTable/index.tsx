@@ -16,10 +16,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  asRowLink?: boolean;
 }
 
 type IDataWithId<TData> = TData & {
@@ -29,6 +31,7 @@ type IDataWithId<TData> = TData & {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  asRowLink,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -37,6 +40,12 @@ export function DataTable<TData, TValue>({
   });
 
   const router = useRouter();
+
+  const handleRowClick = (id: string | number) => {
+    if (!asRowLink) return;
+
+    router.push(`/admin/products/${id}`);
+  };
 
   return (
     <div className="rounded-md border bg-white">
@@ -65,13 +74,10 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() => {
-                  router.push(
-                    `/admin/products/${
-                      (row.original as IDataWithId<TData>).id
-                    }`,
-                  );
-                }}
+                onClick={() =>
+                  handleRowClick((row.original as IDataWithId<TData>).id)
+                }
+                className={cn(asRowLink && "cursor-pointer")}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
