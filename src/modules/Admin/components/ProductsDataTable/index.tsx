@@ -22,6 +22,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+type IDataWithId<TData> = TData & {
+  id: string | number;
+};
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -62,7 +66,11 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() => {
-                  router.push(`/admin/products/${row.original.id}`);
+                  router.push(
+                    `/admin/products/${
+                      (row.original as IDataWithId<TData>).id
+                    }`,
+                  );
                 }}
               >
                 {row.getVisibleCells().map((cell) => (
