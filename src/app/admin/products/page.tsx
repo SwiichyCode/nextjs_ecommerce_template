@@ -17,7 +17,7 @@ export default async function WritePage() {
         <ButtonLink href="/admin/products/add" src="/plus.svg" />
       </Header>
 
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-5xl px-14">
         <DataTable columns={productColumns} data={products} />
       </div>
     </>

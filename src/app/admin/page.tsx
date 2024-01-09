@@ -8,9 +8,5 @@ export default async function AdminPage() {
   // You can preview your database by running the command "npx prisma studio" in your terminal.
   if (session?.user.role !== "admin") return <div>Not authorized</div>;
 
-  return (
-    <div className="h-screen w-full items-center justify-center">
-      <form></form>
-    </div>
-  );
+  return <div className="h-screen w-full items-center justify-center"></div>;
 }
