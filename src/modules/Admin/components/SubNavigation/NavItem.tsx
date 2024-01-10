@@ -11,29 +11,29 @@ export const NavItem = ({ item }: Props) => {
   const pathname = usePathname();
 
   return (
-    <li className="w-full cursor-pointer hover:bg-[#F0F0FF]">
+    <li className="hover:bg-secondary w-full cursor-pointer">
       <div
         className={cn(
-          "flex w-full items-center justify-between px-8 text-sm text-[#32324D] hover:bg-[#F0F0FF]",
-          pathname === item.path && "bg-[#F0F0FF] text-[#4945FF]",
+          "hover:bg-secondary flex w-full items-center justify-between px-8 text-sm",
+          pathname === item.path && "bg-secondary text-tertiary",
         )}
       >
         <div className="flex items-center gap-4">
           <div
             className={cn(
-              "h-1 w-1 rounded-full bg-[#666687]",
-              pathname === item.path && "bg-[#4945FF]",
+              "bg-quarternary h-1 w-1 rounded-full",
+              pathname === item.path && "bg-tertiary",
             )}
           />
           <Link
             href={item.path}
-            className="flex items-center py-2 font-semibold"
+            className="block w-32 items-center overflow-hidden truncate py-2 font-semibold"
           >
             {item.name}
           </Link>
         </div>
         {pathname === item.path && (
-          <div className="ml-2 h-2 w-2 rounded-full bg-[#4945FF]" />
+          <div className="bg-tertiary ml-2 h-2 w-2 rounded-full" />
         )}
       </div>
     </li>

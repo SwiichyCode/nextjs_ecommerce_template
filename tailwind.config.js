@@ -38,6 +38,9 @@ module.exports = {
       },
       backgroundColor: {
         primary: "#F6F6F9",
+        secondary: "#F0F0FF",
+        tertiary: "#4945FF",
+        quarternary: "#666687",
       },
       borderColor: {
         primary: "#EAEAEF",

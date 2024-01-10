@@ -25,7 +25,7 @@ export const SubNavigation = () => {
   if (pathname === ADMIN_URL) return null;
 
   return (
-    <section className="border-primary w-full min-w-60 border-r">
+    <section className="border-primary w-60 border-r">
       <h1 className="mb-8 px-6 py-4 text-xl font-bold capitalize">
         {handleTitleTransform()}
       </h1>
