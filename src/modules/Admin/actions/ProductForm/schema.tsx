@@ -45,3 +45,7 @@ export const formSchema = z.object({
 });
 
 export const actionSchema = formSchema.omit({ pictures: true });
+
+export const statusSchema = z.object({
+  status: z.enum(["active", "draft"]),
+});

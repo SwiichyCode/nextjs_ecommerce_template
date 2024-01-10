@@ -2,7 +2,8 @@ import { db } from "@/server/db";
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
 import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
-import { DeleteProductForm } from "@/modules/Admin/actions/ProductForm/DeleteProductForm";
+import { ProductDeleteForm } from "@/modules/Admin/actions/ProductForm/ProductDeleteForm";
+import { ProductStatusForm } from "@/modules/Admin/actions/ProductForm/ProductStatusForm";
 
 export default async function EditProductPage({
   params,
@@ -22,9 +23,12 @@ export default async function EditProductPage({
           <ButtonHistoryBack />
           <h1 className="text-3xl font-bold">Editer votre produit</h1>
         </div>
-        <DeleteProductForm id={product!.id} />
+        <ProductDeleteForm id={product!.id} />
       </Header>
-      <ProductForm product={product} asEdit />
+      <div className="mx-auto flex w-full max-w-5xl items-start justify-between px-14">
+        <ProductForm product={product} asEdit />
+        <ProductStatusForm product={product} />
+      </div>
     </>
   );
 }

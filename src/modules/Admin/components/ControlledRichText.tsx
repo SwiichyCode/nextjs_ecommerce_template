@@ -26,7 +26,7 @@ export const ControlledRichTextField = <FieldsType extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+        <FormItem className="card">
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <TipTap description={field.value} onChange={field.onChange} />

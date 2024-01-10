@@ -44,7 +44,7 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
       name={name}
       defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
-        <FormItem className="rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm">
+        <FormItem className="card">
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input

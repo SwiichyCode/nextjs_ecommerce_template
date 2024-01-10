@@ -85,6 +85,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
       if (result?.error) {
         toast({ title: "Error", description: result?.message });
+        return;
       }
 
       toast({
@@ -98,11 +99,8 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto flex w-full max-w-5xl  px-14"
-      >
-        <div className="w-full max-w-xl space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-xl">
+        <div className="space-y-8">
           <ControlledTextField<z.infer<typeof formSchema>>
             control={form.control}
             name="name"

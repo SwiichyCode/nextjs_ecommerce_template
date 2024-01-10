@@ -9,7 +9,7 @@ type Props = {
   id: number;
 };
 
-export const DeleteProductForm = ({ id }: Props) => {
+export const ProductDeleteForm = ({ id }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const router = useRouter();

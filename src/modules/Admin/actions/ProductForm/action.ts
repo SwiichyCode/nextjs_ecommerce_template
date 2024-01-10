@@ -103,3 +103,33 @@ export const deleteProduct = async ({ id }: { id: number }) => {
     if (error instanceof Error) return { error: error.message };
   }
 };
+
+export const updateStatus = async ({
+  id,
+  status,
+}: {
+  id: number;
+  status: "active" | "draft";
+}) => {
+  try {
+    const session = await getServerAuthSession();
+    if (session && session.user.role !== "admin")
+      throw new Error("Unauthorized");
+
+    await db.product.update({
+      where: { id },
+      data: {
+        status,
+      },
+    });
+
+    revalidatePath(PRODUCT_URL);
+
+    return {
+      status: "success",
+      message: "Statut modifié avec succès",
+    };
+  } catch (error) {
+    if (error instanceof Error) return { error: error.message };
+  }
+};
