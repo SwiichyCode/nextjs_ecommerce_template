@@ -87,12 +87,12 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         toast({ title: "Error", description: result?.message });
       }
 
-      router.push("/admin/products");
-
       toast({
         title: "Success",
         description: result?.message,
       });
+
+      router.push("/admin/products");
     });
   };
 

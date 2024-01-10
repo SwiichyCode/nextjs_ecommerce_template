@@ -84,3 +84,22 @@ export const updateProduct = async ({
     if (error instanceof Error) return { error: error.message };
   }
 };
+
+export const deleteProduct = async ({ id }: { id: number }) => {
+  try {
+    const session = await getServerAuthSession();
+    if (session && session.user.role !== "admin")
+      throw new Error("Unauthorized");
+
+    await db.product.delete({ where: { id } });
+
+    revalidatePath(PRODUCT_URL);
+
+    return {
+      status: "success",
+      message: "Produit supprimé avec succès",
+    };
+  } catch (error) {
+    if (error instanceof Error) return { error: error.message };
+  }
+};
