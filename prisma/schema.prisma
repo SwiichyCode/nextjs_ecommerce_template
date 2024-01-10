@@ -74,12 +74,30 @@ model VerificationToken {
 }
 
 model Product {
-    id          Int      @id @default(autoincrement())
+    id          Int       @id @default(autoincrement())
     name        String
     description String
     pictures    String[]
     price       Float
     stock       Int
     weight      Float
-    status      String   @default("active")
+    status      String    @default("active")
+    variants    Variant[]
+}
+
+model Variant {
+    id           Int           @id @default(autoincrement())
+    name         String
+    productId    Int
+    product      Product       @relation(fields: [productId], references: [id])
+    optionValues OptionValue[] // Relation to OptionValue model
+}
+
+model OptionValue {
+    id        Int     @id @default(autoincrement())
+    value     String
+    price     Float
+    stock     Int
+    variantId Int
+    variant   Variant @relation(fields: [variantId], references: [id])
 }

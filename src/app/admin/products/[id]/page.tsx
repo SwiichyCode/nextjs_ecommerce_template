@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
-import { ProductForm } from "@/modules/Admin/actions/ProductForm";
+import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
 import { DeleteProductForm } from "@/modules/Admin/actions/ProductForm/DeleteProductForm";
 
 export default async function EditProductPage({

@@ -1,6 +1,6 @@
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
 import { Header } from "@/modules/Admin/components/Header";
-import { ProductForm } from "@/modules/Admin/actions/ProductForm";
+import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
 
 export default function AddProductPage() {
   return (
