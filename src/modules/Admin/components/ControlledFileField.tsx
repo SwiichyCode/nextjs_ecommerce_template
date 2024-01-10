@@ -10,6 +10,7 @@ import {
   FormControl,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { DragAndDrop } from "./DragAndDropList";
@@ -54,6 +55,9 @@ export const ControlledFileField = <FieldsType extends FieldValues>({
               }}
             />
           </FormControl>
+          <FormDescription>
+            Essayer toujours d'optimiser vos images avant de les envoyer.
+          </FormDescription>
           <FormMessage />
 
           <DragAndDrop items={selectedImages} setItems={setSelectedImages}>
