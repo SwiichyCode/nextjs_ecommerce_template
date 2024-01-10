@@ -9,7 +9,7 @@ interface Props {
 export const Navigation = ({ navItems, navTitle }: Props) => {
   return (
     <nav>
-      <h2 className="px-6 py-2 text-sm font-bold uppercase text-[#666687]">
+      <h2 className="text-secondary px-6 py-2 text-sm font-bold uppercase">
         {navTitle}
       </h2>
 

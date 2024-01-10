@@ -10,6 +10,12 @@ const handleRewriteStatus = (status: string) => {
   return "Actif";
 };
 
+const handleStyleStatus = (status: string) => {
+  if (status === "active") return "bg-green-100 text-green-800";
+  if (status === "draft") return "bg-red-100 text-red-800";
+  return "bg-green-100 text-green-800";
+};
+
 export const productColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "picture",
@@ -39,11 +45,8 @@ export const productColumns: ColumnDef<Product>[] = [
       const { status } = row.original;
 
       const statusClass = cn(
-        "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
-        {
-          "bg-green-100 text-green-800": status === "active",
-          "bg-red-100 text-red-800": status === "draft",
-        },
+        "inline-flex items-center px-2.5 py-1.5 rounded text-xs font-medium",
+        handleStyleStatus(status),
       );
 
       return <span className={statusClass}>{handleRewriteStatus(status)}</span>;

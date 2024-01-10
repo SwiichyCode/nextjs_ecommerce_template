@@ -7,13 +7,13 @@ type Props = {
 
 export default function AdminLayout({ children }: Props) {
   return (
-    <div className="flex w-full text-[#32324D]">
-      <div className="fixed flex h-screen">
+    <div className="text-primary flex">
+      <div className="flex h-screen">
         <Sidebar />
         <SubNavigation />
       </div>
 
-      <main className="flex min-h-screen w-full flex-col bg-[#F6F6F9] pb-9">
+      <main className="bg-primary flex h-screen w-full flex-col overflow-scroll pb-9">
         {children}
       </main>
     </div>
