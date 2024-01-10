@@ -1,5 +1,6 @@
 "use client";
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
@@ -12,49 +13,81 @@ import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
 import { formSchema } from "./schema";
-import { addProduct } from "./action";
+import { addProduct, updateProduct } from "./action";
 import { ControlledTextField } from "../../components/ControlledTextField";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
+import { Product } from "@prisma/client";
 
-export const AddProductForm = () => {
+type Props = {
+  product?: Product | null;
+  asEdit?: boolean;
+};
+
+const defaultValues = {
+  name: "",
+  description: "",
+  pictures: [],
+  price: 0,
+  stock: 0,
+  weight: 0,
+};
+
+export const ProductForm = ({ product, asEdit }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const router = useRouter();
 
   const { selectedImages, setSelectedImages, handleImageChange } =
-    useImageChange();
+    useImageChange(product?.pictures);
   const { files, handleFileChange } = useFileChange();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "test",
-      description: "test",
-      pictures: [],
-      price: 0,
-      stock: 0,
-      weight: 0,
-    },
+    defaultValues: asEdit
+      ? {
+          name: product!.name,
+          description: product!.description,
+          pictures: [],
+          price: product!.price,
+          stock: product!.stock,
+          weight: product!.weight,
+        }
+      : defaultValues,
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
       const imagesUrls = await uploadFiles(files);
 
-      const result = await addProduct({
-        data: {
-          name: values.name,
-          description: values.description,
-          price: values.price,
-          stock: values.stock,
-          weight: values.weight,
-        },
-        imagesUrls,
-      });
+      const updateImagesUrls = [...selectedImages, ...imagesUrls].filter(
+        (url) => !url.startsWith("blob"),
+      );
+
+      const formValues = {
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        stock: values.stock,
+        weight: values.weight,
+      };
+
+      const result = asEdit
+        ? await updateProduct({
+            data: formValues,
+            imagesUrls: updateImagesUrls,
+            id: product!.id,
+          })
+        : await addProduct({
+            data: formValues,
+            imagesUrls,
+          });
 
       if (result?.error) {
         toast({ title: "Error", description: result?.message });
       }
+
+      router.push("/admin/products");
 
       toast({
         title: "Success",
@@ -117,7 +150,9 @@ export const AddProductForm = () => {
             placeholder="2.500"
           />
 
-          <SubmitButton pending={isPending}>Submit</SubmitButton>
+          <SubmitButton pending={isPending}>
+            {asEdit ? "Modifier le produit" : "Ajouter le produit"}
+          </SubmitButton>
         </div>
       </form>
     </Form>

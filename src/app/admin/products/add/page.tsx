@@ -1,6 +1,6 @@
-import { AddProductForm } from "@/modules/Admin/actions/AddProductForm";
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
 import { Header } from "@/modules/Admin/components/Header";
+import { ProductForm } from "@/modules/Admin/actions/ProductForm";
 
 export default function AddProductPage() {
   return (
@@ -11,7 +11,7 @@ export default function AddProductPage() {
           <h1 className="text-3xl font-bold">Ajouter un produit</h1>
         </div>
       </Header>
-      <AddProductForm />
+      <ProductForm />
     </>
   );
 }

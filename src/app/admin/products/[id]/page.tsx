@@ -1,8 +1,20 @@
+import { db } from "@/server/db";
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
-import { AddProductForm } from "@/modules/Admin/actions/AddProductForm";
+import { ProductForm } from "@/modules/Admin/actions/ProductForm";
 
-export default function EditProductPage() {
+export default async function EditProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const product = await db.product.findUnique({
+    where: {
+      id: Number(params.id),
+    },
+  });
+
+  console.log(product);
   return (
     <>
       <Header>
@@ -11,7 +23,7 @@ export default function EditProductPage() {
           <h1 className="text-3xl font-bold">Editer votre produit</h1>
         </div>
       </Header>
-      <AddProductForm />
+      <ProductForm product={product} asEdit />
     </>
   );
 }
