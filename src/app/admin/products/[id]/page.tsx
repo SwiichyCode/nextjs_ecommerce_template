@@ -21,7 +21,7 @@ export default async function EditProductPage({
         </div>
         <ProductDeleteForm id={product!.id} />
       </Header>
-      <div className="mx-auto flex w-full max-w-5xl items-start justify-between px-14">
+      <div className="container flex items-start justify-between px-14">
         <ProductForm product={product} asEdit />
         <ProductStatusForm product={product} />
       </div>

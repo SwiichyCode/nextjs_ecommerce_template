@@ -1,5 +1,5 @@
 "use client";
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
 import { Product } from "@prisma/client";
 import { Button } from "@/components/ui/button";
+import { ProductCardPreview } from "../../components/ProductCardPreview";
 
 type Props = {
   product?: Product | null;
@@ -36,6 +37,7 @@ const defaultValues = {
 
 export const ProductForm = ({ product, asEdit }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -57,7 +59,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
       : defaultValues,
   });
 
-  console.log(selectedImages);
+  const values = form.getValues();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
@@ -157,7 +159,15 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             <Button type="button" onClick={() => router.back()}>
               Annuler
             </Button>
-            <Button type="button">Prévisualiser</Button>
+            <Button type="button" onClick={() => setOpen(true)}>
+              Prévisualiser
+            </Button>
+            <ProductCardPreview
+              open={open}
+              setOpen={setOpen}
+              values={values}
+              selectedImages={selectedImages}
+            />
             <SubmitButton pending={isPending}>
               {asEdit ? "Modifier le produit" : "Ajouter le produit"}
             </SubmitButton>

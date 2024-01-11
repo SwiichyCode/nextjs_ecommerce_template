@@ -1,5 +1,4 @@
 import { db } from "@/server/db";
-import { formSchema } from "../actions/ProductForm/schema";
 
 interface Product {
   name: string;

@@ -5,3 +5,7 @@
 .card {
   @apply rounded border border-[#EAEAEF] bg-white px-6 py-6 shadow-sm;
 }
+
+.container {
+  @apply mx-auto w-full max-w-5xl;
+}
