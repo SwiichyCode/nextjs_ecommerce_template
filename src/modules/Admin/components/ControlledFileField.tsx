@@ -17,6 +17,7 @@ import { DragAndDrop } from "./DragAndDropList";
 import { FileCard } from "./FileCard";
 
 interface FileFieldProps<FieldsType extends FieldValues> {
+  direction?: "horizontal" | "vertical";
   control: Control<FieldsType>;
   name: Path<FieldsType>;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,15 +27,18 @@ interface FileFieldProps<FieldsType extends FieldValues> {
   ) => void;
   selectedImages: any[];
   setSelectedImages: (items: any[]) => void;
+  removeImage: (url: string) => void;
 }
 
 export const ControlledFileField = <FieldsType extends FieldValues>({
+  direction = "vertical",
   control,
   name,
   handleImageChange,
   handleFileChange,
   selectedImages,
   setSelectedImages,
+  removeImage,
 }: FileFieldProps<FieldsType>) => {
   return (
     <FormField
@@ -61,12 +65,18 @@ export const ControlledFileField = <FieldsType extends FieldValues>({
           <FormMessage />
 
           <DragAndDrop
+            direction={direction}
             items={selectedImages}
             setItems={setSelectedImages}
             className="flex flex-wrap"
           >
             {(item, provided, index) => (
-              <FileCard item={item} provided={provided} index={index} />
+              <FileCard
+                item={item}
+                provided={provided}
+                index={index}
+                removeImage={removeImage}
+              />
             )}
           </DragAndDrop>
         </FormItem>

@@ -1,9 +1,12 @@
+import { Button } from "@/components/ui/button";
 import { DraggableProvided } from "@hello-pangea/dnd";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 type Props = {
   item: unknown;
   provided: DraggableProvided;
   index: number;
+  removeImage: (url: string) => void;
 };
 
 const FileInformations = () => {
@@ -20,7 +23,7 @@ const FileInformations = () => {
   );
 };
 
-export const FileCard = ({ item, provided, index }: Props) => {
+export const FileCard = ({ item, provided, index, removeImage }: Props) => {
   return (
     <div
       className="relative h-28 w-28 rounded border border-primary shadow"
@@ -35,6 +38,13 @@ export const FileCard = ({ item, provided, index }: Props) => {
 
       <div className="absolute left-2 top-2 rounded bg-tertiary p-1 px-2 text-xs text-white">
         {index + 1}
+      </div>
+
+      <div
+        className="absolute right-2 top-2 cursor-pointer rounded p-1 "
+        onClick={() => removeImage(item as string)}
+      >
+        <Cross2Icon color="red" />
       </div>
 
       {/* <FileInformations /> */}

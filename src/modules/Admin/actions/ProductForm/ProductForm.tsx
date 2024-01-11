@@ -39,7 +39,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { selectedImages, setSelectedImages, handleImageChange } =
+  const { selectedImages, setSelectedImages, handleImageChange, removeImage } =
     useImageChange(product?.pictures);
   const { files, handleFileChange } = useFileChange();
 
@@ -57,7 +57,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
       : defaultValues,
   });
 
-  console.log(files);
+  console.log(selectedImages);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
@@ -119,12 +119,14 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           />
 
           <ControlledFileField<z.infer<typeof formSchema>>
+            direction="horizontal"
             control={form.control}
             name="pictures"
             handleImageChange={handleImageChange}
             handleFileChange={handleFileChange}
             selectedImages={selectedImages}
             setSelectedImages={setSelectedImages}
+            removeImage={removeImage}
           />
 
           <ControlledTextField<z.infer<typeof formSchema>>

@@ -13,5 +13,11 @@ export const useImageChange = (defaultImages: string[] = []) => {
     }
   };
 
-  return { selectedImages, setSelectedImages, handleImageChange };
+  const removeImage = (url: string) => {
+    setSelectedImages((prevImages) =>
+      prevImages.filter((image) => image !== url),
+    );
+  };
+
+  return { selectedImages, setSelectedImages, handleImageChange, removeImage };
 };

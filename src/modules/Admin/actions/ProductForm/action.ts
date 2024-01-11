@@ -5,6 +5,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { PRODUCT_URL } from "@/constants/urls";
+import { createProduct } from "../../services/productQuery";
 
 type Inputs = z.infer<typeof actionSchema>;
 
@@ -23,15 +24,13 @@ export const addProduct = async ({
     const { name, description, price, stock, weight } =
       actionSchema.parse(data);
 
-    await db.product.create({
-      data: {
-        name,
-        description,
-        price,
-        stock,
-        pictures: imagesUrls,
-        weight,
-      },
+    await createProduct({
+      name,
+      description,
+      price,
+      stock,
+      pictures: imagesUrls ?? [],
+      weight,
     });
 
     revalidatePath(PRODUCT_URL);

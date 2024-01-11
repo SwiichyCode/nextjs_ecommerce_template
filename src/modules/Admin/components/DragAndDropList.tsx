@@ -8,6 +8,7 @@ import {
 } from "@hello-pangea/dnd";
 
 export type Props<T> = {
+  direction?: "horizontal" | "vertical";
   items: T[];
   setItems: (items: T[]) => void;
   children: (
@@ -19,6 +20,7 @@ export type Props<T> = {
 };
 
 export const DragAndDrop = <T extends React.Key>({
+  direction = "vertical",
   items,
   setItems,
   children,
@@ -57,7 +59,7 @@ export const DragAndDrop = <T extends React.Key>({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId="droppable" direction={direction}>
         {(provided) => (
           <div
             {...provided.droppableProps}

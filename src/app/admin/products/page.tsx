@@ -4,8 +4,10 @@ import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
 import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
 import { productColumns } from "@/modules/Admin/components/ProductsDataTable/columns";
 import { ADD_PRODUCT_URL } from "@/constants/urls";
+import { findProducts } from "@/modules/Admin/services/productQuery";
+
 export default async function WritePage() {
-  const products = await db.product.findMany();
+  const products = await findProducts();
 
   return (
     <>
