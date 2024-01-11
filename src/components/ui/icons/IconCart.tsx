@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconProps } from "@/lib/types";
+import type { IconProps } from "@/lib/types";
 
 const IconCart = (props: IconProps) => (
   <svg

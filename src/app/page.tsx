@@ -3,7 +3,6 @@ import { AdminButton } from "@/modules/Auth/components/AdminButton";
 import { LoginButton } from "@/modules/Auth/components/LoginButton";
 import { LogoutButton } from "@/modules/Auth/components/LogoutButton";
 import { CheckoutButton } from "@/modules/Auth/components/CheckoutButton";
-import Image from "next/image";
 
 export default async function HomePage() {
   const session = await getServerAuthSession();

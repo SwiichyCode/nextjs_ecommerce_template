@@ -1,4 +1,3 @@
-import { db } from "@/server/db";
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
 import { DataTable } from "@/modules/Admin/components/ProductsDataTable";

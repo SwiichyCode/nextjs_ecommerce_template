@@ -41,7 +41,7 @@ export const ControlledAlertDialog = (props: Props) => {
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Annuler</AlertDialogCancel>
+          <AlertDialogCancel onClick={onCancel}>Annuler</AlertDialogCancel>
           <AlertDialogAction asChild>
             <SubmitButton onClick={(e) => onContinue(e)} pending={isPending}>
               Supprimer

@@ -47,6 +47,7 @@ export const ProductDeleteForm = ({ id }: Props) => {
       title={"Supprimer le produit"}
       description={"Êtes-vous sûr de vouloir supprimer ce produit ?"}
       onContinue={onSubmit}
+      onCancel={() => setOpen(false)}
       isPending={isPending}
     >
       <Button

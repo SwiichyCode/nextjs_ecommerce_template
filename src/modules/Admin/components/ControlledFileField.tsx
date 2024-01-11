@@ -1,7 +1,7 @@
-import {
-  type Control,
-  type FieldValues,
-  type Path,
+import type {
+  Control,
+  FieldValues,
+  Path,
   ControllerRenderProps,
 } from "react-hook-form";
 import {

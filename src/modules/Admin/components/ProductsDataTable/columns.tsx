@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { ColumnDef } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
+import type { ColumnDef } from "@tanstack/react-table";
 import type { Product } from "@prisma/client";
 
 const handleRewriteStatus = (status: string) => {

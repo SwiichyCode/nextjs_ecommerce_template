@@ -1,10 +1,6 @@
-import {
-  type Control,
-  type FieldError,
-  type Path,
-  type RegisterOptions,
-  type FieldValues,
-} from "react-hook-form";
+import { TipTap } from "@/components/ui/tip-tap";
+
+import type { FieldValues } from "react-hook-form";
 import {
   FormItem,
   FormControl,
@@ -12,14 +8,12 @@ import {
   FormMessage,
   FormField,
 } from "@/components/ui/form";
-import { TipTap } from "@/components/ui/tip-tap";
-import { Field } from "./ControlledTextField";
+import type { Field } from "./ControlledTextField";
 
 export const ControlledRichTextField = <FieldsType extends FieldValues>({
   control,
   name,
   label,
-  placeholder,
 }: Field<FieldsType>) => {
   return (
     <FormField

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 export const useImageChange = (defaultImages: string[] = []) => {
   const [selectedImages, setSelectedImages] = useState<string[]>(defaultImages);

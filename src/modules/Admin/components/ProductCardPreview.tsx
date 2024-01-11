@@ -1,5 +1,5 @@
 import type * as z from "zod";
-import { formSchema } from "../actions/ProductForm/schema";
+import type { formSchema } from "../actions/ProductForm/schema";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 type Props = {
   open: boolean;
@@ -49,8 +50,11 @@ export const ProductCardPreview = ({
                   key={index}
                   className="aspect-h-1 aspect-w-1 lg:aspect-none w-full bg-gray-200 group-hover:opacity-75 lg:h-80"
                 >
-                  <img
+                  <Image
                     src={image}
+                    width={320}
+                    height={320}
+                    alt="product image"
                     key={index}
                     className="h-full w-full rounded-md object-cover object-center lg:h-full lg:w-full"
                   />

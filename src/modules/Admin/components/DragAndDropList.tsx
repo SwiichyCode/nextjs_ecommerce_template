@@ -3,8 +3,8 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
-  DraggableProvided,
+  type DropResult,
+  type DraggableProvided,
 } from "@hello-pangea/dnd";
 
 export type Props<T> = {

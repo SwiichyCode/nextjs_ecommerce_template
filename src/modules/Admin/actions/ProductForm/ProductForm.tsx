@@ -17,9 +17,9 @@ import { addProduct, updateProduct } from "./action";
 import { ControlledTextField } from "../../components/ControlledTextField";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
-import { Product } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { ProductCardPreview } from "../../components/ProductCardPreview";
+import type { Product } from "@prisma/client";
 
 type Props = {
   product?: Product | null;
