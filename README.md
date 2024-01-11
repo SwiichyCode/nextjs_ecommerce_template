@@ -97,7 +97,7 @@ images: {
   remotePatterns: [
     {
       protocol: "https",
-      hostname: "k4jlln3aspazn4y4.public.blob.vercel-storage.com",
+      hostname: "[id].public.blob.vercel-storage.com",
     },
   ],
 },
