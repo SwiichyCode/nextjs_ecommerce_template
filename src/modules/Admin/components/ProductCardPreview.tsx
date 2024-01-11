@@ -45,7 +45,10 @@ export const ProductCardPreview = ({
           >
             <CarouselContent>
               {selectedImages.map((image, index) => (
-                <CarouselItem className="aspect-h-1 aspect-w-1 lg:aspect-none w-full bg-gray-200 group-hover:opacity-75 lg:h-80">
+                <CarouselItem
+                  key={index}
+                  className="aspect-h-1 aspect-w-1 lg:aspect-none w-full bg-gray-200 group-hover:opacity-75 lg:h-80"
+                >
                   <img
                     src={image}
                     key={index}
