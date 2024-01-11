@@ -60,8 +60,14 @@ export const ControlledFileField = <FieldsType extends FieldValues>({
           </FormDescription>
           <FormMessage />
 
-          <DragAndDrop items={selectedImages} setItems={setSelectedImages}>
-            {(item, provided) => <FileCard item={item} provided={provided} />}
+          <DragAndDrop
+            items={selectedImages}
+            setItems={setSelectedImages}
+            className="flex flex-wrap"
+          >
+            {(item, provided, index) => (
+              <FileCard item={item} provided={provided} index={index} />
+            )}
           </DragAndDrop>
         </FormItem>
       )}

@@ -18,6 +18,7 @@ import { ControlledTextField } from "../../components/ControlledTextField";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
 import { Product } from "@prisma/client";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   product?: Product | null;
@@ -55,6 +56,8 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         }
       : defaultValues,
   });
+
+  console.log(files);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
@@ -148,9 +151,15 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             placeholder="2.500"
           />
 
-          <SubmitButton pending={isPending}>
-            {asEdit ? "Modifier le produit" : "Ajouter le produit"}
-          </SubmitButton>
+          <div className="flex items-center justify-end space-x-4">
+            <Button type="button" onClick={() => router.back()}>
+              Annuler
+            </Button>
+            <Button type="button">Prévisualiser</Button>
+            <SubmitButton pending={isPending}>
+              {asEdit ? "Modifier le produit" : "Ajouter le produit"}
+            </SubmitButton>
+          </div>
         </div>
       </form>
     </Form>

@@ -10,7 +10,11 @@ import {
 export type Props<T> = {
   items: T[];
   setItems: (items: T[]) => void;
-  children: (item: T, provided: DraggableProvided) => React.ReactElement;
+  children: (
+    item: T,
+    provided: DraggableProvided,
+    index: number,
+  ) => React.ReactElement;
   className?: string;
 };
 
@@ -62,7 +66,9 @@ export const DragAndDrop = <T extends React.Key>({
           >
             {items.map((item, index) => (
               <Draggable key={item} draggableId={item.toString()} index={index}>
-                {(provided) => React.cloneElement(children(item, provided))}
+                {(provided) =>
+                  React.cloneElement(children(item, provided, index))
+                }
               </Draggable>
             ))}
             {provided.placeholder}
