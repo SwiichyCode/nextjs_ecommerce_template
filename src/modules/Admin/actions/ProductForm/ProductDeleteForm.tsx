@@ -1,9 +1,10 @@
 "use client";
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteProduct } from "./action";
-import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { ControlledAlertDialog } from "../../components/ControlledAlertDialog";
 
 type Props = {
   id: number;
@@ -11,10 +12,13 @@ type Props = {
 
 export const ProductDeleteForm = ({ id }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
 
     startTransition(async () => {
@@ -26,20 +30,32 @@ export const ProductDeleteForm = ({ id }: Props) => {
         toast({ title: "Error", description: result?.message });
       }
 
+      setOpen(false);
+
+      router.push("/admin/products");
+
       toast({
         title: "Produit supprimé",
         description: "Le produit a bien été supprimé.",
       });
-
-      router.push("/admin/products");
     });
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <SubmitButton variant={"destructive"} pending={isPending}>
+    <ControlledAlertDialog
+      open={open}
+      title={"Supprimer le produit"}
+      description={"Êtes-vous sûr de vouloir supprimer ce produit ?"}
+      onContinue={onSubmit}
+      isPending={isPending}
+    >
+      <Button
+        type="button"
+        variant={"destructive"}
+        onClick={() => setOpen(true)}
+      >
         Supprimer le produit
-      </SubmitButton>
-    </form>
+      </Button>
+    </ControlledAlertDialog>
   );
 };
