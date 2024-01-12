@@ -3,7 +3,7 @@ import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack"
 import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
 import { ProductDeleteForm } from "@/modules/Admin/actions/ProductForm/ProductDeleteForm";
 import { ProductStatusForm } from "@/modules/Admin/actions/ProductForm/ProductStatusForm";
-import { findProduct } from "@/modules/Admin/services/findProduct";
+import { findProduct } from "@/modules/Admin/services/productQuery";
 
 export default async function EditProductPage({
   params,
