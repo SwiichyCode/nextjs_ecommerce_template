@@ -3,7 +3,7 @@ import { Navigation } from "./Navigation";
 
 export const Sidebar = () => {
   return (
-    <aside className="border-primary min-w-20 border-r">
+    <aside className="min-w-20 border-r border-primary">
       <AdminLogo />
       <Navigation />
     </aside>

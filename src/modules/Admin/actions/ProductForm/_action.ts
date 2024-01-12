@@ -10,7 +10,7 @@ import {
   deleteProductActionSchema,
   updateProductActionSchema,
   updateProductStatusActionSchema,
-} from "./schema";
+} from "./_schema";
 import { PRODUCT_URL } from "@/constants/urls";
 
 export const addProduct = adminAction(addProductActionSchema, async (data) => {

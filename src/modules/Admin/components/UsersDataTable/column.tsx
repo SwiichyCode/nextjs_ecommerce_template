@@ -1,0 +1,53 @@
+"use client";
+import { cn } from "@/lib/utils";
+import type { ColumnDef } from "@tanstack/react-table";
+import type { User } from "@prisma/client";
+
+const handleStyleRole = (role: string) => {
+  if (role === "dev") return "bg-blue-100 text-blue-800";
+  if (role === "admin") return "bg-green-100 text-green-800";
+  if (role === "user") return "bg-red-100 text-red-800";
+  return "bg-green-100 text-green-800";
+};
+
+export const userColumns: ColumnDef<User>[] = [
+  {
+    accessorKey: "id",
+    header: "Id",
+  },
+  {
+    accessorKey: "name",
+    header: "Nom",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "role",
+    header: "Rôle",
+    cell: ({ row }) => {
+      const { role } = row.original;
+
+      const roleClass = cn(
+        "inline-flex items-center px-2.5 py-1.5 rounded text-xs font-medium",
+        handleStyleRole(role),
+      );
+
+      return <span className={roleClass}>{role}</span>;
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Créé le",
+    cell: ({ row }) => {
+      const { createdAt } = row.original;
+
+      return (
+        <span>
+          {createdAt.toLocaleDateString()} à {createdAt.toLocaleTimeString()}
+        </span>
+      );
+    },
+  },
+];

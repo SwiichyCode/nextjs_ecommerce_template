@@ -23,9 +23,9 @@ import {
 } from "@/components/ui/form";
 
 import type { Product } from "@prisma/client";
-import { statusSchema } from "./schema";
+import { statusSchema } from "./_schema";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
-import { updateStatus } from "./action";
+import { updateStatus } from "./_action";
 
 type Props = {
   product: Product | null;
