@@ -27,12 +27,12 @@ type Props = {
 };
 
 const defaultValues = {
-  name: "",
-  description: "",
+  name: "Kanban-test",
+  description: "Kanban-test",
   pictures: [],
-  price: 0,
-  stock: 0,
-  weight: 0,
+  price: 500,
+  stock: 10,
+  weight: 1500,
 };
 
 export const ProductForm = ({ product, asEdit }: Props) => {
@@ -47,16 +47,17 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: asEdit
-      ? {
-          name: product!.name,
-          description: product!.description,
-          pictures: [],
-          price: product!.price,
-          stock: product!.stock,
-          weight: product!.weight,
-        }
-      : defaultValues,
+    defaultValues:
+      asEdit && product
+        ? {
+            name: product.name,
+            description: product.description,
+            pictures: [],
+            price: product.price,
+            stock: product.stock,
+            weight: product.weight,
+          }
+        : defaultValues,
   });
 
   const values = form.getValues();
@@ -69,36 +70,34 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         (url) => !url.startsWith("blob"),
       );
 
-      const formValues = {
+      const addProductValues = {
         name: values.name,
         description: values.description,
+        pictures: updateImagesUrls,
         price: values.price,
         stock: values.stock,
         weight: values.weight,
       };
 
-      const result = asEdit
-        ? await updateProduct({
-            data: formValues,
-            imagesUrls: updateImagesUrls,
-            id: product!.id,
-          })
-        : await addProduct({
-            data: formValues,
-            imagesUrls,
-          });
+      if (asEdit && product) {
+        const updateProductValues = {
+          ...addProductValues,
+          id: product.id,
+        };
 
-      if (result?.error) {
-        toast({ title: "Error", description: result?.message });
-        return;
+        await updateProduct(updateProductValues);
+      } else {
+        await addProduct(addProductValues);
       }
 
-      toast({
-        title: "Success",
-        description: result?.message,
-      });
+      // try to catch error from response action
 
-      router.push("/admin/products");
+      toast({
+        title: asEdit ? "Produit modifié" : "Produit ajouté",
+        description: asEdit
+          ? "Produit modifié avec succés"
+          : "Produit ajouté  avec succés",
+      });
     });
   };
 

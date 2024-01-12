@@ -44,8 +44,25 @@ export const formSchema = z.object({
     .max(1000000, { message: "Le poids ne peut pas dépasser 1 000 000" }),
 });
 
-export const actionSchema = formSchema.omit({ pictures: true });
-
 export const statusSchema = z.object({
   status: z.enum(["active", "draft"]),
+});
+
+export const addProductActionSchema = z.object({
+  ...formSchema.shape, // Spread all fields from formSchema
+  pictures: z.array(z.string()), // Override the pictures field
+});
+
+export const updateProductActionSchema = z.object({
+  ...addProductActionSchema.shape, // Spread all fields from addProductActionSchema
+  id: z.number(),
+});
+
+export const deleteProductActionSchema = z.object({
+  id: z.number(),
+});
+
+export const updateProductStatusActionSchema = z.object({
+  ...statusSchema.shape, // Spread all fields from statusSchema
+  id: z.number(),
 });

@@ -1,6 +1,6 @@
 "use client";
 import { useTransition, useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { deleteProduct } from "./action";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -14,7 +14,6 @@ export const ProductDeleteForm = ({ id }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   const onSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -22,22 +21,21 @@ export const ProductDeleteForm = ({ id }: Props) => {
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await deleteProduct({
+      const response = await deleteProduct({
         id,
       });
-
-      if (result?.error) {
-        toast({ title: "Error", description: result?.message });
-      }
-
-      setOpen(false);
-
-      router.push("/admin/products");
 
       toast({
         title: "Produit supprimé",
         description: "Le produit a bien été supprimé.",
       });
+
+      if (response.serverError) {
+        toast({ title: "Error", description: response.serverError });
+        return;
+      }
+
+      setOpen(false);
     });
   };
 

@@ -34,7 +34,7 @@ export const ControlledAlertDialog = (props: Props) => {
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogTrigger>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

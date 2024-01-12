@@ -46,17 +46,17 @@ export const ProductStatusForm = ({ product }: Props) => {
 
   const onsubmit = async (values: z.infer<typeof statusSchema>) => {
     startTransition(async () => {
-      const result = await updateStatus({
+      const reponse = await updateStatus({
         id: product!.id,
         status: values.status,
       });
 
-      if (result?.error) {
-        toast({ title: "Error", description: result?.message });
+      toast({ title: "Success", description: "Statut mis à jour" });
+
+      if (reponse.serverError) {
+        toast({ title: "Error", description: reponse.serverError });
         return;
       }
-
-      toast({ title: "Success", description: "Statut mis à jour" });
     });
   };
 
