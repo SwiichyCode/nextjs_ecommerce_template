@@ -1,16 +1,16 @@
 import { withAuth } from "next-auth/middleware";
+import { env } from "@/env";
 
-export { default } from "next-auth/middleware";
-// export default withAuth({
-//   callbacks: {
-//     authorized: ({ req }) => {
-//       const sessionToken = req.cookies.get("next-auth.session-token");
-//       if (!sessionToken) return false;
+export default withAuth({
+  callbacks: {
+    authorized: ({ req }) => {
+      const sessionToken = req.cookies.get(env.SESSION_TOKEN_NAME);
+      if (!sessionToken) return false;
 
-//       return true;
-//     },
-//   },
-//   secret: env.NEXTAUTH_SECRET,
-// });
+      return true;
+    },
+  },
+  secret: env.NEXTAUTH_SECRET,
+});
 
 export const config = { matcher: ["/admin", "/admin/:path*"] };
