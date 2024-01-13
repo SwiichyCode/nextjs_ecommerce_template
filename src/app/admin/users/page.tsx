@@ -5,7 +5,6 @@ import { db } from "@/server/db";
 
 export default async function UsersPage() {
   const users = await db.user.findMany();
-  console.log(users);
 
   return (
     <>

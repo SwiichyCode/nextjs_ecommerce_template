@@ -23,3 +23,10 @@ export const ProductNavItems = [
     path: IMAGES_OPTIMIZATION_URL,
   },
 ];
+
+export const UserNavItems = [
+  {
+    name: "Vos utilisateurs",
+    path: "/admin/users",
+  },
+];
