@@ -12,8 +12,6 @@ import { Footer } from "@/modules/Landing/Footer";
 export default async function HomePage() {
   const session = await getServerAuthSession();
 
-  console.log(session);
-
   return (
     <>
       <Header />

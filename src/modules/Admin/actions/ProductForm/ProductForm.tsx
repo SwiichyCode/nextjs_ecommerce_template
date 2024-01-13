@@ -27,12 +27,12 @@ type Props = {
 };
 
 const defaultValues = {
-  name: "Kanban-test",
-  description: "Kanban-test",
+  name: "",
+  description: "",
   pictures: [],
-  price: 500,
-  stock: 10,
-  weight: 1500,
+  price: 0,
+  stock: 0,
+  weight: 0,
 };
 
 export const ProductForm = ({ product, asEdit }: Props) => {

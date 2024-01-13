@@ -1,3 +1,5 @@
+export const DOCUMENTATION_URL = "/documentation";
+export const SHOP_URL = "/shop";
 export const ADMIN_URL = "/admin";
 export const PRODUCT_URL = "/admin/products";
 export const ADD_PRODUCT_URL = "/admin/products/add";

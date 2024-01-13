@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { GithubIcon } from "lucide-react";
+import { SHOP_URL } from "@/constants/urls";
 // import { IconGithub } from "@/components/ui/icons/IconGithub";
 // import logoLaravel from "@/images/logos/laravel.svg";
 // import logoMirage from "@/images/logos/mirage.svg";
@@ -42,7 +43,7 @@ export function Hero() {
           <GithubIcon />
           <span>View on GitHub</span>
         </Button>
-        <Button href="#" variant="outline">
+        <Button href={SHOP_URL} variant="outline">
           <svg
             aria-hidden="true"
             className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current"

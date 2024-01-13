@@ -9,6 +9,7 @@ import { Button } from "./Button";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
+import { DOCUMENTATION_URL } from "@/constants/urls";
 
 function MobileNavLink({
   href,
@@ -86,8 +87,11 @@ function MobileNavigation() {
             className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
             <MobileNavLink href="#features">Features</MobileNavLink>
-            <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
-            <MobileNavLink href="#pricing">Pricing</MobileNavLink>
+            <MobileNavLink href={DOCUMENTATION_URL}>
+              Documentation
+            </MobileNavLink>
+            {/* <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
+            <MobileNavLink href="#pricing">Pricing</MobileNavLink> */}
             <hr className="m-2 border-slate-300/40" />
             {/* <MobileNavLink href="/login">Sign in</MobileNavLink> */}
           </Popover.Panel>
@@ -108,23 +112,24 @@ export function Header() {
             </Link>
             <div className="hidden md:flex md:gap-x-6">
               <NavLink href="#features">Features</NavLink>
+              <NavLink href={DOCUMENTATION_URL}>Documentation</NavLink>
               {/* <NavLink href="#testimonials">Testimonials</NavLink>
               <NavLink href="#pricing">Pricing</NavLink> */}
             </div>
           </div>
-          {/* <div className="flex items-center gap-x-5 md:gap-x-8">
-            <div className="hidden md:block">
+          <div className="flex items-center gap-x-5 md:gap-x-8">
+            {/* <div className="hidden md:block">
               <NavLink href="/login">Sign in</NavLink>
             </div>
             <Button href="/register" color="blue">
               <span>
                 Get started <span className="hidden lg:inline">today</span>
               </span>
-            </Button>
+            </Button> */}
             <div className="-mr-1 md:hidden">
               <MobileNavigation />
             </div>
-          </div> */}
+          </div>
         </nav>
       </Container>
     </header>
