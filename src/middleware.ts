@@ -1,18 +1,14 @@
-// import { withAuth } from "next-auth/middleware";
+import { withAuth } from "next-auth/middleware";
 
-// export default withAuth({
-//   callbacks: {
-//     authorized: ({ req }) => {
-//       const sessionToken = req.cookies.get("next-auth.session-token");
-//       if (!sessionToken) return false;
+export default withAuth({
+  callbacks: {
+    authorized: ({ req }) => {
+      const sessionToken = req.cookies.get("next-auth.session-token");
+      if (!sessionToken) return false;
 
-//       return true;
-//     },
-//   },
-// });
+      return true;
+    },
+  },
+});
 
-// export const config = { matcher: ["/admin/:path*"] };
-
-export function middleware(request: Request) {
-  // return NextResponse.redirect(new URL('/home', request.url))
-}
+export const config = { matcher: ["/admin/:path*"] };

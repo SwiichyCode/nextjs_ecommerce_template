@@ -9,7 +9,9 @@ export const AdminButton = async () => {
 
   return (
     <Button>
-      <Link href="/admin">Admin</Link>
+      <Link prefetch={false} href="/admin">
+        Admin
+      </Link>
     </Button>
   );
 };
