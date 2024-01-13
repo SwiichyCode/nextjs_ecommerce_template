@@ -39,9 +39,11 @@ type ButtonProps = (
     | (Omit<React.ComponentPropsWithoutRef<"button">, "color"> & {
         href?: undefined;
       })
-  );
+  ) & {
+    blank?: boolean;
+  };
 
-export function Button({ className, ...props }: ButtonProps) {
+export function Button({ blank = true, className, ...props }: ButtonProps) {
   props.variant ??= "solid";
   props.color ??= "slate";
 
@@ -58,6 +60,6 @@ export function Button({ className, ...props }: ButtonProps) {
   return typeof props.href === "undefined" ? (
     <button className={className} {...props} />
   ) : (
-    <Link className={className} {...props} target="_blank" />
+    <Link className={className} {...props} target={blank ? "_blank" : ""} />
   );
 }

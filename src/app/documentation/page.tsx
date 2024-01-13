@@ -1,5 +1,5 @@
-import React from "react";
+import { Building } from "@/modules/Landing/Building";
 
 export default function DocumentationPage() {
-  return <div>DocumentationPage</div>;
+  return <Building />;
 }
