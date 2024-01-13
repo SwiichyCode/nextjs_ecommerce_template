@@ -9,6 +9,7 @@ export default withAuth({
       return true;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export const config = { matcher: ["/admin", "/admin/:path*"] };
