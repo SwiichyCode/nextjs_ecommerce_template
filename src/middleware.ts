@@ -1,4 +1,5 @@
 import { withAuth } from "next-auth/middleware";
+import { env } from "./env";
 
 export default withAuth({
   callbacks: {
@@ -9,7 +10,7 @@ export default withAuth({
       return true;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: env.NEXTAUTH_SECRET,
 });
 
 export const config = { matcher: ["/admin", "/admin/:path*"] };
