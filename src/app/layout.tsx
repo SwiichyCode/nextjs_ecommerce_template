@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,8 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+    <html
+      lang="en"
+      className={cn(
+        "h-full scroll-smooth bg-white antialiased",
+        inter.variable,
+      )}
+    >
+      <body className="flex h-full flex-col">
         {children}
         <Toaster />
       </body>
