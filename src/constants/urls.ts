@@ -1,5 +1,7 @@
 export const DOCUMENTATION_URL = "/documentation";
 export const SHOP_URL = "/shop";
+export const SHOP_LOGIN_URL = "/shop/login";
+export const SHOP_LOGIN_API_URL = "/api/auth/signin";
 export const ADMIN_URL = "/admin";
 export const PRODUCT_URL = "/admin/products";
 export const ADD_PRODUCT_URL = "/admin/products/add";
