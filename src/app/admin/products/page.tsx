@@ -13,7 +13,7 @@ export default async function WritePage() {
       <Header>
         <div>
           <h1 className="text-3xl font-bold">Produits</h1>
-          <p className="">{products.length} produits disponibles</p>
+          <p>{products.length} produits disponibles</p>
         </div>
         <ButtonLink href={ADD_PRODUCT_URL} src="/plus.svg" />
       </Header>

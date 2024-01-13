@@ -7,6 +7,8 @@ import { CheckoutButton } from "@/modules/Auth/components/CheckoutButton";
 export default async function HomePage() {
   const session = await getServerAuthSession();
 
+  console.log(session);
+
   return (
     <main>
       <CheckoutButton />

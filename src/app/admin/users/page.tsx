@@ -10,7 +10,10 @@ export default async function UsersPage() {
   return (
     <>
       <Header>
-        <h1 className="text-3xl font-bold">Utilisateurs</h1>
+        <div>
+          <h1 className="text-3xl font-bold">Utilisateurs</h1>
+          <p>{users.length} utilisateurs inscrits</p>
+        </div>
       </Header>
       <div className="mx-auto w-full max-w-5xl space-y-8 px-14">
         <RoleForm />
