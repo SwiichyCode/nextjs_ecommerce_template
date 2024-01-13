@@ -1,3 +1,4 @@
+import { RoleForm } from "@/modules/Admin/actions/UserForm/RoleForm";
 import { Header } from "@/modules/Admin/components/Header";
 import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
 import { userColumns } from "@/modules/Admin/components/UsersDataTable/column";
@@ -11,7 +12,8 @@ export default async function UsersPage() {
       <Header>
         <h1 className="text-3xl font-bold">Utilisateurs</h1>
       </Header>
-      <div className="mx-auto w-full max-w-5xl px-14">
+      <div className="mx-auto w-full max-w-5xl space-y-8 px-14">
+        <RoleForm />
         <DataTable columns={userColumns} data={users} />
       </div>
     </>

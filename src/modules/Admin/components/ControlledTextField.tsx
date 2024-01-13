@@ -13,6 +13,7 @@ import {
   FormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export interface FormInputControllerProps<FieldsType extends FieldValues> {
   name: Path<FieldsType>;
@@ -22,6 +23,8 @@ export interface FormInputControllerProps<FieldsType extends FieldValues> {
   control: Control<FieldsType>;
   type?: string;
   onChange?: (value: unknown) => void;
+  cardWrapper?: boolean;
+  className?: string;
 }
 
 export interface Field<FieldsType extends FieldValues>
@@ -37,6 +40,8 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
   type = "text",
   defaultValue,
   onChange,
+  cardWrapper = true,
+  className,
 }: Field<FieldsType>) => {
   return (
     <FormField
@@ -44,7 +49,7 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
       name={name}
       defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
-        <FormItem className="card">
+        <FormItem className={cn(cardWrapper && "card", className)}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input
