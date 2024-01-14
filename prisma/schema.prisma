@@ -59,7 +59,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    role          String    @default("user")
+    role          Role      @default(user)
     createdAt     DateTime  @default(now())
     accounts      Account[]
     sessions      Session[]
@@ -79,10 +79,10 @@ model Product {
     name        String
     description String
     pictures    String[]
-    price       Float
+    price       Int
     stock       Int
     weight      Float
-    status      String    @default("active")
+    status      Status    @default(active)
     variants    Variant[]
 }
 
@@ -97,8 +97,19 @@ model Variant {
 model OptionValue {
     id        Int     @id @default(autoincrement())
     value     String
-    price     Float
+    price     Int
     stock     Int
     variantId Int
     variant   Variant @relation(fields: [variantId], references: [id])
+}
+
+enum Role {
+    user
+    admin
+    developer
+}
+
+enum Status {
+    active
+    draft
 }

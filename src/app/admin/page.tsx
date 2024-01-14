@@ -6,7 +6,7 @@ export default async function AdminPage() {
   // This page is only accessible to users with the "admin" role.
   // If you want a user to access this page, you need to assign them the "admin" role in the database.
   // You can preview your database by running the command "npx prisma studio" in your terminal.
-
+  console.log(session?.user.role);
   if (session?.user.role !== "admin") return <div>Not authorized</div>;
 
   return <div className="h-screen w-full items-center justify-center"></div>;

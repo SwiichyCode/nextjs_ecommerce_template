@@ -25,12 +25,14 @@ export interface FormInputControllerProps<FieldsType extends FieldValues> {
   onChange?: (value: unknown) => void;
   cardWrapper?: boolean;
   className?: string;
+  placeholder?: string;
 }
 
 export interface Field<FieldsType extends FieldValues>
   extends FormInputControllerProps<FieldsType> {
   label?: string;
   placeholder?: string;
+  children?: React.ReactNode;
 }
 
 export const ControlledTextField = <FieldsType extends FieldValues>({
@@ -42,6 +44,8 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
   onChange,
   cardWrapper = true,
   className,
+  placeholder,
+  children,
 }: Field<FieldsType>) => {
   return (
     <FormField
@@ -52,18 +56,25 @@ export const ControlledTextField = <FieldsType extends FieldValues>({
         <FormItem className={cn(cardWrapper && "card", className)}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              {...field}
-              id={name as string}
-              type={type}
-              onChange={
-                onChange ??
-                ((e) =>
-                  field.onChange(
-                    type === "number" ? Number(e.target.value) : e.target.value,
-                  ))
-              }
-            />
+            <div className="flex items-center justify-between space-x-4">
+              <Input
+                {...field}
+                id={name as string}
+                type={type}
+                placeholder={placeholder}
+                onChange={
+                  onChange ??
+                  ((e) =>
+                    field.onChange(
+                      type === "number"
+                        ? Number(e.target.value)
+                        : e.target.value,
+                    ))
+                }
+              />
+
+              {children}
+            </div>
           </FormControl>
           <FormMessage>{error?.message}</FormMessage>
         </FormItem>

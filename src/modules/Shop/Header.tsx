@@ -3,16 +3,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { SHOP_LOGIN_URL, SHOP_URL } from "@/constants/urls";
+import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "./LoginLink";
 import { Session } from "next-auth";
 
-// const navigation = [
-//     { name: "Product", href: SHOP_URL },
-//     { name: "Features", href: "#" },
-//     { name: "Marketplace", href: "#" },
-//     { name: "Company", href: "#" },
-// ];
+const navigation = [
+  { name: "Product", href: SHOP_URL },
+  { name: "Dashboard", href: ADMIN_URL },
+  // { name: "Marketplace", href: "#" },
+  // { name: "Company", href: "#" },
+];
 
 type Props = {
   session: Session | null;
@@ -41,7 +41,7 @@ export default function Header({ session }: Props) {
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {/* {navigation.map((item) => (
+          {navigation.map((item) => (
             <a
               key={item.name}
               href={item.href}
@@ -49,7 +49,7 @@ export default function Header({ session }: Props) {
             >
               {item.name}
             </a>
-          ))} */}
+          ))}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
           {/* <a
@@ -112,7 +112,7 @@ export default function Header({ session }: Props) {
           </div>
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              {/* <div className="space-y-2 py-6">
+              <div className="space-y-2 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
@@ -122,7 +122,7 @@ export default function Header({ session }: Props) {
                     {item.name}
                   </a>
                 ))}
-              </div> */}
+              </div>
               <div className="py-6">
                 {/* <a
                   href="#"

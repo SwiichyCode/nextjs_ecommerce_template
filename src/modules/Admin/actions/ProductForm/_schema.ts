@@ -42,6 +42,7 @@ export const formSchema = z.object({
     .number()
     .min(0, { message: "Le poids ne peut pas être inférieur à 0" })
     .max(1000000, { message: "Le poids ne peut pas dépasser 1 000 000" }),
+  variants: z.any(),
 });
 
 export const statusSchema = z.object({

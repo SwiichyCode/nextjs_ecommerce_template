@@ -2,7 +2,7 @@
 import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
 import { uploadFiles } from "../../services/uploadFiles";
@@ -21,18 +21,28 @@ import { Button } from "@/components/ui/button";
 import { ProductCardPreview } from "../../components/ProductCardPreview";
 import type { Product } from "@prisma/client";
 
+import { FormField } from "@/components/ui/form";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { Label } from "@/components/ui/label";
+
 type Props = {
   product?: Product | null;
   asEdit?: boolean;
 };
 
 const defaultValues = {
-  name: "",
-  description: "",
+  name: "test",
+  description: "test",
   pictures: [],
-  price: 0,
-  stock: 0,
-  weight: 0,
+  price: 500,
+  stock: 500,
+  weight: 1500,
+  variants: [
+    {
+      name: "Size",
+      values: ["Medium"],
+    },
+  ],
 };
 
 export const ProductForm = ({ product, asEdit }: Props) => {
@@ -60,6 +70,11 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         : defaultValues,
   });
 
+  const { fields, append, remove, insert } = useFieldArray({
+    control: form.control,
+    name: "variants",
+  });
+
   const values = form.getValues();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -77,7 +92,10 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         price: values.price,
         stock: values.stock,
         weight: values.weight,
+        variants: values.variants,
       };
+
+      console.log(values);
 
       if (asEdit && product) {
         const updateProductValues = {
@@ -101,6 +119,75 @@ export const ProductForm = ({ product, asEdit }: Props) => {
     });
   };
 
+  const NestedFieldArray = ({ index }: { index: number }) => {
+    const {
+      fields: valueFields,
+      append,
+      remove,
+    } = useFieldArray({
+      control: form.control,
+      name: `variants.${index}.values`,
+    });
+
+    return (
+      <ul className=" space-y-4">
+        {valueFields.map((field, k) => (
+          <li key={field.id}>
+            <div className="space-y-4">
+              <ControlledTextField<z.infer<typeof formSchema>>
+                control={form.control}
+                name={`variants.${index}.values.${k}.name`}
+                label={k === 0 ? "Option values" : undefined}
+                placeholder="Size, Color, ..."
+                className="w-full"
+                cardWrapper={false}
+              >
+                {k != 0 && (
+                  <Button
+                    type="button"
+                    onClick={() => remove(k)}
+                    variant={"ghost"}
+                  >
+                    <TrashIcon className="h-5 w-5" />
+                  </Button>
+                )}
+              </ControlledTextField>
+            </div>
+          </li>
+        ))}
+
+        <Button
+          type="button"
+          onClick={() => append({ name: "" })}
+          variant={"ghost"}
+        >
+          Ajouter une valeur
+        </Button>
+
+        {valueFields.map((field, k) => (
+          <li key={field.id} className="flex space-x-8">
+            <ControlledTextField<z.infer<typeof formSchema>>
+              control={form.control}
+              name={`variants.${index}.values.${k}.price`}
+              label={k === 0 ? "Prix" : undefined}
+              placeholder="0.00"
+              className="w-full"
+              cardWrapper={false}
+            />
+            <ControlledTextField<z.infer<typeof formSchema>>
+              control={form.control}
+              name={`variants.${index}.values.${k}.stock`}
+              label={k === 0 ? "Stock" : undefined}
+              placeholder="0"
+              className="w-full"
+              cardWrapper={false}
+            />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-xl">
@@ -109,14 +196,14 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             control={form.control}
             name="name"
             label="Nom du produit"
-            placeholder="Goodies..."
+            placeholder="Shirt, Mug, ..."
           />
 
           <ControlledRichTextField<z.infer<typeof formSchema>>
             control={form.control}
             name="description"
-            label="Description du produit"
-            placeholder="Goodies..."
+            label="Description"
+            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           />
 
           <ControlledFileField<z.infer<typeof formSchema>>
@@ -134,8 +221,8 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             control={form.control}
             name="price"
             type="number"
-            label="Prix du produit"
-            placeholder="29.99"
+            label="Tarifs"
+            placeholder="0.00"
           />
 
           <ControlledTextField<z.infer<typeof formSchema>>
@@ -152,6 +239,41 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             type="number"
             label="Poids du produit (kg)"
             placeholder="2.500"
+          />
+          <FormField
+            control={form.control}
+            name="variants"
+            render={({ field }) => (
+              <>
+                <ul>
+                  {fields.map((field, index) => (
+                    <li key={field.id} className="card space-y-4">
+                      <Label>Variantes</Label>
+                      <div className="space-y-4 pl-4">
+                        <ControlledTextField<z.infer<typeof formSchema>>
+                          control={form.control}
+                          name={`variants.${index}.name`}
+                          label="Option name"
+                          placeholder="Size, Color, ..."
+                          className="w-full"
+                          cardWrapper={false}
+                        >
+                          <Button
+                            type="button"
+                            onClick={() => remove(index)}
+                            variant={"ghost"}
+                          >
+                            <TrashIcon className="h-5 w-5" />
+                          </Button>
+                        </ControlledTextField>
+
+                        <NestedFieldArray index={index} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           />
 
           <div className="flex items-center justify-end space-x-4">

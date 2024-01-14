@@ -3,8 +3,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { adminAction } from "@/lib/safe-actions";
 import { db } from "@/server/db";
-
-import { createProduct } from "../../services/productQuery";
 import {
   addProductActionSchema,
   deleteProductActionSchema,
@@ -15,15 +13,40 @@ import { PRODUCT_URL } from "@/constants/urls";
 
 export const addProduct = adminAction(addProductActionSchema, async (data) => {
   try {
-    const { name, description, pictures, price, stock, weight } = data;
+    const { name, description, pictures, price, stock, weight, variants } =
+      data;
 
-    await createProduct({
-      name,
-      description,
-      price,
-      stock,
-      pictures,
-      weight,
+    console.log(variants);
+
+    await db.product.create({
+      data: {
+        name,
+        description,
+        price,
+        stock,
+        pictures,
+        weight,
+        variants: {
+          create: variants.map((variant: any) => {
+            const { name, values } = variant;
+
+            return {
+              name,
+              optionValues: {
+                create: values.map((value: any) => {
+                  const { name, price, stock } = value;
+
+                  return {
+                    value: name,
+                    price: parseInt(price),
+                    stock: parseInt(stock),
+                  };
+                }),
+              },
+            };
+          }),
+        },
+      },
     });
   } catch (error) {
     if (error instanceof Error) return { error: error.message };
