@@ -11,12 +11,20 @@ import {
 } from "./_schema";
 import { PRODUCT_URL } from "@/constants/urls";
 
+type Variant = {
+  name: string;
+  values: {
+    name: string;
+    price: string;
+    stock: string;
+  }[];
+};
+
 export const addProduct = adminAction(addProductActionSchema, async (data) => {
   try {
-    const { name, description, pictures, price, stock, weight, variants } =
-      data;
+    const { name, description, pictures, price, stock, weight } = data;
 
-    console.log(variants);
+    const variants: Variant[] = data.variants;
 
     await db.product.create({
       data: {
@@ -27,13 +35,13 @@ export const addProduct = adminAction(addProductActionSchema, async (data) => {
         pictures,
         weight,
         variants: {
-          create: variants.map((variant: any) => {
+          create: variants.map((variant) => {
             const { name, values } = variant;
 
             return {
               name,
               optionValues: {
-                create: values.map((value: any) => {
+                create: values.map((value) => {
                   const { name, price, stock } = value;
 
                   return {
