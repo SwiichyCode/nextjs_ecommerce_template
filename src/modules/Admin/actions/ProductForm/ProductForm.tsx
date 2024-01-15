@@ -19,14 +19,22 @@ import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
 import { Button } from "@/components/ui/button";
 import { ProductCardPreview } from "../../components/ProductCardPreview";
-import type { Product } from "@prisma/client";
+import type { Product, Variant, OptionValue } from "@prisma/client";
 
 import { FormField } from "@/components/ui/form";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Label } from "@/components/ui/label";
 
+type VariantWithOptionValues = Variant & {
+  optionValues: OptionValue[];
+};
+
+type ProductWithVariants = Product & {
+  variants: VariantWithOptionValues[];
+};
+
 type Props = {
-  product?: Product | null;
+  product?: ProductWithVariants | null;
   asEdit?: boolean;
 };
 
@@ -40,7 +48,13 @@ const defaultValues = {
   variants: [
     {
       name: "Size",
-      values: ["Medium"],
+      optionValues: [
+        {
+          name: "Medium",
+          price: 500,
+          stock: 500,
+        },
+      ],
     },
   ],
 };
@@ -66,11 +80,16 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             price: product.price,
             stock: product.stock,
             weight: product.weight,
+
+            variants: product.variants.map((variant) => ({
+              ...variant,
+              optionValues: variant.optionValues, // Add optionValues here
+            })),
           }
         : defaultValues,
   });
 
-  const { fields, append, remove, insert } = useFieldArray({
+  const { fields, remove } = useFieldArray({
     control: form.control,
     name: "variants",
   });
@@ -126,7 +145,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
       remove,
     } = useFieldArray({
       control: form.control,
-      name: `variants.${index}.values`,
+      name: `variants.${index}.optionValues`,
     });
 
     return (
@@ -136,7 +155,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             <div className="space-y-4">
               <ControlledTextField<z.infer<typeof formSchema>>
                 control={form.control}
-                name={`variants.${index}.values.${k}.name`}
+                name={`variants.${index}.optionValues.${k}.name`}
                 label={k === 0 ? "Option values" : undefined}
                 placeholder="Size, Color, ..."
                 className="w-full"
@@ -168,7 +187,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           <li key={field.id} className="flex space-x-8">
             <ControlledTextField<z.infer<typeof formSchema>>
               control={form.control}
-              name={`variants.${index}.values.${k}.price`}
+              name={`variants.${index}.optionValues.${k}.price`}
               label={k === 0 ? "Prix" : undefined}
               placeholder="0.00"
               className="w-full"
@@ -176,7 +195,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             />
             <ControlledTextField<z.infer<typeof formSchema>>
               control={form.control}
-              name={`variants.${index}.values.${k}.stock`}
+              name={`variants.${index}.optionValues.${k}.stock`}
               label={k === 0 ? "Stock" : undefined}
               placeholder="0"
               className="w-full"

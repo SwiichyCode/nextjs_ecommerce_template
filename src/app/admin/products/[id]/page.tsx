@@ -4,13 +4,23 @@ import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
 import { ProductDeleteForm } from "@/modules/Admin/actions/ProductForm/ProductDeleteForm";
 import { ProductStatusForm } from "@/modules/Admin/actions/ProductForm/ProductStatusForm";
 import { findProduct } from "@/modules/Admin/services/productQuery";
+import { db } from "@/server/db";
 
 export default async function EditProductPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const product = await findProduct(Number(params.id));
+  const product = await db.product.findUnique({
+    where: { id: Number(params.id) },
+    include: {
+      variants: {
+        include: {
+          optionValues: true,
+        },
+      },
+    },
+  });
 
   return (
     <>

@@ -13,7 +13,7 @@ import { PRODUCT_URL } from "@/constants/urls";
 
 type Variant = {
   name: string;
-  values: {
+  optionValues: {
     name: string;
     price: string;
     stock: string;
@@ -36,16 +36,16 @@ export const addProduct = adminAction(addProductActionSchema, async (data) => {
         weight,
         variants: {
           create: variants.map((variant) => {
-            const { name, values } = variant;
+            const { name, optionValues } = variant;
 
             return {
               name,
               optionValues: {
-                create: values.map((value) => {
-                  const { name, price, stock } = value;
+                create: optionValues.map((optionValue) => {
+                  const { name, price, stock } = optionValue;
 
                   return {
-                    value: name,
+                    name,
                     price: parseInt(price),
                     stock: parseInt(stock),
                   };
@@ -70,6 +70,8 @@ export const updateProduct = adminAction(
     try {
       const { id, name, description, pictures, price, stock, weight } = data;
 
+      const variants: Variant[] = data.variants;
+
       await db.product.update({
         where: { id },
         data: {
@@ -79,6 +81,28 @@ export const updateProduct = adminAction(
           stock,
           pictures,
           weight,
+
+          variants: {
+            deleteMany: {},
+            create: variants.map((variant) => {
+              const { name, optionValues } = variant;
+
+              return {
+                name,
+                optionValues: {
+                  create: optionValues.map((optionValue) => {
+                    const { name, price, stock } = optionValue;
+
+                    return {
+                      name,
+                      price: parseInt(price),
+                      stock: parseInt(stock),
+                    };
+                  }),
+                },
+              };
+            }),
+          },
         },
       });
     } catch (error) {
@@ -95,7 +119,6 @@ export const deleteProduct = adminAction(
   async (data) => {
     try {
       const { id } = data;
-
       await db.product.delete({ where: { id } });
     } catch (error) {
       if (error instanceof Error) return { error: error.message };

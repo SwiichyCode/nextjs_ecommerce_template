@@ -90,17 +90,17 @@ model Variant {
     id           Int           @id @default(autoincrement())
     name         String
     productId    Int
-    product      Product       @relation(fields: [productId], references: [id])
+    product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
     optionValues OptionValue[] // Relation to OptionValue model
 }
 
 model OptionValue {
     id        Int     @id @default(autoincrement())
-    value     String
+    name      String
     price     Int
     stock     Int
     variantId Int
-    variant   Variant @relation(fields: [variantId], references: [id])
+    variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
