@@ -1,9 +1,8 @@
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
-import { ProductForm } from "@/modules/Admin/actions/ProductForm/ProductForm";
-import { ProductDeleteForm } from "@/modules/Admin/actions/ProductForm/ProductDeleteForm";
-import { ProductStatusForm } from "@/modules/Admin/actions/ProductForm/ProductStatusForm";
-import { findProduct } from "@/modules/Admin/services/productQuery";
+import { ProductForm } from "@/modules/Admin/actions/ProductForm";
+import { ProductDeleteForm } from "@/modules/Admin/actions/ProductDeleteForm";
+import { ProductStatusForm } from "@/modules/Admin/actions/ProductStatusForm";
 import { db } from "@/server/db";
 
 export default async function EditProductPage({

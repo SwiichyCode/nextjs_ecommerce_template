@@ -30,15 +30,15 @@ export const formSchema = z.object({
       "Only .jpg, .jpeg, .png and .webp formats are supported.",
     ),
 
-  price: z
+  price: z.coerce
     .number()
     .min(0, { message: "Le prix ne peut pas être inférieur à 0" })
     .max(1000000, { message: "Le prix ne peut pas dépasser 1 000 000" }),
-  stock: z
+  stock: z.coerce
     .number()
     .min(0, { message: "Le stock ne peut pas être inférieur à 0" })
     .max(1000000, { message: "Le stock ne peut pas dépasser 1 000 000" }),
-  weight: z
+  weight: z.coerce
     .number()
     .min(0, { message: "Le poids ne peut pas être inférieur à 0" })
     .max(1000000, { message: "Le poids ne peut pas dépasser 1 000 000" }),

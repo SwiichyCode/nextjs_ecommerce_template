@@ -1,7 +1,6 @@
 "use client";
 import { useTransition, useState } from "react";
-
-import { deleteProduct } from "./_action";
+import { deleteProduct } from "../ProductForm/_action";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ControlledAlertDialog } from "../../components/ControlledAlertDialog";

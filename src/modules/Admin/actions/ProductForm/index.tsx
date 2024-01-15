@@ -1,5 +1,5 @@
 "use client";
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -14,7 +14,6 @@ import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
 import { formSchema } from "./_schema";
 import { addProduct, updateProduct } from "./_action";
-import { ControlledTextField } from "../../components/ControlledTextField";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
 import { Button } from "@/components/ui/button";
@@ -22,8 +21,11 @@ import { ProductCardPreview } from "../../components/ProductCardPreview";
 import type { Product, Variant, OptionValue } from "@prisma/client";
 
 import { FormField } from "@/components/ui/form";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { Label } from "@/components/ui/label";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { InputForm } from "@/components/ui/input-form";
+import { register } from "module";
+import { cn } from "@/lib/utils";
 
 type VariantWithOptionValues = Variant & {
   optionValues: OptionValue[];
@@ -42,19 +44,19 @@ const defaultValues = {
   name: "test",
   description: "test",
   pictures: [],
-  price: 500,
-  stock: 500,
-  weight: 1500,
+  price: 0,
+  stock: 0,
+  weight: 0,
   variants: [
     {
-      name: "Size",
-      optionValues: [
-        {
-          name: "Medium",
-          price: 500,
-          stock: 500,
-        },
-      ],
+      name: "",
+      // optionValues: [
+      //   {
+      //     name: undefined,
+      //     price: undefined,
+      //     stock: undefined,
+      //   },
+      // ],
     },
   ],
 };
@@ -89,7 +91,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         : defaultValues,
   });
 
-  const { fields, remove } = useFieldArray({
+  const { fields, remove, append } = useFieldArray({
     control: form.control,
     name: "variants",
   });
@@ -113,8 +115,6 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         weight: values.weight,
         variants: values.variants,
       };
-
-      console.log(values);
 
       if (asEdit && product) {
         const updateProductValues = {
@@ -149,28 +149,27 @@ export const ProductForm = ({ product, asEdit }: Props) => {
     });
 
     return (
-      <ul className=" space-y-4">
+      <ul className="space-y-4">
         {valueFields.map((field, k) => (
           <li key={field.id}>
-            <div className="space-y-4">
-              <ControlledTextField<z.infer<typeof formSchema>>
+            <div className="flex items-center justify-between space-x-4">
+              <InputForm
                 control={form.control}
                 name={`variants.${index}.optionValues.${k}.name`}
-                label={k === 0 ? "Option values" : undefined}
-                placeholder="Size, Color, ..."
-                className="w-full"
-                cardWrapper={false}
-              >
-                {k != 0 && (
-                  <Button
-                    type="button"
-                    onClick={() => remove(k)}
-                    variant={"ghost"}
-                  >
-                    <TrashIcon className="h-5 w-5" />
-                  </Button>
-                )}
-              </ControlledTextField>
+                label={k === 0 ? "Valeurs des options" : ""}
+                placeholder="S, M, L, ..."
+                className={cn("w-full max-w-[442px]", k != 0 && "space-y-0")}
+              />
+
+              {k != 0 && (
+                <Button
+                  type="button"
+                  onClick={() => remove(k)}
+                  variant={"ghost"}
+                >
+                  <TrashIcon className="h-5 w-5" />
+                </Button>
+              )}
             </div>
           </li>
         ))}
@@ -185,21 +184,20 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
         {valueFields.map((field, k) => (
           <li key={field.id} className="flex space-x-8">
-            <ControlledTextField<z.infer<typeof formSchema>>
+            <InputForm
               control={form.control}
               name={`variants.${index}.optionValues.${k}.price`}
-              label={k === 0 ? "Prix" : undefined}
+              label={k === 0 ? "Prix" : ""}
               placeholder="0.00"
               className="w-full"
-              cardWrapper={false}
             />
-            <ControlledTextField<z.infer<typeof formSchema>>
+
+            <InputForm
               control={form.control}
               name={`variants.${index}.optionValues.${k}.stock`}
-              label={k === 0 ? "Stock" : undefined}
+              label={k === 0 ? "Stock" : ""}
               placeholder="0"
               className="w-full"
-              cardWrapper={false}
             />
           </li>
         ))}
@@ -211,11 +209,12 @@ export const ProductForm = ({ product, asEdit }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-xl">
         <div className="space-y-8">
-          <ControlledTextField<z.infer<typeof formSchema>>
+          <InputForm
             control={form.control}
             name="name"
             label="Nom du produit"
             placeholder="Shirt, Mug, ..."
+            className="card"
           />
 
           <ControlledRichTextField<z.infer<typeof formSchema>>
@@ -236,64 +235,83 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             removeImage={removeImage}
           />
 
-          <ControlledTextField<z.infer<typeof formSchema>>
+          <InputForm
             control={form.control}
             name="price"
-            type="number"
             label="Tarifs"
             placeholder="0.00"
+            className="card"
           />
 
-          <ControlledTextField<z.infer<typeof formSchema>>
+          <InputForm
             control={form.control}
             name="stock"
-            type="number"
             label="Quantité disponible"
-            placeholder="545"
+            placeholder="0"
+            type="number"
+            className="card"
           />
 
-          <ControlledTextField<z.infer<typeof formSchema>>
+          <InputForm
             control={form.control}
             name="weight"
-            type="number"
             label="Poids du produit (kg)"
             placeholder="2.500"
+            className="card"
           />
-          <FormField
-            control={form.control}
-            name="variants"
-            render={({ field }) => (
-              <>
-                <ul>
-                  {fields.map((field, index) => (
-                    <li key={field.id} className="card space-y-4">
-                      <Label>Variantes</Label>
-                      <div className="space-y-4 pl-4">
-                        <ControlledTextField<z.infer<typeof formSchema>>
-                          control={form.control}
-                          name={`variants.${index}.name`}
-                          label="Option name"
-                          placeholder="Size, Color, ..."
-                          className="w-full"
-                          cardWrapper={false}
-                        >
-                          <Button
-                            type="button"
-                            onClick={() => remove(index)}
-                            variant={"ghost"}
-                          >
-                            <TrashIcon className="h-5 w-5" />
-                          </Button>
-                        </ControlledTextField>
 
-                        <NestedFieldArray index={index} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          />
+          <div className="card space-y-4">
+            <Label>Variantes</Label>
+            <FormField
+              control={form.control}
+              name="variants"
+              render={() => (
+                <>
+                  <ul className="space-y-4">
+                    {fields.map((field, index) => (
+                      <li key={field.id} className="border-grey-200 space-y-4">
+                        <div className="space-y-4 border-b border-slate-200 pb-4 pl-4">
+                          <div className="flex items-end justify-between space-x-4">
+                            <InputForm
+                              control={form.control}
+                              name={`variants.${index}.name`}
+                              label="Nom de la variante"
+                              placeholder="Size, Color, ..."
+                              className="w-full"
+                            />
+                            <Button
+                              type="button"
+                              onClick={() => remove(index)}
+                              variant={"ghost"}
+                            >
+                              <TrashIcon className="h-5 w-5" />
+                            </Button>
+                          </div>
+
+                          <NestedFieldArray index={index} />
+                        </div>
+                      </li>
+                    ))}
+
+                    {fields.length <= 2 && (
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        onClick={() => {
+                          append({
+                            name: "",
+                            optionValues: [],
+                          });
+                        }}
+                      >
+                        Ajouter une variante
+                      </Button>
+                    )}
+                  </ul>
+                </>
+              )}
+            />
+          </div>
 
           <div className="flex items-center justify-end space-x-4">
             <Button type="button" onClick={() => router.back()}>
