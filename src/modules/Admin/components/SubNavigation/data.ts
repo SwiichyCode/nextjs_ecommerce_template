@@ -1,7 +1,7 @@
 import {
   PRODUCT_URL,
   ADD_PRODUCT_URL,
-  IMAGES_OPTIMIZATION_URL,
+  // IMAGES_OPTIMIZATION_URL,
 } from "@/constants/urls";
 
 export interface NavItemProps {

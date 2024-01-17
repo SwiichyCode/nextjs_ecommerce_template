@@ -1,11 +1,11 @@
 "use client";
-import { useTransition, useState, useEffect, useContext } from "react";
+import { useTransition, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
-import { uploadImagesWithVercelBlob } from "./uploadImagesWithVercelBlob";
+// import { uploadImagesWithVercelBlob } from "./uploadImagesWithVercelBlob";
 import { uploadImagesWithCloudinary } from "./uploadImagesWithCloudinary";
 import { useImageChange } from "./useImageChange";
 import { useFileChange } from "./useFileChange";
@@ -69,7 +69,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const context = useContext(productContext);
+  // const context = useContext(productContext);
 
   const { selectedImages, setSelectedImages, handleImageChange, removeImage } =
     useImageChange(product?.pictures);

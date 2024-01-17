@@ -1,5 +1,6 @@
 import axios from "axios";
-import { ProductCart } from "../stores/useCartStore";
+import type { ProductCart } from "../stores/useCartStore";
+import { API_CHECKOUT_URL } from "@/constants/urls";
 
 type CheckoutProduct = {
   price_data: {
@@ -11,6 +12,10 @@ type CheckoutProduct = {
     unit_amount: number;
   };
   quantity: number;
+};
+
+type CheckoutResponse = {
+  url: string;
 };
 
 export const checkoutSession = async (cart: ProductCart[]) => {
@@ -27,7 +32,7 @@ export const checkoutSession = async (cart: ProductCart[]) => {
       quantity: product.quantity,
     }));
 
-    const { data } = await axios.post("/api/checkout", {
+    const { data } = await axios.post<CheckoutResponse>(API_CHECKOUT_URL, {
       products,
     });
 

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
@@ -31,7 +32,7 @@ export default function Header({ session }: Props) {
             href={SHOP_URL}
             className="-m-1.5 flex items-center space-x-4 p-1.5"
           >
-            <img
+            <Image
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt=""
@@ -88,18 +89,12 @@ export default function Header({ session }: Props) {
           <div className="flex items-center gap-x-6">
             <Link href={SHOP_URL} className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
+              <Image
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
             </Link>
-            {/* <Link
-              href={SHOP_LOGIN_URL}
-              className="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Log in
-            </Link> */}
             <LoginLink session={session} />
             <button
               type="button"

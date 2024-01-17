@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Input } from "./input";
-import { cn } from "@/lib/utils";
 import {
   FormField,
   FormItem,
@@ -25,7 +24,7 @@ const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
           <FormItem className={className}>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input {...field} ref={ref} {...props} />
+              <Input {...field} ref={ref} type={type} {...props} />
             </FormControl>
 
             <FormMessage />

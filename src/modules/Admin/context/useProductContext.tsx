@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useOptimistic } from "react";
-import { Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
 
 interface ProductContextType {
   optimisticProduct: Product[];

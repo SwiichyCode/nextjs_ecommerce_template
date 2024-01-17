@@ -1,4 +1,5 @@
-import { SHOP_LOGIN_API_URL } from "@/constants/urls";
+import { API_LOGIN_URL } from "@/constants/urls";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Signin() {
@@ -14,7 +15,7 @@ export default function Signin() {
         */}
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
+          <Image
             className="mx-auto h-10 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt="Your Company"
@@ -119,7 +120,7 @@ export default function Signin() {
               <div className="mt-6 grid w-full grid-cols-1 gap-4">
                 {/* grid-cols-2 */}
                 <Link
-                  href={SHOP_LOGIN_API_URL}
+                  href={API_LOGIN_URL}
                   className="mx-auto flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
                 >
                   <svg className="h-5 w-5 " viewBox="0 -28.5 256 256">
