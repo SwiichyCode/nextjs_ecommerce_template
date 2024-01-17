@@ -102,6 +102,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
+      // This exemple using vercel blob storage to upload files
       const imagesUrls = await uploadFiles(files);
 
       const updateImagesUrls = [...selectedImages, ...imagesUrls].filter(
@@ -112,7 +113,6 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         name: values.name,
         description: values.description,
         pictures: updateImagesUrls,
-        // pictures: [""],
         price: values.price,
         stock: values.stock,
         weight: values.weight,

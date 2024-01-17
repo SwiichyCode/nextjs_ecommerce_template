@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
     >
       <body className="flex h-full flex-col">
         {children}
+        <Analytics />
         <Toaster />
       </body>
     </html>
