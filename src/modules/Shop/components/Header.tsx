@@ -6,8 +6,8 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "./LoginLink";
-import { Session } from "next-auth";
 import { CartButton } from "./CartButton";
+import type { Session } from "next-auth";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },

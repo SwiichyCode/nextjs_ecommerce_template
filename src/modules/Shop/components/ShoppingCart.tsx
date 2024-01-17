@@ -75,6 +75,8 @@ export default function ShoppingCart() {
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <Image
                                     src={product.pictures[0] ?? ""}
+                                    width={96}
+                                    height={96}
                                     alt=""
                                     className="h-full w-full object-cover object-center"
                                   />

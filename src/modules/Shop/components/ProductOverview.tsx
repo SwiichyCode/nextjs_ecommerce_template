@@ -1,49 +1,13 @@
 "use client";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 import Image from "next/image";
-import {
-  CheckIcon,
-  // QuestionMarkCircleIcon,
-  StarIcon,
-} from "@heroicons/react/20/solid";
-// import { RadioGroup } from "@headlessui/react";
+import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import type { Product } from "@prisma/client";
 import { useCartStore } from "../stores/useCartStore";
-
-// const fakeProduct = {
-//   name: "Everyday Ruck Snack",
-//   href: "#",
-//   price: "$220",
-//   description:
-//     "Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.",
-//   imageSrc:
-//     "https://tailwindui.com/img/ecommerce-images/product-page-04-featured-product-shot.jpg",
-//   imageAlt:
-//     "Model wearing light green backpack with black canvas straps and front zipper pouch.",
-//   breadcrumbs: [
-//     { id: 1, name: "Travel", href: "#" },
-//     { id: 2, name: "Bags", href: "#" },
-//   ],
-//   sizes: [
-//     { name: "18L", description: "Perfect for a reasonable amount of snacks." },
-//     { name: "20L", description: "Enough room for a serious amount of snacks." },
-//   ],
-// };
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Breadcrumb } from "./Breadcrumb";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -58,6 +22,12 @@ type Props = {
 export const ProductOverview = ({ product }: Props) => {
   const { name, price, description, pictures } = product[0]!;
   const { add } = useCartStore();
+
+  const editor = useEditor({
+    extensions: [StarterKit.configure({})],
+    content: description,
+    editable: false,
+  });
 
   return (
     <div className="bg-white">
@@ -90,6 +60,13 @@ export const ProductOverview = ({ product }: Props) => {
               ))}
             </ol>
           </nav> */}
+
+          <Breadcrumb
+            separator="/"
+            containerClasses="flex items-center font-medium text-gray-500"
+            listClasses="flex items-center text-sm px-2 hover:text-gray-900"
+            activeClasses="text-gray-900"
+          />
 
           <div className="mt-4">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -133,7 +110,9 @@ export const ProductOverview = ({ product }: Props) => {
             </div>
 
             <div className="mt-4 space-y-6">
-              <p className="text-base text-gray-500">{description}</p>
+              <div className="text-base text-gray-500">
+                <EditorContent editor={editor} />
+              </div>
             </div>
 
             <div className="mt-6 flex items-center">
