@@ -61,7 +61,7 @@ export const addProduct = adminAction(addProductActionSchema, async (data) => {
   }
 
   revalidatePath(PRODUCT_URL);
-  // redirect(PRODUCT_URL);
+  redirect(PRODUCT_URL);
 });
 
 export const updateProduct = adminAction(

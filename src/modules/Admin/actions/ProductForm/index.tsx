@@ -139,8 +139,6 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           ? "Produit modifié avec succés"
           : "Produit ajouté  avec succés",
       });
-
-      router.push("/admin/products");
     });
   };
 

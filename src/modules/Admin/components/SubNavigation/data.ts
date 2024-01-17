@@ -18,10 +18,10 @@ export const ProductNavItems = [
     name: "Ajouter un produit",
     path: ADD_PRODUCT_URL,
   },
-  {
-    name: "Optimisation d'images",
-    path: IMAGES_OPTIMIZATION_URL,
-  },
+  // {
+  //   name: "Optimisation d'images",
+  //   path: IMAGES_OPTIMIZATION_URL,
+  // },
 ];
 
 export const UserNavItems = [
