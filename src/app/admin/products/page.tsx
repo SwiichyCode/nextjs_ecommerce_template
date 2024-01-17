@@ -1,11 +1,11 @@
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
-import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
-import { productColumns } from "@/modules/Admin/components/ProductsDataTable/columns";
 import { ADD_PRODUCT_URL } from "@/constants/urls";
 import { findProducts } from "@/modules/Admin/services/productQuery";
+import { ProductProvider } from "@/modules/Admin/context/useProductContext";
+import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";
 
-export default async function WritePage() {
+export default async function ProductPage() {
   const products = await findProducts();
 
   return (
@@ -18,9 +18,11 @@ export default async function WritePage() {
         <ButtonLink href={ADD_PRODUCT_URL} src="/plus.svg" />
       </Header>
 
-      <div className="mx-auto w-full max-w-5xl px-14">
-        <DataTable columns={productColumns} data={products} asRowLink />
-      </div>
+      <ProductProvider products={products}>
+        <div className="mx-auto w-full max-w-5xl px-14">
+          <ProductsDataTableWrapper />
+        </div>
+      </ProductProvider>
     </>
   );
 }

@@ -23,6 +23,8 @@ export const productColumns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const { pictures } = row.original;
 
+      if (!pictures.length) return null;
+
       return (
         <Image
           className="h-10 w-10 rounded object-cover"

@@ -1,5 +1,5 @@
 "use client";
-import { useTransition, useState, useEffect } from "react";
+import { useTransition, useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -24,8 +24,9 @@ import { FormField } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { InputForm } from "@/components/ui/input-form";
-import { register } from "module";
 import { cn } from "@/lib/utils";
+
+import { productContext } from "../../context/useProductContext";
 
 type VariantWithOptionValues = Variant & {
   optionValues: OptionValue[];
@@ -66,6 +67,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const context = useContext(productContext);
 
   const { selectedImages, setSelectedImages, handleImageChange, removeImage } =
     useImageChange(product?.pictures);
@@ -110,6 +112,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
         name: values.name,
         description: values.description,
         pictures: updateImagesUrls,
+        // pictures: [""],
         price: values.price,
         stock: values.stock,
         weight: values.weight,
@@ -124,6 +127,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
         await updateProduct(updateProductValues);
       } else {
+        // context?.setOptimisticProduct(addProductValues);
         await addProduct(addProductValues);
       }
 
@@ -135,6 +139,8 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           ? "Produit modifié avec succés"
           : "Produit ajouté  avec succés",
       });
+
+      router.push("/admin/products");
     });
   };
 
