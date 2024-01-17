@@ -51,11 +51,11 @@ To install and run this project on your local machine, follow these steps:
 
 5. **Start the development server**
 
-Finally, you can start the development server with:
+   Finally, you can start the development server with:
 
-```bash
-   npm run dev
-```
+   ```bash
+      npm run dev
+   ```
 
 6. **Accessing the Admin Dashboard**
 
