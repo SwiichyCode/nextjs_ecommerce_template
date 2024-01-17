@@ -7,6 +7,21 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: false,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/shop",
+        permanent: false,
+      },
+      {
+        source: "/admin",
+        destination: "/admin/products",
+        permanent: false,
+      },
+    ];
+  },
+
   images: {
     // The `remotePatterns` array allows Next.js to optimize images from external sources.
     // Each object in the array represents a pattern for the URLs of the images that should be optimized.
