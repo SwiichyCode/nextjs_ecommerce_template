@@ -28,6 +28,7 @@ import { InputForm } from "@/components/ui/input-form";
 import { cn } from "@/lib/utils";
 
 import { productContext } from "../../context/useProductContext";
+import type { CloudinaryResponse } from "@/lib/types";
 
 type VariantWithOptionValues = Variant & {
   optionValues: OptionValue[];
@@ -106,10 +107,12 @@ export const ProductForm = ({ product, asEdit }: Props) => {
       // This exemple using cloudinary storage to upload files
 
       const response = await uploadImagesWithCloudinary(files);
-      const imageUrls = response.map((res) => res.data.secure_url);
+      const imageUrls = response.map(
+        (res: { data: CloudinaryResponse }) => res.data.secure_url,
+      );
 
       const updateImagesUrls = [...selectedImages, ...imageUrls].filter(
-        (url) => !url.startsWith("blob"),
+        (url: string) => !url.startsWith("blob"),
       );
 
       const addProductValues = {

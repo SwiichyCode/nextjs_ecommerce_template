@@ -8,3 +8,8 @@ export interface IconProps {
   height: number;
   fill?: string;
 }
+
+export interface CloudinaryResponse {
+  secure_url: string;
+  // add other properties if needed
+}
