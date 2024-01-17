@@ -6,6 +6,14 @@ This project, `nextjs_ecommerce_template`, is a comprehensive e-commerce solutio
 
 This template is currently a work in progress. It already includes an admin dashboard and various e-commerce components, but I'm continuously working on it to add more features and improve its functionality. Regular updates will be made to enhance the project and add new features.
 
+## Next Features
+
+We are constantly working to improve and add new features to our project. Here are some of the features we plan to implement in the future:
+
+- **Authentication with Credentials**: We plan to implement a secure authentication system that allows users to log in with their credentials. This will provide an additional layer of security and make our system more robust.
+
+- **Internationalization of Admin Dashboard**: To make our project accessible to users around the world, we plan to internationalize the admin dashboard. This will allow users to use the dashboard in their preferred language, improving usability and user experience.
+
 ## Built With
 
 This project is built with the following technologies:
