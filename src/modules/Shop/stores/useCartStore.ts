@@ -14,7 +14,7 @@ export const useCartState = create<CartState>((set) => ({
   toggle: () => set((state) => ({ open: !state.open })),
 }));
 
-interface ProductCart extends Product {
+export interface ProductCart extends Product {
   quantity: number;
 }
 

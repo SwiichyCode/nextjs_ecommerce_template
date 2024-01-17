@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartState, useCartStore } from "../stores/useCartStore";
-import { CheckoutButton } from "@/modules/Shop/components/CheckoutButton";
+import { checkoutSession } from "../services/checkoutSession";
 
 const products = [
   {
@@ -37,6 +37,13 @@ const products = [
 export default function ShoppingCart() {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
+  const subtotal = cart
+    .reduce((acc, product) => acc + product.price, 0)
+    .toFixed(2);
+
+  const handleCheckout = async () => {
+    await checkoutSession(cart);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -141,21 +148,20 @@ export default function ShoppingCart() {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        {/* <p>$262.00</p> */}
 
-                        <p>
-                          $
-                          {cart.reduce(
-                            (acc, product) => acc + product.price,
-                            0,
-                          )}
-                        </p>
+                        <p>${subtotal}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
-                        <CheckoutButton />
+                        {/* <CheckoutButton /> */}
+                        <button
+                          onClick={handleCheckout}
+                          className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        >
+                          Checkout
+                        </button>
                         {/* <a
                           href="#"
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
