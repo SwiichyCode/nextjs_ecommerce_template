@@ -57,6 +57,16 @@ Finally, you can start the development server with:
    npm run dev
 ```
 
+6. **Accessing the Admin Dashboard**
+
+   To access the admin dashboard, you first need to authenticate. Once authenticated, you can access Prisma Studio to modify the user role.
+
+   Run the following command to open Prisma Studio:
+
+   ```bash
+   npx prisma studio
+   ```
+
 Your application should now be running at http://localhost:3000.
 
 Happy coding!
