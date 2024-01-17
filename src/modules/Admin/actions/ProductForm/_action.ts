@@ -25,6 +25,7 @@ export const addProduct = adminAction(addProductActionSchema, async (data) => {
     const { name, description, pictures, price, stock, weight } = data;
 
     const variants: Variant[] = data.variants;
+    const slug = name.toLowerCase().replace(/\s/g, "-");
 
     await db.product.create({
       data: {
@@ -54,6 +55,7 @@ export const addProduct = adminAction(addProductActionSchema, async (data) => {
             };
           }),
         },
+        slug,
       },
     });
   } catch (error) {

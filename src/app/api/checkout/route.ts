@@ -12,7 +12,8 @@ export const POST = async (request: Request) => {
     payment_method_types: ["card", "paypal"],
     // We need to use the full URL cause Vercel doesn't support relative URLs
     success_url: `https://${env.NEXTAUTH_URL}/success`,
-    cancel_url: `https://${env.NEXTAUTH_URL}`,
+    // cancel_url: `https://${env.NEXTAUTH_URL}`,
+    cancel_url: "http://localhost:3000/shop",
   });
 
   return NextResponse.json({ url: session.url });

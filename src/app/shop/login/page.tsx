@@ -1,4 +1,4 @@
-import Signin from "@/modules/Shop/Signin";
+import Signin from "@/modules/Shop/components/Signin";
 
 export default function ShopLoginPage() {
   return <Signin />;

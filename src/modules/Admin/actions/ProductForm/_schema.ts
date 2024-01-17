@@ -16,7 +16,7 @@ export const formSchema = z.object({
   description: z
     .string()
     .min(2, { message: "La description doit comporter au moins 2 caractères" })
-    .max(50, { message: "La description ne peut pas dépasser 50 caractères" }),
+    .max(250, { message: "La description ne peut pas dépasser 50 caractères" }),
   pictures: z
     .array(z.instanceof(File))
     .optional()

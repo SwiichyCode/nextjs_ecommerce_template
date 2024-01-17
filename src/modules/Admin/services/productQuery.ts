@@ -7,6 +7,7 @@ interface Product {
   price: number;
   stock: number;
   weight: number;
+  slug: string;
 }
 
 export const findProducts = async () => {

@@ -84,6 +84,7 @@ model Product {
     weight      Float
     status      Status    @default(active)
     variants    Variant[]
+    slug        String
 }
 
 model Variant {

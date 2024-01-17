@@ -6,12 +6,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "./LoginLink";
 import { Session } from "next-auth";
+import { CartButton } from "./CartButton";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },
   { name: "Dashboard", href: ADMIN_URL },
-  // { name: "Marketplace", href: "#" },
-  // { name: "Company", href: "#" },
 ];
 
 type Props = {
@@ -64,6 +63,7 @@ export default function Header({ session }: Props) {
           >
             Log in
           </Link> */}
+          <CartButton />
           <LoginLink session={session} />
         </div>
         <div className="flex lg:hidden">
