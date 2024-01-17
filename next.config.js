@@ -33,6 +33,10 @@ const config = {
         // So, any image from "https://k4jlln3aspazn4y4.public.blob.vercel-storage.com" will be optimized by Next.js.
         hostname: "k4jlln3aspazn4y4.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

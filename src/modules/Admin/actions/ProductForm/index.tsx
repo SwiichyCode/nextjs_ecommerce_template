@@ -5,7 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
-import { uploadFiles } from "../../services/uploadFiles";
+import { uploadImagesWithVercelBlob } from "./uploadImagesWithVercelBlob";
+import { uploadImagesWithCloudinary } from "./uploadImagesWithCloudinary";
 import { useImageChange } from "./useImageChange";
 import { useFileChange } from "./useFileChange";
 
@@ -102,10 +103,12 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
-      // This exemple using vercel blob storage to upload files
-      const imagesUrls = await uploadFiles(files);
+      // This exemple using cloudinary storage to upload files
 
-      const updateImagesUrls = [...selectedImages, ...imagesUrls].filter(
+      const response = await uploadImagesWithCloudinary(files);
+      const imageUrls = response.map((res) => res.data.secure_url);
+
+      const updateImagesUrls = [...selectedImages, ...imageUrls].filter(
         (url) => !url.startsWith("blob"),
       );
 

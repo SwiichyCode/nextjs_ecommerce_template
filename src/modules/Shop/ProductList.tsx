@@ -4,8 +4,7 @@ const products = [
     name: "Earthen Bottle",
     href: "#",
     price: "$48",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
+    imageSrc: "https://i.imgur.com/JD7jiOQ.jpg",
     imageAlt:
       "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
   },

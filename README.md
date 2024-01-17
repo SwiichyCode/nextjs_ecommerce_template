@@ -100,6 +100,8 @@ We're always working to add more features and improve the existing ones. Stay tu
 
 For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/storage/vercel-blob). This service provides us with a secure and scalable solution for our image storage needs.
 
+In addition to Vercel Blob Storage, we also provide an option to use [Cloudinary](https://cloudinary.com/) for image storage. Cloudinary is a cloud-based service that provides an end-to-end image and video management solution. It is easy to use and offers a generous free tier. (This template use cloudinary)
+
 In our `next.config.js` file, we have configured Next.js to recognize images from our Vercel Blob Storage:
 
 ```javascript
@@ -108,6 +110,10 @@ images: {
     {
       protocol: "https",
       hostname: "[id].public.blob.vercel-storage.com",
+    },
+    {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
     },
   ],
 },
