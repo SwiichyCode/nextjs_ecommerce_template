@@ -8,16 +8,7 @@ export default async function ProductPage({
 }) {
   const product = await db.product.findMany({
     where: { slug: params.slug },
-    // include: {
-    //   variants: {
-    //     include: {
-    //       optionValues: true,
-    //     },
-    //   },
-    // },
   });
-
-  console.log(product);
 
   return <ProductOverview product={product} />;
 }

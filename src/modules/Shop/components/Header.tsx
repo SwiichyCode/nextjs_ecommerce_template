@@ -32,11 +32,13 @@ export default function Header({ session }: Props) {
             href={SHOP_URL}
             className="-m-1.5 flex items-center space-x-4 p-1.5"
           >
-            <Image
+            {/* <Image
               className="h-8 w-auto"
+              width={32}
+              height={32}
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt=""
-            />
+            /> */}
             <span className="text-lg font-semibold">Ecofast</span>
           </Link>
         </div>

@@ -153,6 +153,8 @@ export const ProductOverview = ({ product }: Props) => {
           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
             <Image
               src={pictures[0] ?? ""}
+              width={500}
+              height={500}
               alt=""
               className="h-full w-full object-cover object-center"
             />
