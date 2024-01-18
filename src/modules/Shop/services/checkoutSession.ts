@@ -7,6 +7,10 @@ type CheckoutProduct = {
     product_data: {
       name: string;
       images: (string | undefined)[];
+      metadata: {
+        product_id: number;
+        quantity: number;
+      };
     };
     currency: string;
     unit_amount: number;
@@ -25,6 +29,10 @@ export const checkoutSession = async (cart: ProductCart[]) => {
         product_data: {
           name: product.name,
           images: [product.pictures[0]],
+          metadata: {
+            product_id: product.id,
+            quantity: product.quantity,
+          },
         },
         currency: "eur",
         unit_amount: product.price * 100,
