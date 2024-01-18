@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/server/db";
 import { env } from "@/env";
+import { PRODUCT_URL } from "@/constants/urls";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -47,6 +49,8 @@ export async function POST(req: Request) {
         ),
       );
     }
+
+    revalidatePath(PRODUCT_URL);
 
     return NextResponse.json({ result: event, ok: true });
   } catch (e) {
