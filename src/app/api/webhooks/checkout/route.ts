@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { stripe } from "@/lib/stripe";
-import { env } from "@/env";
-import { PRODUCT_URL } from "@/constants/urls";
 import { db } from "@/server/db";
+import { env } from "@/env";
+import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { stripe } from "@/lib/stripe";
 import { replenishProductStock } from "@/modules/Shop/services/replenishProductStock";
-import sgMail from "@sendgrid/mail";
+import { sendConfirmationEmail } from "@/modules/Shop/services/sendConfirmationEmail";
+import { PRODUCT_URL } from "@/constants/urls";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -19,21 +19,7 @@ export async function POST(req: Request) {
     if (event.type === "checkout.session.completed") {
       const customerEmail = event.data.object.customer_details?.email;
 
-      if (!customerEmail) {
-        throw new Error("customer email is not defined");
-      }
-
-      sgMail.setApiKey(env.SENDGRID_API_KEY);
-
-      const sendGridMail = {
-        to: customerEmail,
-        from: "adlpromail@gmail.com",
-        templateId: "d-02f898f01b25485dae091e2be668b10f",
-
-        // Impletement dynamic template data
-      };
-
-      await sgMail.send(sendGridMail);
+      await sendConfirmationEmail(customerEmail!);
     }
 
     if (
