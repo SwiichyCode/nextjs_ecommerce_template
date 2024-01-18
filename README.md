@@ -14,6 +14,10 @@ We are constantly working to improve and add new features to our project. Here a
 
 - **Internationalization of Admin Dashboard**: To make our project accessible to users around the world, we plan to internationalize the admin dashboard. This will allow users to use the dashboard in their preferred language, improving usability and user experience.
 
+## Latest Features
+
+- **Webhook Implementation for Payment Events**: We plan to implement webhooks to intercept payment events and perform database operations. This will allow us to automate processes such as updating order status and inventory based on payment events, enhancing the efficiency of our e-commerce operations.
+
 ## Built With
 
 This project is built with the following technologies:
