@@ -104,6 +104,16 @@ model OptionValue {
     variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 }
 
+model CheckoutSession {
+    id         Int           @id @default(autoincrement())
+    sessionId  String        @unique
+    productIds Int[]
+    quantities Int[]
+    status     SessionStatus @default(active)
+    createdAt  DateTime      @default(now())
+    updatedAt  DateTime      @updatedAt
+}
+
 enum Role {
     user
     admin
@@ -113,4 +123,11 @@ enum Role {
 enum Status {
     active
     draft
+}
+
+enum SessionStatus {
+    active
+    completed
+    expired
+    failed
 }
