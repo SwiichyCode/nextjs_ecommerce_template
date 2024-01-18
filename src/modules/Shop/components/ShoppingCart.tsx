@@ -9,6 +9,7 @@ import { checkoutSession } from "../services/checkoutSession";
 export default function ShoppingCart() {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
+
   const subtotal = cart
     .reduce((acc, product) => acc + product.price, 0)
     .toFixed(2);

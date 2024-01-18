@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { useCartStore } from "../stores/useCartStore";
+import { useToast } from "@/components/ui/use-toast";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { isProductAvailable } from "../actions/isProductAvailable";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
-import type { Product } from "@prisma/client";
-import { useCartStore } from "../stores/useCartStore";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { Breadcrumb } from "./Breadcrumb";
+import type { Product } from "@prisma/client";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -20,14 +22,36 @@ type Props = {
 };
 
 export const ProductOverview = ({ product }: Props) => {
-  const { name, price, description, pictures } = product[0]!;
+  const { id, name, price, description, pictures } = product[0]!;
   const { add } = useCartStore();
+  const { toast } = useToast();
 
   const editor = useEditor({
     extensions: [StarterKit.configure({})],
     content: description,
     editable: false,
   });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isAvailable = await isProductAvailable(id);
+
+    if (!isAvailable) {
+      toast({
+        title: "Product is not available",
+        description: "Sorry, this product is not available at the moment.",
+      });
+      return;
+    }
+
+    toast({
+      title: "Product added to cart",
+      description: "Your product has been added to the cart.",
+    });
+
+    add(product[0]!);
+  };
 
   return (
     <div className="bg-white">
@@ -147,7 +171,7 @@ export const ProductOverview = ({ product }: Props) => {
               Product options
             </h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               {/* <div className="sm:flex sm:justify-between">
                 
                 <RadioGroup value={selectedSize} onChange={setSelectedSize}>
@@ -214,7 +238,7 @@ export const ProductOverview = ({ product }: Props) => {
                 <button
                   type="submit"
                   className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                  onClick={() => add(product[0]!)}
+                  // onClick={addToCart}
                 >
                   Add to bag
                 </button>
