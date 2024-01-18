@@ -66,7 +66,7 @@ To install and run this project on your local machine, follow these steps:
    Finally, you can start the development server with:
 
    ```bash
-      npm run dev
+   npm run dev
    ```
 
 6. **Accessing the Admin Dashboard**
