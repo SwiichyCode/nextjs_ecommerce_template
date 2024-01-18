@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { stripe } from "@/lib/stripe";
 import { env } from "@/env";
 import { PRODUCT_URL } from "@/constants/urls";
-import { updateProductStock } from "@/modules/Shop/services/updateProductStock";
 import { db } from "@/server/db";
 import { replenishProductStock } from "@/modules/Shop/services/replenishProductStock";
+import sgMail from "@sendgrid/mail";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -17,16 +17,23 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      const metadata = event.data.object.metadata;
+      const customerEmail = event.data.object.customer_details?.email;
 
-      if (!metadata) {
-        throw new Error("metadata is not defined");
+      if (!customerEmail) {
+        throw new Error("customer email is not defined");
       }
 
-      const product_ids: number[] = JSON.parse(metadata.product_id!);
-      const quantities: number[] = JSON.parse(metadata.quantity!);
+      sgMail.setApiKey(env.SENDGRID_API_KEY);
 
-      await updateProductStock(product_ids, quantities);
+      const sendGridMail = {
+        to: customerEmail,
+        from: "adlpromail@gmail.com",
+        templateId: "d-02f898f01b25485dae091e2be668b10f",
+
+        // Impletement dynamic template data
+      };
+
+      await sgMail.send(sendGridMail);
     }
 
     if (
