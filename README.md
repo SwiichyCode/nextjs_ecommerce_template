@@ -110,6 +110,16 @@ This project includes the following features:
 
 We're always working to add more features and improve the existing ones. Stay tuned for updates!
 
+## Accessing the Admin Dashboard
+
+To access the admin dashboard, you need to follow these steps:
+
+1. **Create an account**: First, you need to create an account on the application.
+
+2. **Use the npx prisma studio command**: Next, open your terminal and run the command `npx prisma studio`. This will open Prisma Studio, which is a graphical interface for viewing and editing data in your database.
+
+3. **Modify your role**: In Prisma Studio, find your user account and modify the `role` field to be `"admin"`. This will grant you access to the admin dashboard when you log into your account on the application.
+
 ## Image Storage
 
 For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/storage/vercel-blob). This service provides us with a secure and scalable solution for our image storage needs.
