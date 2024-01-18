@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/server/db";
+import { env } from "@/env";
 
-const secret = process.env.STRIPE_WEBHOOK_SECRET!;
+const secret = env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   try {
