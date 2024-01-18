@@ -35,22 +35,26 @@ export const ProductOverview = ({ product }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isAvailable = await isProductAvailable(id);
+    try {
+      const isAvailable = await isProductAvailable(id);
 
-    if (!isAvailable) {
+      if (!isAvailable) {
+        toast({
+          title: "Product is not available",
+          description: "Sorry, this product is not available at the moment.",
+        });
+        return;
+      }
+
+      add(product[0]!);
+
       toast({
-        title: "Product is not available",
-        description: "Sorry, this product is not available at the moment.",
+        title: "Product added to cart",
+        description: "Your product has been added to the cart.",
       });
-      return;
+    } catch (error) {
+      console.error(error);
     }
-
-    toast({
-      title: "Product added to cart",
-      description: "Your product has been added to the cart.",
-    });
-
-    add(product[0]!);
   };
 
   return (

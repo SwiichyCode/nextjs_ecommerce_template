@@ -88,7 +88,9 @@ Happy coding!
 The project has the following folder structure:
 
 - **app**: This folder contains the router for the application.
+- **app/api**: This folder contains the logic for authentication, payment processing, and webhooks.
 - **components/ui**: This folder contains shared components and more.
+- **constants**: This folder contains all the constant values used across the application.
 - **modules**: This folder contains components related to the different modules of the project such as auth, shop, admin, etc.
 - **server**: This folder contains the auth and database configuration.
 - **env.js**: This file is used to define and type environment variables. For more information, refer to [this guide](https://create.t3.gg/en/usage/env-variables).
