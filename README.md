@@ -120,6 +120,24 @@ To access the admin dashboard, you need to follow these steps:
 
 3. **Modify your role**: In Prisma Studio, find your user account and modify the `role` field to be `"admin"`. This will grant you access to the admin dashboard when you log into your account on the application.
 
+## Checkout Process
+
+The checkout process in our application is designed to ensure a smooth user experience and accurate inventory management. Here are the steps involved:
+
+1. **Creating the Payment Session**: A new payment session is created for the user. This session contains the details of the products the user wishes to purchase.
+
+2. **Updating the Stock of Selected Products**: The stock of the products selected by the user is updated to reflect that they are being purchased.
+
+3. **Creating a CheckoutSession in the Database**: A new CheckoutSession entry is created in the database. This entry contains the details of the payment session, including the product IDs and quantities.
+
+4. **Webhook to Listen for Payment Events**: A webhook is set up to listen for payment events from the payment provider. These events can indicate that the payment session has been completed, expired, or failed.
+
+5. **If the Session is Completed, Send a Confirmation Email**: If the payment event indicates that the payment session has been successfully completed, a confirmation email is sent to the user.
+
+6. **If the Session Expires or Fails, Update the Stock**: If the payment event indicates that the payment session has expired or failed, the stocks of the products are replenished to reflect that the products have not been sold.
+
+This process ensures that our inventory levels remain accurate and that users have a clear understanding of their purchase status.
+
 ## Image Storage
 
 For storing and managing our images, we use [Vercel Blob Storage](https://vercel.com/docs/storage/vercel-blob). This service provides us with a secure and scalable solution for our image storage needs.
