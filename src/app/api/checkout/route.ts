@@ -1,9 +1,11 @@
 import { env } from "@/env";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import type { Products } from "@/lib/stripe";
 import { updateProductStock } from "@/modules/Shop/services/updateProductStock";
 import { db } from "@/server/db";
+import { PRODUCT_URL } from "@/constants/urls";
 
 export const POST = async (request: Request) => {
   const { products } = (await request.json()) as { products: Products };
@@ -45,6 +47,8 @@ export const POST = async (request: Request) => {
       quantities: quantities,
     },
   });
+
+  revalidatePath(PRODUCT_URL);
 
   return NextResponse.json({ url: session.url });
 };
