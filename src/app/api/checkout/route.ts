@@ -26,7 +26,7 @@ export const POST = async (request: Request) => {
         ),
       ),
     },
-
+    expires_at: Math.floor(Date.now() / 1000) + 60 * 5,
     success_url: env.NEXT_PUBLIC_STRIPE_SUCCESS_URL,
     cancel_url: env.NEXT_PUBLIC_STRIPE_CANCEL_URL,
   });
