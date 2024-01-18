@@ -4,7 +4,7 @@ import { stripe } from "@/lib/stripe";
 import { db } from "@/server/db";
 import { env } from "@/env";
 
-const secret = env.STRIPE_WEBHOOK_SECRET!;
+const secret = env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: Request) {
   try {
