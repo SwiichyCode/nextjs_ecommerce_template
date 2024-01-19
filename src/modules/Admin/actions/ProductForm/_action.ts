@@ -1,58 +1,17 @@
 "use server";
-import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { adminAction } from "@/lib/safe-actions";
-import { addProductActionSchema, updateProductActionSchema } from "../_schema";
+import {
+  productActionSchema,
+  updateProductActionSchema,
+} from "../action_schema";
+import ProductQuery from "@/modules/Admin/services/productQuery";
 import { PRODUCT_URL } from "@/constants/urls";
 
-type Variant = {
-  name: string;
-  optionValues: {
-    name: string;
-    price: string;
-    stock: string;
-  }[];
-};
-
-export const addProduct = adminAction(addProductActionSchema, async (data) => {
+export const addProduct = adminAction(productActionSchema, async (data) => {
   try {
-    const { name, description, pictures, price, stock, weight } = data;
-
-    const variants: Variant[] = data.variants;
-    const slug = name.toLowerCase().replace(/\s/g, "-");
-
-    await db.product.create({
-      data: {
-        name,
-        description,
-        price,
-        stock,
-        pictures,
-        weight,
-        variants: {
-          create: variants.map((variant) => {
-            const { name, optionValues } = variant;
-
-            return {
-              name,
-              optionValues: {
-                create: optionValues.map((optionValue) => {
-                  const { name, price, stock } = optionValue;
-
-                  return {
-                    name,
-                    price: parseInt(price),
-                    stock: parseInt(stock),
-                  };
-                }),
-              },
-            };
-          }),
-        },
-        slug,
-      },
-    });
+    await ProductQuery.createProduct(data);
   } catch (error) {
     if (error instanceof Error) return { error: error.message };
   }
@@ -65,43 +24,7 @@ export const updateProduct = adminAction(
   updateProductActionSchema,
   async (data) => {
     try {
-      const { id, name, description, pictures, price, stock, weight } = data;
-
-      const variants: Variant[] = data.variants;
-
-      await db.product.update({
-        where: { id },
-        data: {
-          name,
-          description,
-          price,
-          stock,
-          pictures,
-          weight,
-
-          variants: {
-            deleteMany: {},
-            create: variants.map((variant) => {
-              const { name, optionValues } = variant;
-
-              return {
-                name,
-                optionValues: {
-                  create: optionValues.map((optionValue) => {
-                    const { name, price, stock } = optionValue;
-
-                    return {
-                      name,
-                      price: parseInt(price),
-                      stock: parseInt(stock),
-                    };
-                  }),
-                },
-              };
-            }),
-          },
-        },
-      });
+      await ProductQuery.updateProduct(data);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }

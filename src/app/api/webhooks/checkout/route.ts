@@ -1,16 +1,13 @@
-import { db } from "@/server/db";
 import { env } from "@/env";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
-import { replenishProductStock } from "@/modules/Shop/services/replenishProductStock";
 import { sendConfirmationEmail } from "@/modules/Shop/services/sendConfirmationEmail";
 import { PRODUCT_URL } from "@/constants/urls";
 import { createOrder } from "@/modules/Shop/services/createOrder";
 import { removeCheckoutSession } from "@/modules/Shop/services/removeCheckoutSession";
 import { findCheckoutSession } from "@/modules/Shop/services/findCheckoutSession";
-import { updateProduct } from "@/modules/Admin/actions/ProductForm/_action";
 import { updateProductStock } from "@/modules/Shop/services/updateProductStock";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
@@ -52,11 +49,6 @@ export async function POST(req: Request) {
       if (!checkout_session) {
         throw new Error("checkout_session is not defined");
       }
-
-      // await replenishProductStock(
-      //   checkout_session.productIds,
-      //   checkout_session.quantities,
-      // );
 
       await removeCheckoutSession(event.data.object.id);
     }

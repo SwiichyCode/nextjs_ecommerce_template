@@ -1,17 +1,16 @@
 "use server";
-import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { adminAction } from "@/lib/safe-actions";
-import { deleteProductActionSchema } from "../_schema";
+import { deleteProductActionSchema } from "../action_schema";
+import ProductQuery from "../../services/productQuery";
 import { PRODUCT_URL } from "@/constants/urls";
 
 export const deleteProduct = adminAction(
   deleteProductActionSchema,
   async (data) => {
     try {
-      const { id } = data;
-      await db.product.delete({ where: { id } });
+      await ProductQuery.deleteProduct(data);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }

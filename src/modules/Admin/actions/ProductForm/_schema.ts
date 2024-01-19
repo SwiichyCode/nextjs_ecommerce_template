@@ -8,7 +8,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-export const formSchema = z.object({
+export const formProductSchema = z.object({
   name: z
     .string()
     .min(2, { message: "The name must be at least 2 characters long" })
@@ -42,28 +42,5 @@ export const formSchema = z.object({
     .number()
     .min(0, { message: "The weight cannot be less than 0" })
     .max(1000000, { message: "The weight cannot exceed 1,000,000" }),
-  variants: z.any(),
-});
-
-export const statusSchema = z.object({
-  status: z.enum(["ACTIVE", "DRAFT"]),
-});
-
-export const addProductActionSchema = z.object({
-  ...formSchema.shape, // Spread all fields from formSchema
-  pictures: z.array(z.string()), // Override the pictures field
-});
-
-export const updateProductActionSchema = z.object({
-  ...addProductActionSchema.shape, // Spread all fields from addProductActionSchema
-  id: z.number(),
-});
-
-export const deleteProductActionSchema = z.object({
-  id: z.number(),
-});
-
-export const updateProductStatusActionSchema = z.object({
-  ...statusSchema.shape, // Spread all fields from statusSchema
-  id: z.number(),
+  variants: z.any(), // type variant
 });

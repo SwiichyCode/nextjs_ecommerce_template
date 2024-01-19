@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 
 import type { Product } from "@prisma/client";
-import { statusSchema } from "../_schema";
+import { formStatusSchema } from "./_schema";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { updateStatus } from "./_action";
 
@@ -35,8 +35,8 @@ export const ProductStatusForm = ({ product }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof statusSchema>>({
-    resolver: zodResolver(statusSchema),
+  const form = useForm<z.infer<typeof formStatusSchema>>({
+    resolver: zodResolver(formStatusSchema),
     defaultValues: {
       status: ["ACTIVE", "DRAFT"].includes(product!.status)
         ? (product!.status as "ACTIVE" | "DRAFT")
@@ -44,7 +44,7 @@ export const ProductStatusForm = ({ product }: Props) => {
     },
   });
 
-  const onsubmit = async (values: z.infer<typeof statusSchema>) => {
+  const onsubmit = async (values: z.infer<typeof formStatusSchema>) => {
     startTransition(async () => {
       const reponse = await updateStatus({
         id: product!.id,

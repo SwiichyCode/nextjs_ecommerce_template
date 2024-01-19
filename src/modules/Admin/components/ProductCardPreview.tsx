@@ -1,5 +1,5 @@
 import type * as z from "zod";
-import type { formSchema } from "../actions/_schema";
+import type { formProductSchema } from "../actions/ProductForm/_schema";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import Image from "next/image";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  values: z.infer<typeof formSchema>;
+  values: z.infer<typeof formProductSchema>;
   selectedImages: string[];
 };
 

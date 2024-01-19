@@ -1,11 +1,10 @@
 "use client";
-import { useTransition, useState, useContext } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
-// import { uploadImagesWithVercelBlob } from "./uploadImagesWithVercelBlob";
 import { uploadImagesWithCloudinary } from "../../services/uploadImagesWithCloudinary";
 import { useImageChange } from "./useImageChange";
 import { useFileChange } from "./useFileChange";
@@ -13,13 +12,12 @@ import { useFileChange } from "./useFileChange";
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
-import { formSchema } from "../_schema";
+import { formProductSchema } from "./_schema";
 import { addProduct, updateProduct } from "./_action";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
 import { Button } from "@/components/ui/button";
 import { ProductCardPreview } from "../../components/ProductCardPreview";
-import type { Product, Variant, OptionValue } from "@prisma/client";
 
 import { FormField } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
@@ -27,19 +25,11 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { InputForm } from "@/components/ui/input-form";
 import { cn } from "@/lib/utils";
 
-import { productContext } from "../../context/useProductContext";
 import type { CloudinaryResponse } from "@/lib/types";
-
-type VariantWithOptionValues = Variant & {
-  optionValues: OptionValue[];
-};
-
-type ProductWithVariants = Product & {
-  variants: VariantWithOptionValues[];
-};
+import type { ProductWithVariants } from "../../services/productQuery";
 
 type Props = {
-  product?: ProductWithVariants | null;
+  product?: ProductWithVariants;
   asEdit?: boolean;
 };
 
@@ -69,14 +59,13 @@ export const ProductForm = ({ product, asEdit }: Props) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  // const context = useContext(productContext);
 
   const { selectedImages, setSelectedImages, handleImageChange, removeImage } =
     useImageChange(product?.pictures);
   const { files, handleFileChange } = useFileChange();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof formProductSchema>>({
+    resolver: zodResolver(formProductSchema),
     defaultValues:
       asEdit && product
         ? {
@@ -102,7 +91,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
   const values = form.getValues();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formProductSchema>) => {
     startTransition(async () => {
       // This exemple using cloudinary storage to upload files
 
@@ -227,14 +216,14 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             className="card"
           />
 
-          <ControlledRichTextField<z.infer<typeof formSchema>>
+          <ControlledRichTextField<z.infer<typeof formProductSchema>>
             control={form.control}
             name="description"
             label="Description"
             placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           />
 
-          <ControlledFileField<z.infer<typeof formSchema>>
+          <ControlledFileField<z.infer<typeof formProductSchema>>
             direction="horizontal"
             control={form.control}
             name="pictures"

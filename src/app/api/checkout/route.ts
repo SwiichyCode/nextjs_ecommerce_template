@@ -2,7 +2,6 @@ import { env } from "@/env";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { updateProductStock } from "@/modules/Shop/services/updateProductStock";
 import { PRODUCT_URL } from "@/constants/urls";
 import { createCheckoutSession } from "@/modules/Shop/services/createCheckoutSession";
 import { getServerAuthSession } from "@/server/auth";
@@ -42,8 +41,6 @@ export const POST = async (request: Request) => {
     checkout_session.metadata.product_id!,
   );
   const quantities: number[] = JSON.parse(checkout_session.metadata.quantity!);
-
-  // await updateProductStock(product_ids, quantities);
 
   if (!user_session?.user) throw new Error("user is not defined");
 

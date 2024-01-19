@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
 
 export const updatedProducts = async () => {
   const products = await db.product.findMany();

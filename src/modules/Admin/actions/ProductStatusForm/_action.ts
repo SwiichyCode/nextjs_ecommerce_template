@@ -1,22 +1,15 @@
 "use server";
-import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { adminAction } from "@/lib/safe-actions";
-import { updateProductStatusActionSchema } from "../_schema";
+import { updateProductStatusActionSchema } from "../action_schema";
+import ProductQuery from "../../services/productQuery";
 import { PRODUCT_URL } from "@/constants/urls";
 
 export const updateStatus = adminAction(
   updateProductStatusActionSchema,
   async (data) => {
     try {
-      const { id, status } = data;
-
-      await db.product.update({
-        where: { id },
-        data: {
-          status,
-        },
-      });
+      await ProductQuery.updateProductStatus(data);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }
