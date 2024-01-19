@@ -8,6 +8,7 @@ import { replenishProductStock } from "@/modules/Shop/services/replenishProductS
 import { sendConfirmationEmail } from "@/modules/Shop/services/sendConfirmationEmail";
 import { PRODUCT_URL } from "@/constants/urls";
 import { createOrder } from "@/modules/Shop/services/createOrder";
+import { removeCheckoutSession } from "@/modules/Shop/services/removeCheckoutSession";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
       }
 
       await replenishProductStock(session.productIds, session.quantities);
+      await removeCheckoutSession(currentSessionId);
     }
 
     revalidatePath(PRODUCT_URL);
