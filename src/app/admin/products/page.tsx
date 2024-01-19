@@ -1,12 +1,12 @@
 import { Header } from "@/modules/Admin/components/Header";
 import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
 import { ADD_PRODUCT_URL } from "@/constants/urls";
-import { findProducts } from "@/modules/Admin/services/productQuery";
 import { ProductProvider } from "@/modules/Admin/context/useProductContext";
 import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";
+import { updatedProducts } from "@/modules/Admin/services/updatedProducts";
 
 export default async function ProductPage() {
-  const products = await findProducts();
+  const products = await updatedProducts();
 
   return (
     <>
