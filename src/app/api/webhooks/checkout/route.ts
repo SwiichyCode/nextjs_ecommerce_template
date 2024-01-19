@@ -9,6 +9,7 @@ import { sendConfirmationEmail } from "@/modules/Shop/services/sendConfirmationE
 import { PRODUCT_URL } from "@/constants/urls";
 import { createOrder } from "@/modules/Shop/services/createOrder";
 import { removeCheckoutSession } from "@/modules/Shop/services/removeCheckoutSession";
+import { findCheckoutSession } from "@/modules/Shop/services/findCheckoutSession";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -19,16 +20,17 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      const currentSessionId = event.data.object.id;
-      const session = await db.checkoutSession.findUnique({
-        where: { sessionId: currentSessionId },
-      });
+      const checkout_session = await findCheckoutSession(event.data.object.id);
 
-      if (!session) {
-        throw new Error("session is not defined");
+      if (!checkout_session) {
+        throw new Error("checkout_session is not defined");
       }
 
-      await createOrder(session.userId, session.productIds, session.quantities);
+      await createOrder(
+        checkout_session.userId,
+        checkout_session.productIds,
+        checkout_session.quantities,
+      );
 
       const customerEmail = event.data.object.customer_details?.email;
       await sendConfirmationEmail(customerEmail!);
@@ -38,18 +40,17 @@ export async function POST(req: Request) {
       event.type === "checkout.session.expired" ||
       event.type === "checkout.session.async_payment_failed"
     ) {
-      const currentSessionId = event.data.object.id;
+      const checkout_session = await findCheckoutSession(event.data.object.id);
 
-      const session = await db.checkoutSession.findUnique({
-        where: { sessionId: currentSessionId },
-      });
-
-      if (!session) {
-        throw new Error("session is not defined");
+      if (!checkout_session) {
+        throw new Error("checkout_session is not defined");
       }
 
-      await replenishProductStock(session.productIds, session.quantities);
-      await removeCheckoutSession(currentSessionId);
+      await replenishProductStock(
+        checkout_session.productIds,
+        checkout_session.quantities,
+      );
+      await removeCheckoutSession(event.data.object.id);
     }
 
     revalidatePath(PRODUCT_URL);
