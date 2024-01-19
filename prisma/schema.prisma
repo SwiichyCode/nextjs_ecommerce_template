@@ -109,6 +109,7 @@ model OptionValue {
 model CheckoutSession {
     id         Int           @id @default(autoincrement())
     sessionId  String        @unique
+    userId     String
     productIds Int[]
     quantities Int[]
     status     SessionStatus @default(ACTIVE)

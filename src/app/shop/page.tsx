@@ -1,7 +1,7 @@
+import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
 import Header from "@/modules/Shop/components/Header";
 import ProductList from "@/modules/Shop/components/ProductList";
-import { db } from "@/server/db";
 import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
 
 export default async function ShopPage() {
@@ -13,7 +13,7 @@ export default async function ShopPage() {
   return (
     <>
       <Header session={session} />
-      <ShoppingCart />
+      <ShoppingCart session={session} />
       <ProductList products={products} />
     </>
   );

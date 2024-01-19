@@ -2,15 +2,18 @@ import { env } from "@/env";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import type { Products } from "@/lib/stripe";
 import { updateProductStock } from "@/modules/Shop/services/updateProductStock";
-import { db } from "@/server/db";
 import { PRODUCT_URL } from "@/constants/urls";
+import { createCheckoutSession } from "@/modules/Shop/services/createCheckoutSession";
+import { getServerAuthSession } from "@/server/auth";
+import type { Products } from "@/lib/stripe";
 
 export const POST = async (request: Request) => {
   const { products } = (await request.json()) as { products: Products };
 
-  const session = await stripe.checkout.sessions.create({
+  const user_session = await getServerAuthSession();
+
+  const checkout_session = await stripe.checkout.sessions.create({
     line_items: products,
     mode: "payment",
     payment_method_types: ["card", "paypal"],
@@ -31,24 +34,24 @@ export const POST = async (request: Request) => {
     cancel_url: env.NEXT_PUBLIC_STRIPE_CANCEL_URL,
   });
 
-  if (!session.metadata) {
+  if (!checkout_session.metadata) {
     throw new Error("session is not defined");
   }
 
-  const product_ids: number[] = JSON.parse(session.metadata.product_id!);
-  const quantities: number[] = JSON.parse(session.metadata.quantity!);
+  const product_ids: number[] = JSON.parse(
+    checkout_session.metadata.product_id!,
+  );
+  const quantities: number[] = JSON.parse(checkout_session.metadata.quantity!);
 
   await updateProductStock(product_ids, quantities);
-
-  await db.checkoutSession.create({
-    data: {
-      sessionId: session.id,
-      productIds: product_ids,
-      quantities: quantities,
-    },
-  });
+  await createCheckoutSession(
+    checkout_session.id,
+    user_session?.user.id!,
+    product_ids,
+    quantities,
+  );
 
   revalidatePath(PRODUCT_URL);
 
-  return NextResponse.json({ url: session.url });
+  return NextResponse.json({ url: checkout_session.url });
 };
