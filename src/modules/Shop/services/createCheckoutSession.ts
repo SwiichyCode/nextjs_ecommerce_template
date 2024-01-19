@@ -3,6 +3,7 @@ import { db } from "@/server/db";
 export const createCheckoutSession = async (
   sessionId: string,
   userId: string,
+  sessionUrl: string,
   productIds: number[],
   quantities: number[],
 ) => {
@@ -10,6 +11,7 @@ export const createCheckoutSession = async (
     data: {
       sessionId,
       userId,
+      sessionUrl,
       productIds,
       quantities,
     },

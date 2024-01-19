@@ -5,13 +5,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartState, useCartStore } from "../stores/useCartStore";
 import { checkoutSession } from "../services/checkoutSession";
-import { Session } from "next-auth";
 
-type Props = {
-  session: Session | null;
-};
-
-export default function ShoppingCart({ session }: Props) {
+export default function ShoppingCart() {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
 

@@ -43,16 +43,17 @@ export const POST = async (request: Request) => {
   );
   const quantities: number[] = JSON.parse(checkout_session.metadata.quantity!);
 
-  await updateProductStock(product_ids, quantities);
+  // await updateProductStock(product_ids, quantities);
 
-  if (user_session) {
-    await createCheckoutSession(
-      checkout_session.id,
-      user_session.user.id,
-      product_ids,
-      quantities,
-    );
-  }
+  if (!user_session?.user) throw new Error("user is not defined");
+
+  await createCheckoutSession(
+    checkout_session.id,
+    user_session.user.id,
+    checkout_session.url!,
+    product_ids,
+    quantities,
+  );
 
   revalidatePath(PRODUCT_URL);
 
