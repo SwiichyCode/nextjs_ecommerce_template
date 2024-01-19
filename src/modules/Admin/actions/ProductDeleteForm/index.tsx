@@ -1,6 +1,6 @@
 "use client";
 import { useTransition, useState } from "react";
-import { deleteProduct } from "../ProductForm/_action";
+import { deleteProduct } from "./_action";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ControlledAlertDialog } from "../../components/ControlledAlertDialog";
@@ -25,8 +25,8 @@ export const ProductDeleteForm = ({ id }: Props) => {
       });
 
       toast({
-        title: "Produit supprimé",
-        description: "Le produit a bien été supprimé.",
+        title: "Product deleted",
+        description: "The product has been successfully deleted.",
       });
 
       if (response.serverError) {
@@ -41,8 +41,8 @@ export const ProductDeleteForm = ({ id }: Props) => {
   return (
     <ControlledAlertDialog
       open={open}
-      title={"Supprimer le produit"}
-      description={"Êtes-vous sûr de vouloir supprimer ce produit ?"}
+      title={"Delete the product"}
+      description={"Are you sure you want to delete this product?"}
       onContinue={onSubmit}
       onCancel={() => setOpen(false)}
       isPending={isPending}
@@ -52,7 +52,7 @@ export const ProductDeleteForm = ({ id }: Props) => {
         variant={"destructive"}
         onClick={() => setOpen(true)}
       >
-        Supprimer le produit
+        Delete the product
       </Button>
     </ControlledAlertDialog>
   );

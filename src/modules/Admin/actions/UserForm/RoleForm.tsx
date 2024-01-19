@@ -33,17 +33,15 @@ export const RoleForm = () => {
 
       if (response.data?.error) {
         toast({
-          title: "Erreur",
-          description:
-            "L'utilisateur n'a pas pu être ajouté en tant qu'administrateur",
+          title: "Error",
+          description: "The user could not be added as an administrator",
         });
         return;
       }
 
       toast({
-        title: "Succès",
-        description:
-          "L'utilisateur a bien été ajouté en tant qu'administrateur",
+        title: "Success",
+        description: "The user has been successfully added as an administrator",
       });
 
       form.reset();
@@ -52,18 +50,18 @@ export const RoleForm = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold">Ajouter un administrateur</h2>
+      <h2 className="text-xl font-bold">Add an administrator</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="card space-y-8">
           <ControlledTextField<z.infer<typeof formSchema>>
             control={form.control}
             name="email"
-            label="Email de l'utilisateur"
+            label="User's email"
             placeholder="Email"
             className="w-1/3"
             cardWrapper={false}
           />
-          <SubmitButton pending={isPending}>Ajouter</SubmitButton>
+          <SubmitButton pending={isPending}>Add</SubmitButton>
         </form>
       </Form>
     </div>

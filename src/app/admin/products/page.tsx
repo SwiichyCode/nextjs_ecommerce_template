@@ -12,8 +12,8 @@ export default async function ProductPage() {
     <>
       <Header>
         <div>
-          <h1 className="text-3xl font-bold">Produits</h1>
-          <p>{products.length} produits disponibles</p>
+          <h1 className="text-3xl font-bold">Products</h1>
+          <p>{products.length} available products</p>
         </div>
         <ButtonLink href={ADD_PRODUCT_URL} src="/plus.svg" />
       </Header>

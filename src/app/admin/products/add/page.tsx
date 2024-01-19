@@ -8,7 +8,7 @@ export default function AddProductPage() {
       <Header>
         <div className="flex items-center gap-4">
           <ButtonHistoryBack withArrow />
-          <h1 className="text-3xl font-bold">Ajouter un produit</h1>
+          <h1 className="text-3xl font-bold">Add a product</h1>
         </div>
       </Header>
       <div className="container px-14">

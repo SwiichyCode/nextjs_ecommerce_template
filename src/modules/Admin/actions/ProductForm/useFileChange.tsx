@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent } from "react";
 import { type ControllerRenderProps } from "react-hook-form";
-import type { formSchema } from "./_schema";
+import type { formSchema } from "../_schema";
 import type * as z from "zod";
 
 export const useFileChange = () => {

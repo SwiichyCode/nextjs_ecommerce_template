@@ -13,11 +13,11 @@ const handleStyleRole = (role: string) => {
 export const userColumns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
-    header: "Id",
+    header: "ID",
   },
   {
     accessorKey: "name",
-    header: "Nom",
+    header: "Name",
   },
   {
     accessorKey: "email",
@@ -25,7 +25,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "role",
-    header: "Rôle",
+    header: "Role",
     cell: ({ row }) => {
       const { role } = row.original;
 
@@ -39,7 +39,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Créé le",
+    header: "Created on",
     cell: ({ row }) => {
       const { createdAt } = row.original;
 

@@ -1,14 +1,9 @@
 "use server";
+import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { adminAction } from "@/lib/safe-actions";
-import { db } from "@/server/db";
-import {
-  addProductActionSchema,
-  deleteProductActionSchema,
-  updateProductActionSchema,
-  updateProductStatusActionSchema,
-} from "./_schema";
+import { addProductActionSchema, updateProductActionSchema } from "../_schema";
 import { PRODUCT_URL } from "@/constants/urls";
 
 type Variant = {
@@ -113,40 +108,5 @@ export const updateProduct = adminAction(
 
     revalidatePath(PRODUCT_URL);
     redirect(PRODUCT_URL);
-  },
-);
-
-export const deleteProduct = adminAction(
-  deleteProductActionSchema,
-  async (data) => {
-    try {
-      const { id } = data;
-      await db.product.delete({ where: { id } });
-    } catch (error) {
-      if (error instanceof Error) return { error: error.message };
-    }
-
-    revalidatePath(PRODUCT_URL);
-    redirect(PRODUCT_URL);
-  },
-);
-
-export const updateStatus = adminAction(
-  updateProductStatusActionSchema,
-  async (data) => {
-    try {
-      const { id, status } = data;
-
-      await db.product.update({
-        where: { id },
-        data: {
-          status,
-        },
-      });
-    } catch (error) {
-      if (error instanceof Error) return { error: error.message };
-    }
-
-    revalidatePath(PRODUCT_URL);
   },
 );

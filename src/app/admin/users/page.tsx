@@ -11,8 +11,8 @@ export default async function UsersPage() {
     <>
       <Header>
         <div>
-          <h1 className="text-3xl font-bold">Utilisateurs</h1>
-          <p>{users.length} utilisateurs inscrits</p>
+          <h1 className="text-3xl font-bold">Users</h1>
+          <p>{users.length} registered users</p>
         </div>
       </Header>
       <div className="mx-auto w-full max-w-5xl space-y-8 px-14">

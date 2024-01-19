@@ -11,11 +11,11 @@ export interface NavItemProps {
 
 export const ProductNavItems = [
   {
-    name: "Vos produits",
+    name: "Your products",
     path: PRODUCT_URL,
   },
   {
-    name: "Ajouter un produit",
+    name: "Add a product",
     path: ADD_PRODUCT_URL,
   },
   // {
@@ -26,7 +26,7 @@ export const ProductNavItems = [
 
 export const UserNavItems = [
   {
-    name: "Vos utilisateurs",
+    name: "Your users",
     path: "/admin/users",
   },
 ];

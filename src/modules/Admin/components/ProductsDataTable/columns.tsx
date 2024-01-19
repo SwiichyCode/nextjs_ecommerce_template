@@ -39,11 +39,11 @@ export const productColumns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "name",
-    header: "Nom",
+    header: "Name",
   },
   {
     accessorKey: "status",
-    header: "Statut",
+    header: "Status",
     cell: ({ row }) => {
       const { status } = row.original;
 
@@ -61,7 +61,7 @@ export const productColumns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: "Prix",
+    header: "Price",
     cell: ({ row }) => {
       const { price } = row.original;
 
@@ -70,11 +70,11 @@ export const productColumns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "stock",
-    header: "En stock",
+    header: "In stock",
   },
   {
     accessorKey: "weight",
-    header: "Poids",
+    header: "Weight",
     cell: ({ row }) => {
       const { weight } = row.original;
 

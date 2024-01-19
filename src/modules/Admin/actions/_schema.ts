@@ -11,12 +11,12 @@ const ACCEPTED_IMAGE_TYPES = [
 export const formSchema = z.object({
   name: z
     .string()
-    .min(2, { message: "Le nom doit comporter au moins 2 caractères" })
-    .max(50, { message: "Le nom ne peut pas dépasser 50 caractères" }),
+    .min(2, { message: "The name must be at least 2 characters long" })
+    .max(50, { message: "The name cannot exceed 50 characters" }),
   description: z
     .string()
-    .min(2, { message: "La description doit comporter au moins 2 caractères" })
-    .max(250, { message: "La description ne peut pas dépasser 50 caractères" }),
+    .min(2, { message: "The description must be at least 2 characters long" })
+    .max(250, { message: "The description cannot exceed 50 characters" }),
   pictures: z
     .array(z.instanceof(File))
     .optional()
@@ -32,16 +32,16 @@ export const formSchema = z.object({
 
   price: z.coerce
     .number()
-    .min(0, { message: "Le prix ne peut pas être inférieur à 0" })
-    .max(1000000, { message: "Le prix ne peut pas dépasser 1 000 000" }),
+    .min(0, { message: "The price cannot be less than 0" })
+    .max(1000000, { message: "The price cannot exceed 1,000,000" }),
   stock: z.coerce
     .number()
-    .min(0, { message: "Le stock ne peut pas être inférieur à 0" })
-    .max(1000000, { message: "Le stock ne peut pas dépasser 1 000 000" }),
+    .min(0, { message: "The stock cannot be less than 0" })
+    .max(1000000, { message: "The stock cannot exceed 1,000,000" }),
   weight: z.coerce
     .number()
-    .min(0, { message: "Le poids ne peut pas être inférieur à 0" })
-    .max(1000000, { message: "Le poids ne peut pas dépasser 1 000 000" }),
+    .min(0, { message: "The weight cannot be less than 0" })
+    .max(1000000, { message: "The weight cannot exceed 1,000,000" }),
   variants: z.any(),
 });
 

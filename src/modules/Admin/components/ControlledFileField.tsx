@@ -60,7 +60,7 @@ export const ControlledFileField = <FieldsType extends FieldValues>({
             />
           </FormControl>
           <FormDescription>
-            Essayer toujours d&apos;optimiser vos images avant de les envoyer.
+            Always try to optimize your images before sending them.
           </FormDescription>
           <FormMessage />
 

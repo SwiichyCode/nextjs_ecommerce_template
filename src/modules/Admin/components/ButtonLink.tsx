@@ -12,7 +12,7 @@ export const ButtonLink = ({ href, src }: Props) => {
     <Button className="gap-2" asChild>
       <Link href={href}>
         {src && <Image src={src} width={12} height={12} alt="" />}
-        Ajouter un produit
+        Add a product
       </Link>
     </Button>
   );

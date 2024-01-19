@@ -26,7 +26,7 @@ export default async function EditProductPage({
       <Header>
         <div className="flex items-center gap-4">
           <ButtonHistoryBack withArrow />
-          <h1 className="text-3xl font-bold">Editer votre produit</h1>
+          <h1 className="text-3xl font-bold">Edit your product</h1>
         </div>
         {product && <ProductDeleteForm id={product.id} />}
       </Header>

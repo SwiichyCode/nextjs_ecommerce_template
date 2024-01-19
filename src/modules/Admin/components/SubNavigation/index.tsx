@@ -9,26 +9,18 @@ export const SubNavigation = () => {
   const pathname = usePathname();
 
   const handleTitleTransform = () => {
-    if (pathname.startsWith(PRODUCT_URL)) return "Produits";
-    if (pathname.startsWith(USER_URL)) return "Utilisateurs";
+    if (pathname.startsWith(PRODUCT_URL)) return "Products";
+    if (pathname.startsWith(USER_URL)) return "Users";
   };
 
   const handleNavigation = () => {
     if (pathname.startsWith(PRODUCT_URL))
       return (
-        <Navigation
-          navTitle="Gestion des produits"
-          navItems={ProductNavItems}
-        />
+        <Navigation navTitle="Product management" navItems={ProductNavItems} />
       );
 
     if (pathname.startsWith(USER_URL))
-      return (
-        <Navigation
-          navTitle="Gestion des utilisateurs"
-          navItems={UserNavItems}
-        />
-      );
+      return <Navigation navTitle="User management" navItems={UserNavItems} />;
   };
 
   if (pathname === ADMIN_URL) return null;

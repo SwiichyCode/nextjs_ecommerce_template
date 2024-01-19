@@ -6,14 +6,14 @@ import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
 // import { uploadImagesWithVercelBlob } from "./uploadImagesWithVercelBlob";
-import { uploadImagesWithCloudinary } from "./uploadImagesWithCloudinary";
+import { uploadImagesWithCloudinary } from "../../services/uploadImagesWithCloudinary";
 import { useImageChange } from "./useImageChange";
 import { useFileChange } from "./useFileChange";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
-import { formSchema } from "./_schema";
+import { formSchema } from "../_schema";
 import { addProduct, updateProduct } from "./_action";
 import { ControlledFileField } from "../../components/ControlledFileField";
 import { ControlledRichTextField } from "../../components/ControlledRichText";
@@ -140,10 +140,10 @@ export const ProductForm = ({ product, asEdit }: Props) => {
       // try to catch error from response action
 
       toast({
-        title: asEdit ? "Produit modifié" : "Produit ajouté",
+        title: asEdit ? "Product modified" : "Product added",
         description: asEdit
-          ? "Produit modifié avec succés"
-          : "Produit ajouté  avec succés",
+          ? "Product successfully modified"
+          : "Product successfully added",
       });
     });
   };
@@ -166,7 +166,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
               <InputForm
                 control={form.control}
                 name={`variants.${index}.optionValues.${k}.name`}
-                label={k === 0 ? "Valeurs des options" : ""}
+                label={k === 0 ? "Option values" : ""}
                 placeholder="S, M, L, ..."
                 className={cn("w-full max-w-[442px]", k != 0 && "space-y-0")}
               />
@@ -189,7 +189,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           onClick={() => append({ name: "" })}
           variant={"ghost"}
         >
-          Ajouter une valeur
+          Add a value
         </Button>
 
         {valueFields.map((field, k) => (
@@ -197,7 +197,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
             <InputForm
               control={form.control}
               name={`variants.${index}.optionValues.${k}.price`}
-              label={k === 0 ? "Prix" : ""}
+              label={k === 0 ? "Price" : ""}
               placeholder="0.00"
               className="w-full"
             />
@@ -222,7 +222,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           <InputForm
             control={form.control}
             name="name"
-            label="Nom du produit"
+            label="Name"
             placeholder="Shirt, Mug, ..."
             className="card"
           />
@@ -248,7 +248,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           <InputForm
             control={form.control}
             name="price"
-            label="Tarifs"
+            label="Price"
             placeholder="0.00"
             className="card"
           />
@@ -256,7 +256,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           <InputForm
             control={form.control}
             name="stock"
-            label="Quantité disponible"
+            label="Available quantity"
             placeholder="0"
             type="number"
             className="card"
@@ -265,13 +265,13 @@ export const ProductForm = ({ product, asEdit }: Props) => {
           <InputForm
             control={form.control}
             name="weight"
-            label="Poids du produit (kg)"
+            label="Product weight (kg)"
             placeholder="2.500"
             className="card"
           />
 
           <div className="card space-y-4">
-            <Label>Variantes</Label>
+            <Label>Variants</Label>
             <FormField
               control={form.control}
               name="variants"
@@ -285,7 +285,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
                             <InputForm
                               control={form.control}
                               name={`variants.${index}.name`}
-                              label="Nom de la variante"
+                              label="Name"
                               placeholder="Size, Color, ..."
                               className="w-full"
                             />
@@ -314,7 +314,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
                           });
                         }}
                       >
-                        Ajouter une variante
+                        Add a variant
                       </Button>
                     )}
                   </ul>
@@ -325,10 +325,10 @@ export const ProductForm = ({ product, asEdit }: Props) => {
 
           <div className="flex items-center justify-end space-x-4">
             <Button type="button" onClick={() => router.back()}>
-              Annuler
+              Cancel
             </Button>
             <Button type="button" onClick={() => setOpen(true)}>
-              Prévisualiser
+              Preview
             </Button>
             <ProductCardPreview
               open={open}
@@ -337,7 +337,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
               selectedImages={selectedImages}
             />
             <SubmitButton pending={isPending}>
-              {asEdit ? "Modifier le produit" : "Ajouter le produit"}
+              {asEdit ? "Modify the product" : "Add the product"}
             </SubmitButton>
           </div>
         </div>

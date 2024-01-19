@@ -23,9 +23,9 @@ import {
 } from "@/components/ui/form";
 
 import type { Product } from "@prisma/client";
-import { statusSchema } from "../ProductForm/_schema";
+import { statusSchema } from "../_schema";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
-import { updateStatus } from "../ProductForm/_action";
+import { updateStatus } from "./_action";
 
 type Props = {
   product: Product | null;
@@ -51,7 +51,7 @@ export const ProductStatusForm = ({ product }: Props) => {
         status: values.status,
       });
 
-      toast({ title: "Success", description: "Statut mis à jour" });
+      toast({ title: "Success", description: "Status updated" });
 
       if (reponse.serverError) {
         toast({ title: "Error", description: reponse.serverError });
@@ -71,7 +71,7 @@ export const ProductStatusForm = ({ product }: Props) => {
           name="status"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Statut du produit</FormLabel>
+              <FormLabel>Product status</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -80,7 +80,7 @@ export const ProductStatusForm = ({ product }: Props) => {
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="ACTIVE">active</SelectItem>
-                  <SelectItem value="DRAFT">brouillon</SelectItem>
+                  <SelectItem value="DRAFT">draft</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -89,7 +89,7 @@ export const ProductStatusForm = ({ product }: Props) => {
           )}
         />
 
-        <SubmitButton pending={isPending}>Enregistrer</SubmitButton>
+        <SubmitButton pending={isPending}>Save</SubmitButton>
       </form>
     </Form>
   );
