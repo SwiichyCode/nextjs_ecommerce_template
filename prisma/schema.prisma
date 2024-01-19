@@ -59,11 +59,12 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    role          Role      @default(user)
+    role          Role      @default(USER)
     createdAt     DateTime  @default(now())
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    orders        Order[]
 }
 
 model VerificationToken {
@@ -82,7 +83,7 @@ model Product {
     price       Int
     stock       Int
     weight      Float
-    status      Status    @default(active)
+    status      Status    @default(ACTIVE)
     variants    Variant[]
     slug        String
     createdAt   DateTime  @default(now())
@@ -110,25 +111,44 @@ model CheckoutSession {
     sessionId  String        @unique
     productIds Int[]
     quantities Int[]
-    status     SessionStatus @default(active)
+    status     SessionStatus @default(ACTIVE)
     createdAt  DateTime      @default(now())
     updatedAt  DateTime      @updatedAt
 }
 
+model Order {
+    id         Int         @id @default(autoincrement())
+    userId     String
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    productIds Int[]
+    quantities Int[]
+    status     OrderStatus @default(PROCESSING)
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+}
+
 enum Role {
-    user
-    admin
-    developer
+    USER
+    ADMIN
+    DEVELOPER
 }
 
 enum Status {
-    active
-    draft
+    ACTIVE
+    DRAFT
 }
 
 enum SessionStatus {
-    active
-    completed
-    expired
-    failed
+    ACTIVE
+    COMPLETED
+    EXPIRED
+    FAILED
+}
+
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELED
 }

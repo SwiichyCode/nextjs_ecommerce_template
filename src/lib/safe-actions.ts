@@ -1,5 +1,6 @@
 import { createSafeActionClient } from "next-safe-action";
 import { getServerAuthSession } from "@/server/auth";
+import { Role } from "@/constants/enum";
 
 export const action = createSafeActionClient();
 
@@ -19,7 +20,7 @@ export const adminAction = createSafeActionClient({
 
   async middleware() {
     const session = await getServerAuthSession();
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== Role.ADMIN)
       throw new ActionError("You are not a admin");
 
     return {

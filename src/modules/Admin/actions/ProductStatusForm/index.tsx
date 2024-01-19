@@ -38,8 +38,8 @@ export const ProductStatusForm = ({ product }: Props) => {
   const form = useForm<z.infer<typeof statusSchema>>({
     resolver: zodResolver(statusSchema),
     defaultValues: {
-      status: ["active", "draft"].includes(product!.status)
-        ? (product!.status as "active" | "draft")
+      status: ["ACTIVE", "DRAFT"].includes(product!.status)
+        ? (product!.status as "ACTIVE" | "DRAFT")
         : undefined,
     },
   });
@@ -79,8 +79,8 @@ export const ProductStatusForm = ({ product }: Props) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="active">active</SelectItem>
-                  <SelectItem value="draft">brouillon</SelectItem>
+                  <SelectItem value="ACTIVE">active</SelectItem>
+                  <SelectItem value="DRAFT">brouillon</SelectItem>
                 </SelectContent>
               </Select>
 

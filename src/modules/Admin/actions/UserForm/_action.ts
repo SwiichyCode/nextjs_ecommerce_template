@@ -4,6 +4,7 @@ import { db } from "@/server/db";
 import { adminAction } from "@/lib/safe-actions";
 import { updateUserRoleActionSchema } from "./_schema";
 import { USER_URL } from "@/constants/urls";
+import { Role } from "@/constants/enum";
 
 export const addAdmin = adminAction(
   updateUserRoleActionSchema,
@@ -13,13 +14,13 @@ export const addAdmin = adminAction(
 
       // TEMP QUERY
       const isUserAlreadyAdmin = await db.user.findFirst({
-        where: { email, role: "admin" },
+        where: { email, role: Role.ADMIN },
       });
 
       await db.user.update({
         where: { email },
         data: {
-          role: isUserAlreadyAdmin ? "user" : "admin",
+          role: isUserAlreadyAdmin ? Role.USER : Role.ADMIN,
         },
       });
     } catch (error) {

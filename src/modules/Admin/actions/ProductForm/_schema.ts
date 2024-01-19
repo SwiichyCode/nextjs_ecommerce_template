@@ -46,7 +46,7 @@ export const formSchema = z.object({
 });
 
 export const statusSchema = z.object({
-  status: z.enum(["active", "draft"]),
+  status: z.enum(["ACTIVE", "DRAFT"]),
 });
 
 export const addProductActionSchema = z.object({

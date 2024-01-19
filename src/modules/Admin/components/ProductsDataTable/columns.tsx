@@ -3,16 +3,17 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Product } from "@prisma/client";
+import { ProductStatus } from "@/constants/enum";
 
-const handleRewriteStatus = (status: string) => {
-  if (status === "active") return "Actif";
-  if (status === "draft") return "Brouillon";
+const handleRewriteStatus = (status: ProductStatus) => {
+  if (status === ProductStatus.ACTIVE) return "Actif";
+  if (status === ProductStatus.DRAFT) return "Brouillon";
   return "Actif";
 };
 
-const handleStyleStatus = (status: string) => {
-  if (status === "active") return "bg-green-100 text-green-800";
-  if (status === "draft") return "bg-red-100 text-red-800";
+const handleStyleStatus = (status: ProductStatus) => {
+  if (status === ProductStatus.ACTIVE) return "bg-green-100 text-green-800";
+  if (status === ProductStatus.DRAFT) return "bg-red-100 text-red-800";
   return "bg-green-100 text-green-800";
 };
 
@@ -48,10 +49,14 @@ export const productColumns: ColumnDef<Product>[] = [
 
       const statusClass = cn(
         "inline-flex items-center px-2.5 py-1.5 rounded text-xs font-medium",
-        handleStyleStatus(status),
+        handleStyleStatus(status as ProductStatus),
       );
 
-      return <span className={statusClass}>{handleRewriteStatus(status)}</span>;
+      return (
+        <span className={statusClass}>
+          {handleRewriteStatus(status as ProductStatus)}
+        </span>
+      );
     },
   },
   {
