@@ -26,7 +26,7 @@ import { InputForm } from "@/components/ui/input-form";
 import { cn } from "@/lib/utils";
 
 import type { CloudinaryResponse } from "@/lib/types";
-import type { ProductWithVariants } from "../../services/productQuery";
+import type { ProductWithVariants } from "../../services/productService";
 
 type Props = {
   product?: ProductWithVariants;

@@ -3,10 +3,10 @@ import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
 import { ADD_PRODUCT_URL } from "@/constants/urls";
 import { ProductProvider } from "@/modules/Admin/context/useProductContext";
 import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";
-import ProductQuery from "@/modules/Admin/services/productQuery";
+import ProductService from "@/modules/Admin/services/productService";
 
 export default async function ProductPage() {
-  const products = await ProductQuery.updatedProducts();
+  const products = await ProductService.updatedProducts();
 
   return (
     <>

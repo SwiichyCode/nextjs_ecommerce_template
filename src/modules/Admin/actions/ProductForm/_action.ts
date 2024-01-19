@@ -6,12 +6,12 @@ import {
   productActionSchema,
   updateProductActionSchema,
 } from "../action_schema";
-import ProductQuery from "@/modules/Admin/services/productQuery";
+import ProductService from "@/modules/Admin/services/productService";
 import { PRODUCT_URL } from "@/constants/urls";
 
 export const addProduct = adminAction(productActionSchema, async (data) => {
   try {
-    await ProductQuery.createProduct(data);
+    await ProductService.createProduct(data);
   } catch (error) {
     if (error instanceof Error) return { error: error.message };
   }
@@ -24,7 +24,7 @@ export const updateProduct = adminAction(
   updateProductActionSchema,
   async (data) => {
     try {
-      await ProductQuery.updateProduct(data);
+      await ProductService.updateProduct(data);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }

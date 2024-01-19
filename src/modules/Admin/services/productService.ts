@@ -10,7 +10,7 @@ import type { Product } from "@prisma/client";
 
 type ResolvedType<T> = T extends Promise<infer R> ? R : never;
 
-class ProductQuery {
+class ProductService {
   static async findProducts() {
     const products = await db.product.findMany();
     return products;
@@ -154,7 +154,7 @@ class ProductQuery {
 }
 
 export type ProductWithVariants = ResolvedType<
-  ReturnType<typeof ProductQuery.findProduct>
+  ReturnType<typeof ProductService.findProduct>
 >;
 
-export default ProductQuery;
+export default ProductService;

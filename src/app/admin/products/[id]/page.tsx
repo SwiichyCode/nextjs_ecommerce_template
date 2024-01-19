@@ -3,14 +3,14 @@ import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack"
 import { ProductForm } from "@/modules/Admin/actions/ProductForm";
 import { ProductDeleteForm } from "@/modules/Admin/actions/ProductDeleteForm";
 import { ProductStatusForm } from "@/modules/Admin/actions/ProductStatusForm";
-import ProductQuery from "@/modules/Admin/services/productQuery";
+import ProductService from "@/modules/Admin/services/productService";
 
 export default async function EditProductPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const product = await ProductQuery.findProduct({ id: params.id });
+  const product = await ProductService.findProduct({ id: params.id });
 
   return (
     <>
