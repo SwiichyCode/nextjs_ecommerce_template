@@ -85,6 +85,7 @@ model Product {
     status      Status    @default(active)
     variants    Variant[]
     slug        String
+    createdAt   DateTime  @default(now())
 }
 
 model Variant {

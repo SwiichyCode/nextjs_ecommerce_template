@@ -6,7 +6,9 @@ import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
 
 export default async function ShopPage() {
   const session = await getServerAuthSession();
-  const products = await db.product.findMany();
+  const products = await db.product.findMany({
+    orderBy: { id: "desc" },
+  });
 
   return (
     <>
