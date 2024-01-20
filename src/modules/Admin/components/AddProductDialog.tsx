@@ -18,7 +18,7 @@ export const AddProductDialog = () => {
     <Dialog open={isOpenDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button className="gap-2">
-          <Image src="/plus.svg" width={12} height={12} alt="" />
+          <Image src="/icons/plus.svg" width={12} height={12} alt="" />
           Ajouter un produit
         </Button>
       </DialogTrigger>

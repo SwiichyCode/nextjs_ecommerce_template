@@ -7,7 +7,7 @@ export const AdminLogo = () => {
     <div className="py-4">
       <Link href={ADMIN_URL}>
         <Image
-          src="/strapi.svg"
+          src="/icons/strapi.svg"
           width={40}
           height={40}
           alt="logo"
