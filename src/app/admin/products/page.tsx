@@ -5,6 +5,8 @@ import { ProductProvider } from "@/modules/Admin/context/useProductContext";
 import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";
 import ProductService from "@/modules/Admin/services/productService";
 
+export const revalidate = 10;
+
 export default async function ProductPage() {
   const products = await ProductService.updatedProducts();
 
