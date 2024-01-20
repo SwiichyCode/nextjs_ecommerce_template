@@ -31,6 +31,7 @@ export async function POST(req: Request) {
 
       await CheckoutService.createOrder(
         checkout_session.userId,
+        checkout_session.sessionId,
         checkout_session.productIds,
         checkout_session.quantities,
       );

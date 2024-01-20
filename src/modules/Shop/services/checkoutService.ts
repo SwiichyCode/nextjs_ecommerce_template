@@ -21,12 +21,14 @@ class CheckoutService {
 
   static async createOrder(
     userId: string,
+    sessionId: string,
     productIds: number[],
     quantities: number[],
   ) {
     await db.order.create({
       data: {
         userId,
+        sessionId,
         productIds,
         quantities,
       },

@@ -121,6 +121,7 @@ model CheckoutSession {
 model Order {
     id         Int         @id @default(autoincrement())
     userId     String
+    sessionId  String
     user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     productIds Int[]
     quantities Int[]

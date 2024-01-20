@@ -29,7 +29,9 @@ export const POST = async (request: Request) => {
       ),
     },
     expires_at: Math.floor(Date.now() / 1000) + 60 * 30,
-    success_url: env.NEXT_PUBLIC_STRIPE_SUCCESS_URL,
+
+    success_url:
+      env.NEXT_PUBLIC_STRIPE_SUCCESS_URL + "?session_id={CHECKOUT_SESSION_ID}",
     cancel_url: env.NEXT_PUBLIC_STRIPE_CANCEL_URL,
   });
 
