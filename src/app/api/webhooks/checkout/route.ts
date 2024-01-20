@@ -15,6 +15,8 @@ export async function POST(req: Request) {
     const signature = headers().get("stripe-signature")!;
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
+    console.log("event", event);
+
     if (event.type === "checkout.session.completed") {
       await CheckoutService.processCheckoutSession(event.data.object.id);
 

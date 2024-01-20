@@ -15,12 +15,12 @@ export default function OrderSummaries({ products }: Props) {
     .toFixed(2);
 
   return (
-    <main className="max-h-screen overflow-hidden">
+    <main className="max-h-screen overflow-scroll">
       <div className="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
         <Image
           src="/images/confirmation-page-06-hero.jpg"
-          width={500}
-          height={500}
+          width={1900}
+          height={1900}
           alt="TODO"
           className="h-full w-full object-cover object-center"
         />
