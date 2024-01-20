@@ -16,16 +16,17 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      // Customer Detail Information
-      // console.log(event.data.object.customer_details?.name);
-      // console.log(event.data.object.customer_details?.address);
-      await CheckoutService.processCheckoutSession({
-        sessionId: event.data.object.id,
-        customer_name: event.data.object.customer_details?.name!,
-        customer_address: event.data.object.customer_details?.address!,
-      });
+      const session = event.data.object;
+      const customerDetails = session.customer_details;
 
-      event.data.object.customer_details?.address;
+      // Fix case if not a physical product
+      if (customerDetails?.name && customerDetails?.address) {
+        await CheckoutService.processCheckoutSession({
+          sessionId: session.id,
+          customer_name: customerDetails.name,
+          customer_address: customerDetails.address,
+        });
+      }
 
       const customerEmail = event.data.object.customer_details?.email;
       await MailingService.sendOrderConfirmationEmail(customerEmail!);
