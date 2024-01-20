@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import Stripe from "stripe";
 
 class CheckoutService {
   static async createCheckoutSession(
@@ -24,6 +25,7 @@ class CheckoutService {
     sessionId: string,
     productIds: number[],
     quantities: number[],
+    customerInformationId: number,
   ) {
     await db.order.create({
       data: {
@@ -31,6 +33,7 @@ class CheckoutService {
         sessionId,
         productIds,
         quantities,
+        customerInformationId,
       },
     });
   }
@@ -127,18 +130,39 @@ class CheckoutService {
     return products;
   }
 
-  static async processCheckoutSession(sessionId: string) {
+  static async processCheckoutSession({
+    sessionId,
+    customer_name,
+    customer_address,
+  }: {
+    sessionId: string;
+    customer_name: string;
+    customer_address?: Stripe.Address;
+  }) {
     const checkout_session = await this.findCheckoutSession(sessionId);
 
     if (!checkout_session) {
       throw new Error("checkout_session is not defined");
     }
 
+    const customer_information = await db.customerInformation.create({
+      data: {
+        name: customer_name,
+        addressLine1: customer_address?.line1!,
+        addressLine2: customer_address?.line2!,
+        city: customer_address?.city!,
+        state: customer_address?.state!,
+        postalCode: customer_address?.postal_code!,
+        country: customer_address?.country!,
+      },
+    });
+
     await this.createOrder(
       checkout_session.userId,
       checkout_session.sessionId,
       checkout_session.productIds,
       checkout_session.quantities,
+      customer_information.id,
     );
 
     await this.updateProductStock(
