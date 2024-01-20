@@ -6,9 +6,9 @@ export default async function SuccessPage({
 }: {
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const products = await CheckoutService.getProductsFromOrder(
+  const { products, order } = await CheckoutService.getOrderInformations(
     searchParams?.session_id as string,
   );
 
-  return <OrderSummaries products={products} />;
+  return <OrderSummaries products={products} order={order} />;
 }

@@ -1,13 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SHOP_URL } from "@/constants/urls";
-import type { Product } from "@prisma/client";
+import type { CustomerInformation, Order, Product } from "@prisma/client";
+
+interface OrderWithCustomerInformation extends Order {
+  customerInformation: CustomerInformation;
+}
 
 type Props = {
   products: Product[];
+  order: OrderWithCustomerInformation | null;
 };
 
-export default function OrderSummaries({ products }: Props) {
+export default function OrderSummaries({ products, order }: Props) {
   const subtotal = products
     .reduce((acc, product) => {
       return acc + product.price;
@@ -15,7 +20,7 @@ export default function OrderSummaries({ products }: Props) {
     .toFixed(2);
 
   return (
-    <main className="max-h-screen overflow-scroll">
+    <main className="max-h-screen overflow-y-scroll">
       <div className="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
         <Image
           src="/images/confirmation-page-06-hero.jpg"
@@ -99,9 +104,26 @@ export default function OrderSummaries({ products }: Props) {
                 <dt className="font-medium text-gray-900">Shipping Address</dt>
                 <dd className="mt-2">
                   <address className="not-italic">
-                    <span className="block">Kristin Watson</span>
-                    <span className="block">7363 Cynthia Pass</span>
-                    <span className="block">Toronto, ON N3Y 4H8</span>
+                    <span className="block">
+                      {order?.customerInformation.name}
+                    </span>
+                    <span className="block">
+                      {order?.customerInformation.addressLine1
+                        ? order?.customerInformation.addressLine1
+                        : "7363 Cynthia Pass"}
+                    </span>
+                    <span className="block">
+                      {order?.customerInformation.city
+                        ? order?.customerInformation.city
+                        : "Toronto"}
+                      ,{" "}
+                      {order?.customerInformation.state
+                        ? order?.customerInformation.state
+                        : "ON"}{" "}
+                      {order?.customerInformation.postalCode
+                        ? order?.customerInformation.postalCode
+                        : "N3Y 4H8"}
+                    </span>
                   </address>
                 </dd>
               </div>

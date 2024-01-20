@@ -112,10 +112,14 @@ class CheckoutService {
     );
   }
 
-  static async getProductsFromOrder(sessionId: string) {
+  static async getOrderInformations(sessionId: string) {
     const order = await db.order.findFirst({
       where: {
         sessionId: sessionId,
+      },
+
+      include: {
+        customerInformation: true,
       },
     });
 
@@ -127,7 +131,7 @@ class CheckoutService {
       },
     });
 
-    return products;
+    return { products, order };
   }
 
   static async processCheckoutSession({
