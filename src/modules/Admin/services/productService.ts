@@ -32,6 +32,7 @@ class ProductService {
   }
 
   static async updatedProducts() {
+    debugger;
     const products = await db.product.findMany();
     const checkoutSessions = await db.checkoutSession.findMany();
 

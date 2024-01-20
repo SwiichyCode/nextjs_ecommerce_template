@@ -24,14 +24,14 @@ export async function POST(req: Request) {
         throw new Error("checkout_session is not defined");
       }
 
-      await CheckoutService.updateProductStock(
+      await CheckoutService.createOrder(
+        checkout_session.userId,
+        checkout_session.sessionId,
         checkout_session.productIds,
         checkout_session.quantities,
       );
 
-      await CheckoutService.createOrder(
-        checkout_session.userId,
-        checkout_session.sessionId,
+      await CheckoutService.updateProductStock(
         checkout_session.productIds,
         checkout_session.quantities,
       );
