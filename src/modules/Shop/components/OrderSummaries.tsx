@@ -1,19 +1,16 @@
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$36.00",
-    color: "Charcoal",
-    size: "L",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg",
-    imageAlt: "Model wearing men's charcoal basic tee in large.",
-  },
-  // More products...
-];
+import { Product } from "@prisma/client";
 
-export default function OrderSummaries() {
+type Props = {
+  products: Product[];
+};
+
+export default function OrderSummaries({ products }: Props) {
+  const subtotal = products
+    .reduce((acc, product) => {
+      return acc + product.price;
+    }, 0)
+    .toFixed(2);
+
   return (
     <main className="max-h-screen overflow-hidden">
       <div className="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
@@ -50,19 +47,19 @@ export default function OrderSummaries() {
               {products.map((product) => (
                 <li key={product.id} className="flex space-x-6 py-6">
                   <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
+                    src={product.pictures[0]}
+                    // alt={product.imageAlt}
                     className="h-24 w-24 flex-none rounded-md bg-gray-100 object-cover object-center"
                   />
                   <div className="flex-auto space-y-1">
                     <h3 className="text-gray-900">
-                      <a href={product.href}>{product.name}</a>
+                      <a href={product.slug}>{product.name}</a>
                     </h3>
-                    <p>{product.color}</p>
-                    <p>{product.size}</p>
+                    {/* <p>{product.color}</p>
+                    <p>{product.size}</p> */}
                   </div>
                   <p className="flex-none font-medium text-gray-900">
-                    {product.price}
+                    ${product.price}
                   </p>
                 </li>
               ))}
@@ -71,10 +68,10 @@ export default function OrderSummaries() {
             <dl className="space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">
               <div className="flex justify-between">
                 <dt>Subtotal</dt>
-                <dd className="text-gray-900">$72.00</dd>
+                <dd className="text-gray-900">${subtotal}</dd>
               </div>
 
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <dt>Shipping</dt>
                 <dd className="text-gray-900">$8.00</dd>
               </div>
@@ -82,11 +79,11 @@ export default function OrderSummaries() {
               <div className="flex justify-between">
                 <dt>Taxes</dt>
                 <dd className="text-gray-900">$6.40</dd>
-              </div>
+              </div> */}
 
               <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900">
                 <dt className="text-base">Total</dt>
-                <dd className="text-base">$86.40</dd>
+                <dd className="text-base">${subtotal}</dd>
               </div>
             </dl>
 

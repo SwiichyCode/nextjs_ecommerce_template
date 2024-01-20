@@ -108,6 +108,24 @@ class CheckoutService {
       ),
     );
   }
+
+  static async getProductsFromOrder(sessionId: string) {
+    const order = await db.order.findFirst({
+      where: {
+        sessionId: sessionId,
+      },
+    });
+
+    const products = await db.product.findMany({
+      where: {
+        id: {
+          in: order?.productIds.map((product) => product),
+        },
+      },
+    });
+
+    return products;
+  }
 }
 
 export default CheckoutService;
