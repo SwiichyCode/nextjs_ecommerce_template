@@ -29,6 +29,8 @@ export async function POST(req: Request) {
         checkout_session.quantities,
       );
 
+      await CheckoutService.removeCheckoutSession(event.data.object.id);
+
       await CheckoutService.createOrder(
         checkout_session.userId,
         checkout_session.sessionId,
