@@ -16,27 +16,7 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(body, signature, secret);
 
     if (event.type === "checkout.session.completed") {
-      const checkout_session = await CheckoutService.findCheckoutSession(
-        event.data.object.id,
-      );
-
-      if (!checkout_session) {
-        throw new Error("checkout_session is not defined");
-      }
-
-      await CheckoutService.createOrder(
-        checkout_session.userId,
-        checkout_session.sessionId,
-        checkout_session.productIds,
-        checkout_session.quantities,
-      );
-
-      await CheckoutService.updateProductStock(
-        checkout_session.productIds,
-        checkout_session.quantities,
-      );
-
-      await CheckoutService.removeCheckoutSession(event.data.object.id);
+      await CheckoutService.processCheckoutSession(event.data.object.id);
 
       const customerEmail = event.data.object.customer_details?.email;
       await MailingService.sendOrderConfirmationEmail(customerEmail!);

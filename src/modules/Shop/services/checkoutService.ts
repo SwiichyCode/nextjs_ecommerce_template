@@ -126,6 +126,28 @@ class CheckoutService {
 
     return products;
   }
+
+  static async processCheckoutSession(sessionId: string) {
+    const checkout_session = await this.findCheckoutSession(sessionId);
+
+    if (!checkout_session) {
+      throw new Error("checkout_session is not defined");
+    }
+
+    await this.createOrder(
+      checkout_session.userId,
+      checkout_session.sessionId,
+      checkout_session.productIds,
+      checkout_session.quantities,
+    );
+
+    await this.updateProductStock(
+      checkout_session.productIds,
+      checkout_session.quantities,
+    );
+
+    await this.removeCheckoutSession(sessionId);
+  }
 }
 
 export default CheckoutService;
