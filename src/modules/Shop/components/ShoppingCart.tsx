@@ -5,16 +5,39 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartState, useCartStore } from "../stores/useCartStore";
 import { checkoutSession } from "../services/checkoutSession";
+import type { Session } from "next-auth";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function ShoppingCart() {
+type Props = {
+  session: Session | null;
+};
+
+export default function ShoppingCart({ session }: Props) {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
+  const { toast } = useToast();
 
   const subtotal = cart
     .reduce((acc, product) => acc + product.price, 0)
     .toFixed(2);
 
   const handleCheckout = async () => {
+    if (!session) {
+      toast({
+        title: "You must be logged in to checkout",
+        description: "Please login or create an account to continue.",
+      });
+      return;
+    }
+
+    if (cart.length === 0) {
+      toast({
+        title: "Your cart is empty",
+        description: "Please add some products to your cart to continue.",
+      });
+      return;
+    }
+
     await checkoutSession(cart);
   };
 

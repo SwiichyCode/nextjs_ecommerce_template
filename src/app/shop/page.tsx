@@ -13,7 +13,7 @@ export default async function ShopPage() {
   return (
     <>
       <Header session={session} />
-      <ShoppingCart />
+      <ShoppingCart session={session} />
       <ProductList products={products} />
     </>
   );
