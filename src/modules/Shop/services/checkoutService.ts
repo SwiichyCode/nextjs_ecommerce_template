@@ -148,12 +148,12 @@ class CheckoutService {
     const customer_information = await db.customerInformation.create({
       data: {
         name: customer_name,
-        addressLine1: customer_address.line1 || "",
-        addressLine2: customer_address.line2 || "",
-        city: customer_address.city || "",
-        state: customer_address.state || "",
-        postalCode: customer_address.postal_code || "",
-        country: customer_address.country || "",
+        addressLine1: customer_address.line1! || "",
+        addressLine2: customer_address.line2! || "",
+        city: customer_address.city! || "",
+        state: customer_address.state! || "",
+        postalCode: customer_address.postal_code! || "",
+        country: customer_address.country! || "",
       },
     });
 
