@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
-import { uploadImagesWithCloudinary } from "../../services/uploadImagesWithCloudinary";
+import ImageService from "../../services/imageService";
 import { useImageChange } from "./useImageChange";
 import { useFileChange } from "./useFileChange";
 
@@ -95,7 +95,7 @@ export const ProductForm = ({ product, asEdit }: Props) => {
     startTransition(async () => {
       // This exemple using cloudinary storage to upload files
 
-      const response = await uploadImagesWithCloudinary(files);
+      const response = await ImageService.uploadImagesWithCloudinary(files);
       const imageUrls = response.map(
         (res: { data: CloudinaryResponse }) => res.data.secure_url,
       );

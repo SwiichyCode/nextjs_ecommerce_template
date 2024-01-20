@@ -3,9 +3,9 @@ import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { PRODUCT_URL } from "@/constants/urls";
-import { createCheckoutSession } from "@/modules/Shop/services/createCheckoutSession";
 import { getServerAuthSession } from "@/server/auth";
 import type { Products } from "@/lib/stripe";
+import CheckoutService from "@/modules/Shop/services/checkoutService";
 
 export const POST = async (request: Request) => {
   const { products } = (await request.json()) as { products: Products };
@@ -44,7 +44,7 @@ export const POST = async (request: Request) => {
 
   if (!user_session?.user) throw new Error("user is not defined");
 
-  await createCheckoutSession(
+  await CheckoutService.createCheckoutSession(
     checkout_session.id,
     user_session.user.id,
     checkout_session.url!,

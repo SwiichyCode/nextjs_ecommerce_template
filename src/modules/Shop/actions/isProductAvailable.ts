@@ -1,17 +1,16 @@
 "use server";
 
-import { db } from "@/server/db";
+import ProductService from "@/modules/Admin/services/productService";
 
 export const isProductAvailable = async (productId: number) => {
-  const product = await db.product.findUnique({
-    where: { id: productId },
-  });
+  const product = await ProductService.updatedProducts();
+  const currentProduct = product.find((p) => p.id === productId);
 
-  if (!product) {
+  if (!currentProduct) {
     throw new Error("product is not defined");
   }
 
-  const isAvailable = product.stock > 0;
+  const isAvailable = currentProduct.stock > 0;
 
   return isAvailable;
 };
