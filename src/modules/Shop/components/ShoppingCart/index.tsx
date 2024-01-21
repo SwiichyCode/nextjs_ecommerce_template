@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useTransition } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useCartState, useCartStore } from "../../stores/useCartStore";
 import { handleCheckoutSession } from "../../services/handleCheckoutSession";
@@ -18,25 +18,30 @@ export default function ShoppingCart({ session }: Props) {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
   const { toast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
-  const handleCheckout = async () => {
-    if (!session) {
-      toast({
-        title: "You must be logged in to checkout",
-        description: "Please login or create an account to continue.",
-      });
-      return;
-    }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    if (cart.length === 0) {
-      toast({
-        title: "Your cart is empty",
-        description: "Please add some products to your cart to continue.",
-      });
-      return;
-    }
+    startTransition(async () => {
+      if (!session) {
+        toast({
+          title: "You must be logged in to checkout",
+          description: "Please login or create an account to continue.",
+        });
+        return;
+      }
 
-    await handleCheckoutSession(cart);
+      if (cart.length === 0) {
+        toast({
+          title: "Your cart is empty",
+          description: "Please add some products to your cart to continue.",
+        });
+        return;
+      }
+
+      await handleCheckoutSession(cart);
+    });
   };
 
   return (
@@ -75,7 +80,8 @@ export default function ShoppingCart({ session }: Props) {
 
                     <ShoppingCartFooter
                       cart={cart}
-                      handleCheckout={handleCheckout}
+                      handleSubmit={handleSubmit}
+                      isPending={isPending}
                     />
                   </div>
                 </Dialog.Panel>
