@@ -5,8 +5,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartState, useCartStore } from "../stores/useCartStore";
 import { handleCheckoutSession } from "../services/handleCheckoutSession";
-import type { Session } from "next-auth";
 import { useToast } from "@/components/ui/use-toast";
+import { subtotal, formatPrice } from "@/lib/utils";
+import type { Session } from "next-auth";
 
 type Props = {
   session: Session | null;
@@ -16,10 +17,6 @@ export default function ShoppingCart({ session }: Props) {
   const { open, close } = useCartState();
   const { cart, remove } = useCartStore();
   const { toast } = useToast();
-
-  const subtotal = cart
-    .reduce((acc, product) => acc + product.price, 0)
-    .toFixed(2);
 
   const handleCheckout = async () => {
     if (!session) {
@@ -147,7 +144,7 @@ export default function ShoppingCart({ session }: Props) {
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
 
-                        <p>${subtotal}</p>
+                        <p>{formatPrice(subtotal(cart))}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
