@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useCartStore } from "../stores/useCartStore";
 import { SHOP_URL } from "@/constants/urls";
 import type { CustomerInformation, Order, Product } from "@prisma/client";
 
@@ -13,6 +14,8 @@ type Props = {
 };
 
 export default function OrderSummaries({ products, order }: Props) {
+  const { clear } = useCartStore();
+
   const subtotal = products
     .reduce((acc, product) => {
       return acc + product.price;
@@ -152,6 +155,7 @@ export default function OrderSummaries({ products, order }: Props) {
             <div className="mt-8 border-t border-gray-200 py-6 text-right">
               <Link
                 href={SHOP_URL}
+                onClick={clear}
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Continue Shopping
