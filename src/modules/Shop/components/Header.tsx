@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
-import { LoginLink } from "./LoginLink";
+import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
 import type { Session } from "next-auth";
 

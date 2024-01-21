@@ -6,7 +6,7 @@ type Props = {
   session: Session | null;
 };
 
-export const LoginLink = async ({ session }: Props) => {
+export const LoginLink = ({ session }: Props) => {
   return (
     <Link
       href={session ? "/api/auth/signout" : SHOP_LOGIN_URL}
