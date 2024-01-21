@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartState, useCartStore } from "../stores/useCartStore";
-import { checkoutSession } from "../services/checkoutSession";
+import { handleCheckoutSession } from "../services/handleCheckoutSession";
 import type { Session } from "next-auth";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -38,7 +38,7 @@ export default function ShoppingCart({ session }: Props) {
       return;
     }
 
-    await checkoutSession(cart);
+    await handleCheckoutSession(cart);
   };
 
   return (

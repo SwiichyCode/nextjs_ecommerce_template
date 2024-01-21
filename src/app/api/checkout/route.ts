@@ -39,20 +39,17 @@ export const POST = async (request: Request) => {
     throw new Error("session is not defined");
   }
 
-  const product_ids: number[] = JSON.parse(
-    checkout_session.metadata.product_id!,
-  );
-  const quantities: number[] = JSON.parse(checkout_session.metadata.quantity!);
-
   if (!user_session?.user) throw new Error("user is not defined");
 
-  await CheckoutService.createCheckoutSession(
-    checkout_session.id,
-    user_session.user.id,
-    checkout_session.url!,
-    product_ids,
-    quantities,
-  );
+  const checkout_data = {
+    sessionId: checkout_session.id,
+    userId: user_session.user.id,
+    sessionUrl: checkout_session.url!,
+    productIds: JSON.parse(checkout_session.metadata.product_id!),
+    quantities: JSON.parse(checkout_session.metadata.quantity!),
+  };
+
+  await CheckoutService.createCheckoutSession(checkout_data);
 
   revalidatePath(PRODUCT_URL);
 

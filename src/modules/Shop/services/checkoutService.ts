@@ -1,44 +1,42 @@
 import { db } from "@/server/db";
 import Stripe from "stripe";
 
+type ProductStock = {
+  productIds: number[];
+  quantities: number[];
+};
+
+type CreateCheckoutSessionType = ProductStock & {
+  sessionId: string;
+  userId: string;
+  sessionUrl: string;
+};
+
+type CreateOrderType = ProductStock & {
+  sessionId: string;
+  userId: string;
+  customerInformationId: number;
+};
+
 class CheckoutService {
   static async createCheckoutSession(
-    sessionId: string,
-    userId: string,
-    sessionUrl: string,
-    productIds: number[],
-    quantities: number[],
+    checkoutSessionData: CreateCheckoutSessionType,
   ) {
     await db.checkoutSession.create({
-      data: {
-        sessionId,
-        userId,
-        sessionUrl,
-        productIds,
-        quantities,
-      },
+      data: checkoutSessionData,
     });
   }
 
-  static async createOrder(
-    userId: string,
-    sessionId: string,
-    productIds: number[],
-    quantities: number[],
-    customerInformationId: number,
-  ) {
+  static async createOrder(orderData: CreateOrderType) {
     await db.order.create({
-      data: {
-        userId,
-        sessionId,
-        productIds,
-        quantities,
-        customerInformationId,
-      },
+      data: orderData,
     });
   }
 
   static async findCheckoutSession(sessionId: string) {
+    if (!sessionId) {
+      throw new Error("Session ID is required");
+    }
     const session = await db.checkoutSession.findUnique({
       where: {
         sessionId,
@@ -48,6 +46,10 @@ class CheckoutService {
   }
 
   static async removeCheckoutSession(sessionId: string) {
+    if (!sessionId) {
+      throw new Error("Session ID is required");
+    }
+
     await db.checkoutSession.delete({
       where: {
         sessionId,
@@ -59,12 +61,12 @@ class CheckoutService {
     product_ids: number[],
     quantities: number[],
   ) {
-    if (!Array.isArray(product_ids)) {
-      product_ids = [product_ids];
+    if (!Array.isArray(product_ids) || !Array.isArray(quantities)) {
+      throw new Error("Product IDs and quantities must be arrays");
     }
 
-    if (!Array.isArray(quantities)) {
-      quantities = [quantities];
+    if (product_ids.length !== quantities.length) {
+      throw new Error("Product IDs and quantities must have the same length");
     }
 
     const products = await db.product.findMany({
@@ -75,7 +77,7 @@ class CheckoutService {
       throw new Error("product not found");
     }
 
-    await Promise.all(
+    await db.$transaction(
       product_ids.map((product_id: number, i: number) =>
         db.product.update({
           where: { id: product_id },
@@ -86,12 +88,12 @@ class CheckoutService {
   }
 
   static async updateProductStock(product_ids: number[], quantities: number[]) {
-    if (!Array.isArray(product_ids)) {
-      product_ids = [product_ids];
+    if (!Array.isArray(product_ids) || !Array.isArray(quantities)) {
+      throw new Error("Product IDs and quantities must be arrays");
     }
 
-    if (!Array.isArray(quantities)) {
-      quantities = [quantities];
+    if (product_ids.length !== quantities.length) {
+      throw new Error("Product IDs and quantities must have the same length");
     }
 
     const products = await db.product.findMany({
@@ -102,7 +104,7 @@ class CheckoutService {
       throw new Error("product not found");
     }
 
-    await Promise.all(
+    await db.$transaction(
       product_ids.map((product_id: number, i: number) =>
         db.product.update({
           where: { id: product_id },
@@ -161,13 +163,15 @@ class CheckoutService {
       },
     });
 
-    await this.createOrder(
-      checkout_session.userId,
-      checkout_session.sessionId,
-      checkout_session.productIds,
-      checkout_session.quantities,
-      customer_information.id,
-    );
+    const order = {
+      sessionId: checkout_session.sessionId,
+      userId: checkout_session.userId,
+      productIds: checkout_session.productIds,
+      quantities: checkout_session.quantities,
+      customerInformationId: customer_information.id,
+    };
+
+    await this.createOrder(order);
 
     await this.updateProductStock(
       checkout_session.productIds,

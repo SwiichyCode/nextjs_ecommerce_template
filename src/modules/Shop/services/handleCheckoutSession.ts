@@ -22,7 +22,7 @@ type CheckoutResponse = {
   url: string;
 };
 
-export const checkoutSession = async (cart: ProductCart[]) => {
+export const handleCheckoutSession = async (cart: ProductCart[]) => {
   try {
     const products: CheckoutProduct[] = cart.map((product) => ({
       price_data: {
