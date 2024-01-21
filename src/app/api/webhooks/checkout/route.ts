@@ -6,6 +6,7 @@ import { stripe } from "@/lib/stripe";
 import { PRODUCT_URL } from "@/constants/urls";
 import CheckoutService from "@/modules/Shop/services/checkoutService";
 import MailingService from "@/modules/Shop/services/mailingService";
+import { Prisma } from "@prisma/client";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -50,14 +51,14 @@ export async function POST(req: Request) {
     revalidatePath(PRODUCT_URL);
 
     return NextResponse.json({ result: event, ok: true });
-  } catch (e) {
-    console.log(e);
-    return NextResponse.json(
-      {
-        message: "something went wrong",
-        ok: false,
-      },
-      { status: 500 },
-    );
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      return new NextResponse(JSON.stringify({ error: error.message }), {
+        status: 404,
+      });
+    }
+    return new NextResponse(JSON.stringify({ error: error }), {
+      status: 500,
+    });
   }
 }

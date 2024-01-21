@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 
 type ProductStock = {
   productIds: number[];
@@ -19,15 +19,25 @@ type CreateOrderType = ProductStock & {
 };
 
 class CheckoutService {
+  // createCheckoutSession.test.ts
   static async createCheckoutSession(
     checkoutSessionData: CreateCheckoutSessionType,
   ) {
+    if (!checkoutSessionData) {
+      throw new Error("checkoutSessionData is required");
+    }
+
     return await db.checkoutSession.create({
       data: checkoutSessionData,
     });
   }
 
+  //createOrder.test.ts
   static async createOrder(orderData: CreateOrderType) {
+    if (!orderData) {
+      throw new Error("orderData is required");
+    }
+
     return await db.order.create({
       data: orderData,
     });
