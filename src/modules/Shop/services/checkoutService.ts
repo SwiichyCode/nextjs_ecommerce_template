@@ -22,13 +22,13 @@ class CheckoutService {
   static async createCheckoutSession(
     checkoutSessionData: CreateCheckoutSessionType,
   ) {
-    await db.checkoutSession.create({
+    return await db.checkoutSession.create({
       data: checkoutSessionData,
     });
   }
 
   static async createOrder(orderData: CreateOrderType) {
-    await db.order.create({
+    return await db.order.create({
       data: orderData,
     });
   }
