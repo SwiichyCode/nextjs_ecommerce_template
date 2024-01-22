@@ -23,10 +23,6 @@ class CheckoutService {
   static async createCheckoutSession(
     checkoutSessionData: CreateCheckoutSessionType,
   ) {
-    if (!checkoutSessionData) {
-      throw new Error("checkoutSessionData is required");
-    }
-
     return await db.checkoutSession.create({
       data: checkoutSessionData,
     });

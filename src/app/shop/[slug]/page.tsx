@@ -1,4 +1,5 @@
 import { ProductOverview } from "@/modules/Shop/components/ProductOverview";
+import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 
 export default async function ProductPage({
@@ -6,9 +7,14 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await db.product.findMany({
+  const session = await getServerAuthSession();
+  const product = await db.product.findFirst({
     where: { slug: params.slug },
   });
 
-  return <ProductOverview product={product} />;
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
+  return <ProductOverview session={session} product={product} />;
 }

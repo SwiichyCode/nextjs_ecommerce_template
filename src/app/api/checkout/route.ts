@@ -4,8 +4,9 @@ import { PRODUCT_URL } from "@/constants/urls";
 import { getServerAuthSession } from "@/server/auth";
 import { createCheckoutSession } from "@/modules/Shop/services/createCheckoutSession";
 import CheckoutService from "@/modules/Shop/services/checkoutService";
-import type { Products } from "@/lib/stripe";
 import { Prisma } from "@prisma/client";
+import { UndefinedSessionMedataError } from "@/errors";
+import type { Products } from "@/lib/stripe";
 
 export const POST = async (request: Request) => {
   try {
@@ -17,7 +18,7 @@ export const POST = async (request: Request) => {
     const checkout_session = await createCheckoutSession(products);
 
     if (!checkout_session.metadata) {
-      throw new Error("session metadata is not defined");
+      throw new UndefinedSessionMedataError();
     }
 
     const checkout_data = {
@@ -40,8 +41,12 @@ export const POST = async (request: Request) => {
       });
     }
 
-    return new NextResponse(JSON.stringify({ error: error }), {
-      status: 500,
-    });
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    } else {
+      return new NextResponse(JSON.stringify({ error: "Unknown error" }), {
+        status: 500,
+      });
+    }
   }
 };

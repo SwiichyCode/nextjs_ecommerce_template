@@ -10,6 +10,8 @@ import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
 import type { Product } from "@prisma/client";
+import { Session } from "next-auth";
+import { addToCart } from "../actions/addToCart";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -18,11 +20,12 @@ function classNames(...classes: string[]) {
 }
 
 type Props = {
-  product: Product[];
+  session: Session | null;
+  product: Product;
 };
 
-export const ProductOverview = ({ product }: Props) => {
-  const { id, name, price, description, pictures } = product[0]!;
+export const ProductOverview = ({ session, product }: Props) => {
+  const { id, name, price, description, pictures } = product;
   const { add } = useCartStore();
   const { toast } = useToast();
 
@@ -46,7 +49,12 @@ export const ProductOverview = ({ product }: Props) => {
         return;
       }
 
-      add(product[0]!);
+      add(product);
+      await addToCart({
+        userId: session?.user.id ?? "",
+        productIds: [1],
+        quantities: [1],
+      });
 
       toast({
         title: "Product added to cart",
@@ -159,7 +167,7 @@ export const ProductOverview = ({ product }: Props) => {
         <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
             <Image
-              src={pictures[0] ?? ""}
+              src={pictures.at(0) ?? ""}
               width={500}
               height={500}
               alt=""
