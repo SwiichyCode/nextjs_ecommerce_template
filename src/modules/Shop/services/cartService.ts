@@ -22,6 +22,14 @@ class CartService {
   }
 
   // static async removeItemFromCart(userId: string, productId: number) {}
+
+  static async removeCart(userId: string) {
+    await db.cart.delete({
+      where: {
+        userId,
+      },
+    });
+  }
 }
 
 export default CartService;

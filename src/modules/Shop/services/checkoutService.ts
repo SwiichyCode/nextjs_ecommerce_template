@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
 import type { Product } from "@prisma/client";
 import type Stripe from "stripe";
+import CartService from "./cartService";
 
 type ProductStock = {
   productIds: number[];
@@ -186,6 +187,7 @@ class CheckoutService {
     );
 
     await this.removeCheckoutSession(sessionId);
+    await CartService.removeCart(checkout_session.userId);
   }
 
   static async summariesSubtotal(
