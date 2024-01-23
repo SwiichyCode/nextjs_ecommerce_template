@@ -7,9 +7,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
+import { getCartDetails } from "../utils/getCartDetails";
 import type { Session } from "next-auth";
-import { Cart } from "@prisma/client";
-import { getCartDetails } from "../utils/getQuantityOfItemInCart";
+import type { Cart } from "@prisma/client";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },

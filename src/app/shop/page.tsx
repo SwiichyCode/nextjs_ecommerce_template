@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
-import Header from "@/modules/Shop/components/Header";
+import CartService from "@/modules/Shop/services/cartService";
 import ProductList from "@/modules/Shop/components/ProductList";
 import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
 
@@ -11,14 +11,11 @@ export default async function ShopPage() {
   });
 
   const cart = session?.user?.id
-    ? await db.cart.findUnique({
-        where: { userId: session.user.id },
-      })
+    ? await CartService.getCart(session.user.id)
     : null;
 
   return (
     <>
-      <Header session={session} cart={cart} />
       <ShoppingCart session={session} cart={cart} products={products} />
       <ProductList products={products} />
     </>

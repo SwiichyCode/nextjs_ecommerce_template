@@ -1,4 +1,4 @@
-import { getCartDetails } from "./getQuantityOfItemInCart";
+import { getCartDetails } from "./getCartDetails";
 import type { Cart, Product } from "@prisma/client";
 
 interface ProductCart extends Product {

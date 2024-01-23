@@ -11,7 +11,8 @@ import { ShoppingCartHeading } from "./ShoppingCartHeading";
 import { transformCart } from "../../utils/transformCart";
 import type { Session } from "next-auth";
 import type { Cart, Product } from "@prisma/client";
-
+import { useOptimistic } from "react";
+import type { ProductCart } from "../../stores/useCartStore";
 type Props = {
   session: Session | null;
   cart: Cart | null;
@@ -23,6 +24,20 @@ export default function ShoppingCart({ session, cart, products }: Props) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const currentCart = transformCart(cart, products);
+
+  const [optimisticCart, setOptimisticCart] = useOptimistic(
+    currentCart,
+    (state, newCart: ProductCart[]) => {
+      const newCartIds = newCart.map((item) => item.id);
+      const stateIds = state.map((item) => item.id);
+
+      if (newCartIds.length > stateIds.length) {
+        return newCart;
+      }
+
+      return state.filter((item) => newCartIds.includes(item.id));
+    },
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,11 +94,14 @@ export default function ShoppingCart({ session, cart, products }: Props) {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <ShoppingCartHeading close={close} />
-                      <ShoppingCartProducts cart={currentCart} />
+                      <ShoppingCartProducts
+                        cart={optimisticCart}
+                        setOptimisticCart={setOptimisticCart}
+                      />
                     </div>
 
                     <ShoppingCartFooter
-                      cart={currentCart}
+                      cart={optimisticCart}
                       handleSubmit={handleSubmit}
                       isPending={isPending}
                     />

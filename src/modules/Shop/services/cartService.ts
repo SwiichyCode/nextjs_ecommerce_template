@@ -21,7 +21,36 @@ class CartService {
     });
   }
 
+  static async getCart(userId: string) {
+    return await db.cart.findUnique({
+      where: {
+        userId,
+      },
+    });
+  }
+
   // static async removeItemFromCart(userId: string, productId: number) {}
+
+  static async removeItemFromCart(userId: string, productId: number) {
+    const cart = await db.cart.findUnique({
+      where: {
+        userId,
+      },
+    });
+
+    if (!cart) return;
+
+    const productIds = cart.productIds.filter((id) => id !== productId);
+
+    await db.cart.update({
+      where: {
+        userId,
+      },
+      data: {
+        productIds,
+      },
+    });
+  }
 
   static async removeCart(userId: string) {
     await db.cart.delete({
