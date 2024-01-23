@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import type { Product } from "@prisma/client";
 import type Stripe from "stripe";
 
 type ProductStock = {
@@ -185,6 +186,36 @@ class CheckoutService {
     );
 
     await this.removeCheckoutSession(sessionId);
+  }
+
+  static async summariesSubtotal(
+    productIds: number[],
+    quantities: number[],
+  ): Promise<number> {
+    // Fetch the products from the database
+    const products = await db.product.findMany({
+      where: { id: { in: productIds } },
+    });
+
+    // Create a map of product id to product for quick lookup
+    const productMap = products.reduce(
+      (map, product) => {
+        map[product.id] = product;
+        return map;
+      },
+      {} as Record<number, Product>,
+    );
+
+    // Calculate the subtotal
+    let subtotal = 0;
+    for (let i = 0; i < productIds.length; i++) {
+      const product = productMap[productIds[i]!];
+      if (product) {
+        subtotal += product.price * quantities[i]!;
+      }
+    }
+
+    return subtotal;
   }
 }
 
