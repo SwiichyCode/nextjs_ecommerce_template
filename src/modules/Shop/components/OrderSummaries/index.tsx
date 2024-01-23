@@ -1,12 +1,11 @@
-import { db } from "@/server/db";
 import Image from "next/image";
 import { OrderSummariesRedirect } from "./OrderSummariesRedirect";
 import { OrderSummariesClient } from "./OrderSummariesClient";
 import { OrderSummariesSubtotal } from "./OrderSummariesSubtotal";
 import { OrderSummariesProduct } from "./OrderSummariesProduct";
 import { OrderSummariesHeading } from "./OrderSummariesHeading";
-import type { CustomerInformation, Order, Product } from "@prisma/client";
 import CheckoutService from "../../services/checkoutService";
+import type { CustomerInformation, Order, Product } from "@prisma/client";
 
 export interface OrderWithCustomerInformation extends Order {
   customerInformation: CustomerInformation;
@@ -19,8 +18,8 @@ type Props = {
 
 export default async function OrderSummaries({ products, order }: Props) {
   const subtotal = await CheckoutService.summariesSubtotal(
-    order?.productIds!,
-    order?.quantities!,
+    order?.productIds ?? [],
+    order?.quantities ?? [],
   );
   return (
     <main className="max-h-screen overflow-y-scroll">

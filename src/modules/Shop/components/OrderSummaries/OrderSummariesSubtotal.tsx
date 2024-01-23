@@ -1,8 +1,5 @@
-import type { Product } from "@prisma/client";
-// import { subtotal, formatPrice } from "@/lib/utils";
-
 import { formatPrice } from "../../utils/formatPrice";
-import { subTotal } from "../../utils/subTotal";
+
 type Props = {
   subtotal: number;
 };
