@@ -4,8 +4,6 @@ import Header from "@/modules/Shop/components/Header";
 import ProductList from "@/modules/Shop/components/ProductList";
 import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
 
-export const revalidate = 10;
-
 export default async function ShopPage() {
   const session = await getServerAuthSession();
   const products = await db.product.findMany({
@@ -20,7 +18,7 @@ export default async function ShopPage() {
 
   return (
     <>
-      <Header session={session} />
+      <Header session={session} cart={cart} />
       <ShoppingCart session={session} cart={cart} products={products} />
       <ProductList products={products} />
     </>

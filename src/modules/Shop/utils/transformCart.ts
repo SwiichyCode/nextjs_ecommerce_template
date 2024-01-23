@@ -1,4 +1,4 @@
-import { getQuantityOfItemInCart } from "./getQuantityOfItemInCart";
+import { getCartDetails } from "./getQuantityOfItemInCart";
 import type { Cart, Product } from "@prisma/client";
 
 interface ProductCart extends Product {
@@ -6,7 +6,7 @@ interface ProductCart extends Product {
 }
 
 export const transformCart = (cart: Cart | null, products: Product[]) => {
-  const quantities = getQuantityOfItemInCart(cart);
+  const { itemQuantities: quantities } = getCartDetails(cart);
 
   return products.reduce((acc: ProductCart[], product) => {
     if (cart?.productIds.includes(product.id)) {

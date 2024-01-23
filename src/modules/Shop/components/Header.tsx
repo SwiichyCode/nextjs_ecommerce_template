@@ -8,6 +8,8 @@ import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
 import type { Session } from "next-auth";
+import { Cart } from "@prisma/client";
+import { getCartDetails } from "../utils/getQuantityOfItemInCart";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },
@@ -16,10 +18,13 @@ const navigation = [
 
 type Props = {
   session: Session | null;
+  cart: Cart | null;
 };
 
-export default function Header({ session }: Props) {
+export default function Header({ session, cart }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { totalItems } = getCartDetails(cart);
 
   return (
     <header className="bg-white">
@@ -66,7 +71,7 @@ export default function Header({ session }: Props) {
           >
             Log in
           </Link> */}
-          <CartButton />
+          <CartButton cartCount={totalItems} />
           <LoginLink session={session} />
         </div>
         <div className="flex lg:hidden">
