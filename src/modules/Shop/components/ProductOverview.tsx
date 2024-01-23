@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useCartStore } from "../stores/useCartStore";
 import { useToast } from "@/components/ui/use-toast";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -26,7 +25,7 @@ type Props = {
 
 export const ProductOverview = ({ session, product }: Props) => {
   const { id, name, price, description, pictures } = product;
-  const { add } = useCartStore();
+
   const { toast } = useToast();
 
   const editor = useEditor({
@@ -49,7 +48,14 @@ export const ProductOverview = ({ session, product }: Props) => {
         return;
       }
 
-      add(product);
+      if (!session) {
+        toast({
+          title: "You are not logged in",
+          description: "Please log in to add this product to your cart.",
+        });
+        return;
+      }
+
       await addToCart({
         userId: session?.user.id ?? "",
         productIds: [id],
