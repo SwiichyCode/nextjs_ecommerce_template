@@ -8,4 +8,6 @@ type RemoveItemToCart = {
 export const removeItemFromCart = async ({
   userId,
   productId,
-}: RemoveItemToCart) => {};
+}: RemoveItemToCart) => {
+  return console.log("removeItemFromCart", { userId, productId });
+};

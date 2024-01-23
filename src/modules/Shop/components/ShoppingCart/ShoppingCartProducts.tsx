@@ -3,10 +3,10 @@ import type { ProductCart } from "../../stores/useCartStore";
 
 type Props = {
   cart: ProductCart[];
-  remove: (product: ProductCart) => void;
+  // remove?: (product: ProductCart) => void;
 };
 
-export const ShoppingCartProducts = ({ cart, remove }: Props) => {
+export const ShoppingCartProducts = ({ cart }: Props) => {
   return (
     <div className="mt-8">
       <div className="flow-root">
@@ -42,7 +42,7 @@ export const ShoppingCartProducts = ({ cart, remove }: Props) => {
                     <button
                       type="button"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
-                      onClick={() => remove(product)}
+                      // onClick={() => remove(product)}
                     >
                       Remove
                     </button>

@@ -1,4 +1,5 @@
-import { subtotal, formatPrice } from "@/lib/utils";
+import { formatPrice } from "../../utils/formatPrice";
+import { subTotal } from "../../utils/subTotal";
 import type { ProductCart } from "../../stores/useCartStore";
 
 type Props = {
@@ -12,13 +13,12 @@ export const ShoppingCartFooter = ({
   handleSubmit,
   isPending,
 }: Props) => {
-  console.log(isPending);
   return (
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
       <div className="flex justify-between text-base font-medium text-gray-900">
         <p>Subtotal</p>
 
-        <p>{formatPrice(subtotal(cart))}</p>
+        <p>{formatPrice(subTotal(cart))}</p>
       </div>
       <p className="mt-0.5 text-sm text-gray-500">
         Shipping and taxes calculated at checkout.

@@ -9,11 +9,14 @@ export default async function ShopPage() {
   const products = await db.product.findMany({
     orderBy: { id: "desc" },
   });
+  const cart = await db.cart.findFirst({
+    where: { userId: session?.user?.id },
+  });
 
   return (
     <>
       <Header session={session} />
-      <ShoppingCart session={session} />
+      <ShoppingCart session={session} cart={cart} products={products} />
       <ProductList products={products} />
     </>
   );

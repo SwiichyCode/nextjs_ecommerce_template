@@ -2,23 +2,27 @@
 
 import { Fragment, useTransition } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useCartState, useCartStore } from "../../stores/useCartStore";
+import { useCartState } from "../../stores/useCartStore";
 import { handleCheckoutSession } from "../../services/handleCheckoutSession";
 import { useToast } from "@/components/ui/use-toast";
 import { ShoppingCartFooter } from "./ShoppingCartFooter";
 import { ShoppingCartProducts } from "./ShoppingCartProducts";
 import { ShoppingCartHeading } from "./ShoppingCartHeading";
+import { transformCart } from "../../utils/transformCart";
 import type { Session } from "next-auth";
+import type { Cart, Product } from "@prisma/client";
 
 type Props = {
   session: Session | null;
+  cart: Cart | null;
+  products: Product[];
 };
 
-export default function ShoppingCart({ session }: Props) {
+export default function ShoppingCart({ session, cart, products }: Props) {
   const { open, close } = useCartState();
-  const { cart, remove } = useCartStore();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
+  const currentCart = transformCart(cart, products);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +36,7 @@ export default function ShoppingCart({ session }: Props) {
         return;
       }
 
-      if (cart.length === 0) {
+      if (currentCart.length === 0) {
         toast({
           title: "Your cart is empty",
           description: "Please add some products to your cart to continue.",
@@ -40,7 +44,7 @@ export default function ShoppingCart({ session }: Props) {
         return;
       }
 
-      await handleCheckoutSession(cart);
+      await handleCheckoutSession(currentCart);
     });
   };
 
@@ -75,11 +79,11 @@ export default function ShoppingCart({ session }: Props) {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <ShoppingCartHeading close={close} />
-                      <ShoppingCartProducts cart={cart} remove={remove} />
+                      <ShoppingCartProducts cart={currentCart} />
                     </div>
 
                     <ShoppingCartFooter
-                      cart={cart}
+                      cart={currentCart}
                       handleSubmit={handleSubmit}
                       isPending={isPending}
                     />

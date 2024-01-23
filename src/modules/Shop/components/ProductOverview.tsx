@@ -9,9 +9,9 @@ import { isProductAvailable } from "../actions/isProductAvailable";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
-import type { Product } from "@prisma/client";
-import { Session } from "next-auth";
 import { addToCart } from "../actions/addToCart";
+import type { Product } from "@prisma/client";
+import type { Session } from "next-auth";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -52,8 +52,7 @@ export const ProductOverview = ({ session, product }: Props) => {
       add(product);
       await addToCart({
         userId: session?.user.id ?? "",
-        productIds: [1],
-        quantities: [1],
+        productIds: [id],
       });
 
       toast({
