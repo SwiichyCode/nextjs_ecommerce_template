@@ -28,18 +28,18 @@ export default function ShoppingCart({ session, cart, products }: Props) {
     e.preventDefault();
 
     startTransition(async () => {
-      if (!session) {
-        toast({
-          title: "You must be logged in to checkout",
-          description: "Please login or create an account to continue.",
-        });
-        return;
-      }
-
       if (currentCart.length === 0) {
         toast({
           title: "Your cart is empty",
           description: "Please add some products to your cart to continue.",
+        });
+        return;
+      }
+
+      if (!session) {
+        toast({
+          title: "You must be logged in to checkout",
+          description: "Please login or create an account to continue.",
         });
         return;
       }

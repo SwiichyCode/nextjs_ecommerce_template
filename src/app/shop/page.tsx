@@ -4,14 +4,19 @@ import Header from "@/modules/Shop/components/Header";
 import ProductList from "@/modules/Shop/components/ProductList";
 import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
 
+export const revalidate = 10;
+
 export default async function ShopPage() {
   const session = await getServerAuthSession();
   const products = await db.product.findMany({
     orderBy: { id: "desc" },
   });
-  const cart = await db.cart.findFirst({
-    where: { userId: session?.user?.id },
-  });
+
+  const cart = session?.user?.id
+    ? await db.cart.findUnique({
+        where: { userId: session.user.id },
+      })
+    : null;
 
   return (
     <>
