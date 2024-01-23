@@ -4,46 +4,28 @@ import { Fragment, useTransition } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useCartState } from "../../stores/useCartStore";
 import { handleCheckoutSession } from "../../services/handleCheckoutSession";
+import { useCartContext } from "../CartContext";
 import { useToast } from "@/components/ui/use-toast";
 import { ShoppingCartFooter } from "./ShoppingCartFooter";
 import { ShoppingCartProducts } from "./ShoppingCartProducts";
 import { ShoppingCartHeading } from "./ShoppingCartHeading";
-import { transformCart } from "../../utils/transformCart";
 import type { Session } from "next-auth";
-import type { Cart, Product } from "@prisma/client";
-import { useOptimistic } from "react";
-import type { ProductCart } from "../../stores/useCartStore";
+
 type Props = {
   session: Session | null;
-  cart: Cart | null;
-  products: Product[];
 };
 
-export default function ShoppingCart({ session, cart, products }: Props) {
+export const ShoppingCart = ({ session }: Props) => {
   const { open, close } = useCartState();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const currentCart = transformCart(cart, products);
-
-  const [optimisticCart, setOptimisticCart] = useOptimistic(
-    currentCart,
-    (state, newCart: ProductCart[]) => {
-      const newCartIds = newCart.map((item) => item.id);
-      const stateIds = state.map((item) => item.id);
-
-      if (newCartIds.length > stateIds.length) {
-        return newCart;
-      }
-
-      return state.filter((item) => newCartIds.includes(item.id));
-    },
-  );
+  const [optimisticCart, setOptimisticCart] = useCartContext();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
-      if (currentCart.length === 0) {
+      if (optimisticCart.length === 0) {
         toast({
           title: "Your cart is empty",
           description: "Please add some products to your cart to continue.",
@@ -59,7 +41,7 @@ export default function ShoppingCart({ session, cart, products }: Props) {
         return;
       }
 
-      await handleCheckoutSession(currentCart);
+      await handleCheckoutSession(optimisticCart);
     });
   };
 
@@ -114,4 +96,4 @@ export default function ShoppingCart({ session, cart, products }: Props) {
       </Dialog>
     </Transition.Root>
   );
-}
+};

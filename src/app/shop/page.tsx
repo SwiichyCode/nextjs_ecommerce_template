@@ -1,8 +1,11 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
 import CartService from "@/modules/Shop/services/cartService";
+
 import ProductList from "@/modules/Shop/components/ProductList";
-import ShoppingCart from "@/modules/Shop/components/ShoppingCart";
+
+import { transformCart } from "@/modules/Shop/utils/transformCart";
+import { ContextOptimisticWrapper } from "@/modules/Shop/components/ContextOptimisticWrapper";
 
 export default async function ShopPage() {
   const session = await getServerAuthSession();
@@ -14,9 +17,11 @@ export default async function ShopPage() {
     ? await CartService.getCart(session.user.id)
     : null;
 
+  const currentCart = transformCart(cart, products);
+
   return (
     <>
-      <ShoppingCart session={session} cart={cart} products={products} />
+      <ContextOptimisticWrapper session={session} cart={currentCart} />
       <ProductList products={products} />
     </>
   );

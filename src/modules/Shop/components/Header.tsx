@@ -2,14 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCartContext } from "./CartContext";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
-import { getCartDetails } from "../utils/getCartDetails";
 import type { Session } from "next-auth";
-import type { Cart } from "@prisma/client";
+import type { ProductCart } from "../stores/useCartStore";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },
@@ -18,13 +18,15 @@ const navigation = [
 
 type Props = {
   session: Session | null;
-  cart: Cart | null;
 };
 
-export default function Header({ session, cart }: Props) {
+export const Header = ({ session }: Props) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const { totalItems } = getCartDetails(cart);
+  const [optimisticCart] = useCartContext();
+  const totalItems = optimisticCart.reduce(
+    (acc, item) => acc + item.quantity,
+    0,
+  );
 
   return (
     <header className="bg-white">
@@ -139,4 +141,4 @@ export default function Header({ session, cart }: Props) {
       </Dialog>
     </header>
   );
-}
+};
