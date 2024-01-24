@@ -2,52 +2,37 @@ import { db } from "@/server/db";
 
 type AddToCartType = {
   userId: string;
-  productIds: number[];
+  products: { productId: number; quantity: number }[];
 };
 
 class CartService {
-  static async addToCart({ userId, productIds }: AddToCartType) {
-    await db.cart.upsert({
+  static async addToCart({ userId, products }: AddToCartType) {
+    const cart = await db.cart.upsert({
       where: { userId: userId },
-      update: {
-        productIds: {
-          push: productIds,
-        },
-      },
+      update: {},
       create: {
         userId: userId,
-        productIds: productIds,
       },
     });
+
+    for (const product of products) {
+      await db.cartItem.create({
+        data: {
+          quantity: product.quantity,
+          productId: product.productId,
+          cartId: cart.id,
+        },
+      });
+    }
   }
 
-  static async getCart(userId: string) {
-    return await db.cart.findUnique({
+  static async removeCartItem(userId: string, productId: number) {
+    await db.cartItem.deleteMany({
       where: {
-        userId,
-      },
-    });
-  }
-
-  // static async removeItemFromCart(userId: string, productId: number) {}
-
-  static async removeItemFromCart(userId: string, productId: number) {
-    const cart = await db.cart.findUnique({
-      where: {
-        userId,
-      },
-    });
-
-    if (!cart) return;
-
-    const productIds = cart.productIds.filter((id) => id !== productId);
-
-    await db.cart.update({
-      where: {
-        userId,
-      },
-      data: {
-        productIds,
+        cart: {
+          userId,
+        },
+        productId,
       },
     });
   }

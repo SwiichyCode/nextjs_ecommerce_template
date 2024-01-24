@@ -58,7 +58,7 @@ export const ProductOverview = ({ session, product }: Props) => {
 
       await addToCart({
         userId: session?.user.id ?? "",
-        productIds: [id],
+        products: [{ productId: id, quantity: 1 }],
       });
 
       toast({

@@ -53,6 +53,14 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -69,34 +77,38 @@ model User {
 }
 
 model Cart {
-    id         Int      @id @default(autoincrement())
-    userId     String   @unique
-    productIds Int[]
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id        Int        @id @default(autoincrement())
+    userId    String     @unique
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    cartItems CartItem[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
+model CartItem {
+    id        Int      @id @default(autoincrement())
+    cartId    Int
+    productId Int
+    quantity  Int
+    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Product {
-    id          Int       @id @default(autoincrement())
+    id          Int        @id @default(autoincrement())
     name        String
     description String
     pictures    String[]
     price       Int
     stock       Int
     weight      Float
-    status      Status    @default(ACTIVE)
+    status      Status     @default(ACTIVE)
     variants    Variant[]
     slug        String
-    createdAt   DateTime  @default(now())
+    cartItems   CartItem[]
+    createdAt   DateTime   @default(now())
 }
 
 model Variant {

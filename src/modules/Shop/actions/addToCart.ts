@@ -5,14 +5,14 @@ import CartService from "../services/cartService";
 
 type AddToCartType = {
   userId: string;
-  productIds: number[];
+  products: { productId: number; quantity: number }[];
 };
 
-export const addToCart = async ({ userId, productIds }: AddToCartType) => {
+export const addToCart = async ({ userId, products }: AddToCartType) => {
   try {
     await CartService.addToCart({
       userId,
-      productIds,
+      products,
     });
   } catch (error) {
     if (error instanceof Error) return { error: error.message };

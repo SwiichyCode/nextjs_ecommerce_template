@@ -22,13 +22,11 @@ type Props = {
 
 export const Header = ({ session }: Props) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  //   const [optimisticCart] = useCartContext();
-  //   const totalItems = optimisticCart.reduce(
-  //     (acc, item) => acc + item.quantity,
-  //     0,
-  //   );
-
-  const totalItems = 0;
+  const [optimisticCart] = useCartContext();
+  const totalItems = optimisticCart.reduce(
+    (acc, item) => acc + item.quantity,
+    0,
+  );
 
   return (
     <header className="bg-white">
