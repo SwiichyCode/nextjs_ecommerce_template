@@ -1,5 +1,5 @@
-import { Header } from "@/modules/Admin/components/Header";
-import { ButtonLink } from "@/modules/Admin/components/ButtonLink";
+import { Header } from "@/modules/Admin/components/layouts/Header";
+import { ButtonLink } from "@/modules/Admin/components/common/ButtonLink";
 import { ADD_PRODUCT_URL } from "@/constants/urls";
 import { ProductProvider } from "@/modules/Admin/context/useProductContext";
 import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";

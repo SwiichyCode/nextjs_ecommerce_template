@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/server/db";
 import { adminAction } from "@/lib/safe-actions";
-import { updateUserRoleActionSchema } from "./_schema";
+import { updateUserRoleActionSchema } from "./updateuserrole.schema";
 import { USER_URL } from "@/constants/urls";
 import { Role } from "@/constants/enum";
 

@@ -13,8 +13,8 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DragAndDrop } from "./DragAndDropList";
-import { FileCard } from "./FileCard";
+import { DragAndDrop } from "../DragAndDropList";
+import { FileCard } from "../FileCard";
 
 interface FileFieldProps<FieldsType extends FieldValues> {
   direction?: "horizontal" | "vertical";

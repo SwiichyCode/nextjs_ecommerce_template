@@ -1,5 +1,5 @@
 import type * as z from "zod";
-import type { formProductSchema } from "../actions/ProductForm/_schema";
+import type { formProductSchema } from "@/modules/Admin/components/forms/product.schema";
 import {
   Dialog,
   DialogContent,

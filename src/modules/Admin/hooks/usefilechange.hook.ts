@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from "react";
-import type { ControllerRenderProps } from "react-hook-form";
 import type * as z from "zod";
-import type { formProductSchema } from "./_schema";
+import type { ControllerRenderProps } from "react-hook-form";
+import type { formProductSchema } from "../components/forms/product.schema";
 
 export const useFileChange = () => {
   const [files, setFiles] = useState<File[]>([]);

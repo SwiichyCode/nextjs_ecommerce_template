@@ -1,5 +1,5 @@
-import { Header } from "@/modules/Admin/components/Header";
-import { ButtonHistoryBack } from "@/modules/Admin/components/ButtonHistoryBack";
+import { Header } from "@/modules/Admin/components/layouts/Header";
+import { ButtonHistoryBack } from "@/modules/Admin/components/common/ButtonHistoryBack";
 
 export default function ImagesOptimizationPage() {
   return (

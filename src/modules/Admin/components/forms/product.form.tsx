@@ -6,16 +6,17 @@ import { useForm, useFieldArray } from "react-hook-form";
 import type * as z from "zod";
 
 import ImageService from "../../services/imageService";
-import { useImageChange } from "./useImageChange";
-import { useFileChange } from "./useFileChange";
+import { useImageChange } from "../../hooks/useimagechange.hook";
+import { useFileChange } from "../../hooks/usefilechange.hook";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
 import { useToast } from "@/components/ui/use-toast";
-import { formProductSchema } from "./_schema";
-import { addProduct, updateProduct } from "./_action";
-import { ControlledFileField } from "../../components/ControlledFileField";
-import { ControlledRichTextField } from "../../components/ControlledRichText";
+import { formProductSchema } from "./product.schema";
+import { addProduct } from "../../actions/product/addproduct.action";
+import { updateProduct } from "../../actions/product/updateproduct.action";
+import { ControlledFileField } from "../common/ControlledFileField";
+import { ControlledRichTextField } from "../common/ControlledRichText";
 import { Button } from "@/components/ui/button";
 import { ProductCardPreview } from "../../components/ProductCardPreview";
 

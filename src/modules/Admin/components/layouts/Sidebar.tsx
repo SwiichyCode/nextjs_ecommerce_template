@@ -1,4 +1,4 @@
-import { AdminLogo } from "./AdminLogo";
+import { AdminLogo } from "../common/AdminLogo";
 import { Navigation } from "./Navigation";
 
 export const Sidebar = () => {

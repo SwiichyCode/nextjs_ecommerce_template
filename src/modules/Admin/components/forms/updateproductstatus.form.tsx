@@ -1,9 +1,8 @@
 "use client";
+import type * as z from "zod";
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type * as z from "zod";
-
 import { useToast } from "@/components/ui/use-toast";
 import {
   Select,
@@ -12,7 +11,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
 import {
   Form,
   FormControl,
@@ -21,11 +19,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import type { Product } from "@prisma/client";
-import { formStatusSchema } from "./_schema";
+import { formStatusSchema } from "@/modules/Admin/components/forms/updateproductstatus.schema";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
-import { updateStatus } from "./_action";
+import { updateStatus } from "@/modules/Admin/actions/product/updateproductstatus.action";
+import type { Product } from "@prisma/client";
 
 type Props = {
   product: Product | null;

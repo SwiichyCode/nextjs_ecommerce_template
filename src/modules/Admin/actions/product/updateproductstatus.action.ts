@@ -1,21 +1,19 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { adminAction } from "@/lib/safe-actions";
-import { deleteProductActionSchema } from "../action_schema";
+import { updateProductStatusActionSchema } from "./updateproductstatus.schema";
 import ProductService from "../../services/productService";
 import { PRODUCT_URL } from "@/constants/urls";
 
-export const deleteProduct = adminAction(
-  deleteProductActionSchema,
+export const updateStatus = adminAction(
+  updateProductStatusActionSchema,
   async (data) => {
     try {
-      await ProductService.deleteProduct(data);
+      await ProductService.updateProductStatus(data);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }
 
     revalidatePath(PRODUCT_URL);
-    redirect(PRODUCT_URL);
   },
 );

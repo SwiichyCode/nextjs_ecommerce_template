@@ -3,14 +3,13 @@
 import React, { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { formSchema } from "./_schema";
-import type * as z from "zod";
-
 import { useToast } from "@/components/ui/use-toast";
 import { Form } from "@/components/ui/form";
-import { ControlledTextField } from "../../components/ControlledTextField";
+import { ControlledTextField } from "../common/ControlledTextField";
 import { SubmitButton } from "@/modules/Auth/components/SubmitButton";
-import { addAdmin } from "./_action";
+import { addAdmin } from "@/modules/Admin/actions/user/updateuserrole.action";
+import { formSchema } from "./updateuserrole.schema";
+import type * as z from "zod";
 
 export const RoleForm = () => {
   const [isPending, startTransition] = useTransition();

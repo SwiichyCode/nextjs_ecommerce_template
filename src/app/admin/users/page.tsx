@@ -1,5 +1,5 @@
-import { RoleForm } from "@/modules/Admin/actions/UserForm/RoleForm";
-import { Header } from "@/modules/Admin/components/Header";
+import { RoleForm } from "@/modules/Admin/components/forms/updateuserrole.form";
+import { Header } from "@/modules/Admin/components/layouts/Header";
 import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
 import { userColumns } from "@/modules/Admin/components/UsersDataTable/column";
 import { db } from "@/server/db";

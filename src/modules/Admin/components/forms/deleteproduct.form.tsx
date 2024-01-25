@@ -1,9 +1,9 @@
 "use client";
 import { useTransition, useState } from "react";
-import { deleteProduct } from "./_action";
+import { deleteProduct } from "@/modules/Admin/actions/product/deleteproduct.action";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { ControlledAlertDialog } from "../../components/ControlledAlertDialog";
+import { ControlledAlertDialog } from "../common/ControlledAlertDialog";
 
 type Props = {
   id: number;
