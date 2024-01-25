@@ -1,7 +1,6 @@
 import { formatPrice } from "../../utils/formatPrice";
 import { subTotal } from "../../utils/subTotal";
 import type { ProductCart } from "../../stores/useCartStore";
-import type { CartWithProduct } from ".";
 
 type Props = {
   cart: ProductCart[];

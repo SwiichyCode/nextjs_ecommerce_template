@@ -3,12 +3,12 @@
 import { Fragment, useTransition } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useCartState } from "../../stores/useCartStore";
-import { handleCheckoutSession } from "../../services/handleCheckoutSession";
+import { useCartContext } from "../CartContext";
 import { useToast } from "@/components/ui/use-toast";
+import { handleCheckoutSession } from "../../services/handleCheckoutSession";
 import { ShoppingCartFooter } from "./ShoppingCartFooter";
 import { ShoppingCartProducts } from "./ShoppingCartProducts";
 import { ShoppingCartHeading } from "./ShoppingCartHeading";
-import { transformCartData } from "../../utils/transformCartData";
 import type { Session } from "next-auth";
 import type { Cart, CartItem, Product } from "@prisma/client";
 
@@ -22,20 +22,19 @@ export interface CartWithProduct extends Cart {
 
 type Props = {
   session: Session | null;
-  cart: CartWithProduct[];
 };
 
-export const ShoppingCart = ({ session, cart }: Props) => {
+export const ShoppingCart = ({ session }: Props) => {
   const { open, close } = useCartState();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const currentCart = transformCartData(cart[0]?.cartItems || []);
+  const [optimisticCart, setOptimisticCart] = useCartContext();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
-      if (cart[0]?.cartItems.length === 0) {
+      if (optimisticCart.length === 0) {
         toast({
           title: "Your cart is empty",
           description: "Please add some products to your cart to continue.",
@@ -51,7 +50,7 @@ export const ShoppingCart = ({ session, cart }: Props) => {
         return;
       }
 
-      await handleCheckoutSession(currentCart);
+      await handleCheckoutSession(optimisticCart);
     });
   };
 
@@ -86,11 +85,14 @@ export const ShoppingCart = ({ session, cart }: Props) => {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <ShoppingCartHeading close={close} />
-                      <ShoppingCartProducts cart={cart} />
+                      <ShoppingCartProducts
+                        cart={optimisticCart}
+                        setOptimisticCart={setOptimisticCart}
+                      />
                     </div>
 
                     <ShoppingCartFooter
-                      cart={currentCart}
+                      cart={optimisticCart}
                       handleSubmit={handleSubmit}
                       isPending={isPending}
                     />

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTransition } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -25,8 +26,8 @@ type Props = {
 
 export const ProductOverview = ({ session, product }: Props) => {
   const { id, name, price, description, pictures } = product;
-
   const { toast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
   const editor = useEditor({
     extensions: [StarterKit.configure({})],
@@ -37,37 +38,39 @@ export const ProductOverview = ({ session, product }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const isAvailable = await isProductAvailable(id);
+    startTransition(async () => {
+      try {
+        const isAvailable = await isProductAvailable(id);
 
-      if (!isAvailable) {
+        if (!isAvailable) {
+          toast({
+            title: "Product is not available",
+            description: "Sorry, this product is not available at the moment.",
+          });
+          return;
+        }
+
+        if (!session) {
+          toast({
+            title: "You are not logged in",
+            description: "Please log in to add this product to your cart.",
+          });
+          return;
+        }
+
         toast({
-          title: "Product is not available",
-          description: "Sorry, this product is not available at the moment.",
+          title: "Product added to cart",
+          description: "Your product has been added to the cart.",
         });
-        return;
-      }
 
-      if (!session) {
-        toast({
-          title: "You are not logged in",
-          description: "Please log in to add this product to your cart.",
+        await addToCart({
+          userId: session?.user.id ?? "",
+          products: [{ productId: id, quantity: 1 }],
         });
-        return;
+      } catch (error) {
+        console.error(error);
       }
-
-      await addToCart({
-        userId: session?.user.id ?? "",
-        products: [{ productId: id, quantity: 1 }],
-      });
-
-      toast({
-        title: "Product added to cart",
-        description: "Your product has been added to the cart.",
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    });
   };
 
   return (

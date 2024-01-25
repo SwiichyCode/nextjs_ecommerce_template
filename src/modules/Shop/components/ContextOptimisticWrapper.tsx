@@ -1,6 +1,6 @@
 "use client";
-import { Header } from "@/modules/Shop/components/HeaderWithContext";
-import { ShoppingCart } from "@/modules/Shop/components/ShoppingCartWithContext";
+import { Header } from "@/modules/Shop/components/Header";
+import { ShoppingCart } from "@/modules/Shop/components/ShoppingCart";
 import type { Session } from "next-auth";
 import type { ProductCart } from "../stores/useCartStore";
 import { CartProvider } from "./CartContext";

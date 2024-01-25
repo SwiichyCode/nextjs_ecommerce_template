@@ -9,7 +9,6 @@ import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
 import type { Session } from "next-auth";
-import type { ProductCart } from "../stores/useCartStore";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },
@@ -22,13 +21,11 @@ type Props = {
 
 export const Header = ({ session }: Props) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  //   const [optimisticCart] = useCartContext();
-  //   const totalItems = optimisticCart.reduce(
-  //     (acc, item) => acc + item.quantity,
-  //     0,
-  //   );
-
-  const totalItems = 0;
+  const [optimisticCart] = useCartContext();
+  const totalItems = optimisticCart.reduce(
+    (acc, item) => acc + item.quantity,
+    0,
+  );
 
   return (
     <header className="bg-white">

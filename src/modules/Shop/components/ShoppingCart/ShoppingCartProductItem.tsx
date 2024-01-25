@@ -1,14 +1,20 @@
 import Image from "next/image";
-import type { CartItemWithProduct } from "@/modules/Shop/components/ShoppingCart";
 import { removeCartItem } from "../../actions/removeItemFromCart";
+import type { SetOptimisticCartFunction } from "../../hooks/useOptimisticCart";
+import type { ProductCart } from "../../stores/useCartStore";
 
 type Props = {
-  item: CartItemWithProduct;
+  item: ProductCart;
   quantity: number;
+  setOptimisticCart: SetOptimisticCartFunction;
 };
 
-export const ShoppingCartProductItem = ({ item, quantity }: Props) => {
-  const { id, pictures, slug, name, price } = item.product;
+export const ShoppingCartProductItem = ({
+  item,
+  quantity,
+  setOptimisticCart,
+}: Props) => {
+  const { id, pictures, slug, name, price } = item;
 
   return (
     <li key={id} className="flex py-6">
@@ -33,25 +39,24 @@ export const ShoppingCartProductItem = ({ item, quantity }: Props) => {
         <div className="flex flex-1 items-end justify-between text-sm">
           <p className="text-gray-500">Qty {quantity}</p>
 
-          {/* <form
-              className="flex"
-              action={async () => {
-                remove(product.id);
-                await removeItemFromCart({
-                  productId: product.id,
-                });
-              }}
+          <form
+            className="flex"
+            action={async () => {
+              // Set the optimistic cart state
+              setOptimisticCart({ action: "remove", product: item });
+              await removeCartItem(id);
+            }}
+          >
+            <button
+              type="submit"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+              // onClick={() => remove(product)}
             >
-              <button
-                type="submit"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-                // onClick={() => remove(product)}
-              >
-                Remove
-              </button>
-            </form> */}
+              Remove
+            </button>
+          </form>
 
-          <button
+          {/* <button
             type="button"
             onClick={async () => {
               await removeCartItem(id);
@@ -59,7 +64,7 @@ export const ShoppingCartProductItem = ({ item, quantity }: Props) => {
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
     </li>
