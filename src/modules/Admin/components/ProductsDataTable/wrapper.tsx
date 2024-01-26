@@ -11,6 +11,7 @@ export const ProductsDataTableWrapper = () => {
     <DataTable
       columns={productColumns}
       data={context!.optimisticProduct}
+      route={"products"}
       asRowLink
     />
   );

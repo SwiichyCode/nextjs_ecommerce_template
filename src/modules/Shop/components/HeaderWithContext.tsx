@@ -9,7 +9,6 @@ import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
 import { LoginLink } from "../../Auth/components/LoginLink";
 import { CartButton } from "./CartButton";
 import type { Session } from "next-auth";
-import type { ProductCart } from "../stores/useCartStore";
 
 const navigation = [
   { name: "Product", href: SHOP_URL },

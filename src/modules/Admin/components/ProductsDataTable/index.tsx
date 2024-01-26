@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -15,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +24,8 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   asRowLink?: boolean;
+  route?: string;
+  withPagination?: boolean;
 }
 
 type IDataWithId<TData> = TData & {
@@ -32,11 +36,14 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   asRowLink,
+  route,
+  withPagination,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   const router = useRouter();
@@ -44,7 +51,7 @@ export function DataTable<TData, TValue>({
   const handleRowClick = (id: string | number) => {
     if (!asRowLink) return;
 
-    router.push(`/admin/products/${id}`);
+    router.push(`/admin/${route}/${id}`);
   };
 
   return (
@@ -55,7 +62,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="first-of-type:pl-6">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -80,7 +87,10 @@ export function DataTable<TData, TValue>({
                 className={cn(asRowLink && "cursor-pointer")}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="font-semibold">
+                  <TableCell
+                    key={cell.id}
+                    className="font-semibold first-of-type:pl-6"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -95,6 +105,32 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      {withPagination && (
+        <div className="flex items-center justify-between space-x-2 border-t px-6 py-4">
+          <div className="text-sm">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <div className="flex gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

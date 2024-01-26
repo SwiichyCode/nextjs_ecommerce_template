@@ -2,8 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import { Navigation } from "./Navigation";
-import { ProductNavItems, UserNavItems } from "./data";
-import { ADMIN_URL, PRODUCT_URL, USER_URL } from "@/constants/urls";
+import { PaymentNavItems, ProductNavItems, UserNavItems } from "./data";
+import {
+  ADMIN_URL,
+  PRODUCT_URL,
+  USER_URL,
+  PAYMENT_URL,
+} from "@/constants/urls";
 
 export const SubNavigation = () => {
   const pathname = usePathname();
@@ -11,6 +16,7 @@ export const SubNavigation = () => {
   const handleTitleTransform = () => {
     if (pathname.startsWith(PRODUCT_URL)) return "Products";
     if (pathname.startsWith(USER_URL)) return "Users";
+    if (pathname.startsWith(ADMIN_URL)) return "Payments";
   };
 
   const handleNavigation = () => {
@@ -21,6 +27,11 @@ export const SubNavigation = () => {
 
     if (pathname.startsWith(USER_URL))
       return <Navigation navTitle="User management" navItems={UserNavItems} />;
+
+    if (pathname.startsWith(PAYMENT_URL))
+      return (
+        <Navigation navTitle="Payment management" navItems={PaymentNavItems} />
+      );
   };
 
   if (pathname === ADMIN_URL) return null;

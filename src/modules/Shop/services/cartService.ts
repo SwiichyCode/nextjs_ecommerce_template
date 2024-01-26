@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import type { z } from "zod";
-import { addProductActionSchema } from "../actions/cart/addproduct.schema";
+import type { addProductActionSchema } from "../actions/cart/addproduct.schema";
 
 class CartService {
   static async addToCart(data: z.infer<typeof addProductActionSchema>) {

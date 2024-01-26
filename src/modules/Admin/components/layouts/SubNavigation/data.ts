@@ -1,8 +1,4 @@
-import {
-  PRODUCT_URL,
-  ADD_PRODUCT_URL,
-  // IMAGES_OPTIMIZATION_URL,
-} from "@/constants/urls";
+import { PRODUCT_URL, ADD_PRODUCT_URL } from "@/constants/urls";
 
 export interface NavItemProps {
   name: string;
@@ -18,15 +14,18 @@ export const ProductNavItems = [
     name: "Add a product",
     path: ADD_PRODUCT_URL,
   },
-  // {
-  //   name: "Optimisation d'images",
-  //   path: IMAGES_OPTIMIZATION_URL,
-  // },
 ];
 
 export const UserNavItems = [
   {
     name: "Your users",
     path: "/admin/users",
+  },
+];
+
+export const PaymentNavItems = [
+  {
+    name: "Your payments",
+    path: "/admin/payments",
   },
 ];
