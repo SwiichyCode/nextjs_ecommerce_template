@@ -1,12 +1,11 @@
 import { db } from "@/server/db";
-
-type AddToCartType = {
-  userId: string;
-  products: { productId: number; quantity: number }[];
-};
+import type { z } from "zod";
+import { addProductActionSchema } from "../actions/cart/addproduct.schema";
 
 class CartService {
-  static async addToCart({ userId, products }: AddToCartType) {
+  static async addToCart(data: z.infer<typeof addProductActionSchema>) {
+    const { userId, products } = data;
+
     return db.$transaction(async (transaction) => {
       const cart = await transaction.cart.upsert({
         where: { userId: userId },

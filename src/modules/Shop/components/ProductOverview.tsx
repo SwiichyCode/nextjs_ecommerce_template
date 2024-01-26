@@ -9,7 +9,7 @@ import { isProductAvailable } from "../actions/isProductAvailable";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
-import { addToCart } from "../actions/addToCart";
+import { addProduct } from "../actions/cart/addproduct.action";
 import type { Product } from "@prisma/client";
 import type { Session } from "next-auth";
 
@@ -63,7 +63,7 @@ export const ProductOverview = ({ session, product }: Props) => {
           description: "Your product has been added to the cart.",
         });
 
-        await addToCart({
+        await addProduct({
           userId: session?.user.id ?? "",
           products: [{ productId: id, quantity: 1 }],
         });

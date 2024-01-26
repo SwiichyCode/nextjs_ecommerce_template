@@ -2,6 +2,7 @@ import Image from "next/image";
 import { removeCartItem } from "../../actions/removeItemFromCart";
 import type { SetOptimisticCartFunction } from "../../hooks/useOptimisticCart";
 import type { ProductCart } from "../../stores/useCartStore";
+import { removeProduct } from "../../actions/cart/removeproduct.action";
 
 type Props = {
   item: ProductCart;
@@ -44,7 +45,11 @@ export const ShoppingCartProductItem = ({
             action={async () => {
               // Set the optimistic cart state
               setOptimisticCart({ action: "remove", product: item });
-              await removeCartItem(id);
+              // await removeCartItem(id);
+
+              await removeProduct({
+                productId: id,
+              });
             }}
           >
             <button
