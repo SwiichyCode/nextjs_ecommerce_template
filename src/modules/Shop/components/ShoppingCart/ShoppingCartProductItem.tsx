@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { removeCartItem } from "../../actions/removeItemFromCart";
 import type { SetOptimisticCartFunction } from "../../hooks/useOptimisticCart";
 import type { ProductCart } from "../../stores/useCartStore";
 import { removeProduct } from "../../actions/cart/removeproduct.action";
