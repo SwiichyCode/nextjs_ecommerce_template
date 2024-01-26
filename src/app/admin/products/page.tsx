@@ -12,13 +12,13 @@ export default async function ProductPage() {
 
   return (
     <>
-      <Header>
+      {/* <Header>
         <div>
           <h1 className="text-3xl font-bold">Products</h1>
           <p>{products.length} available products</p>
         </div>
         <ButtonLink href={ADD_PRODUCT_URL} src="/icons/plus.svg" />
-      </Header>
+      </Header> */}
 
       <ProductProvider products={products}>
         <div className="mx-auto w-full max-w-5xl px-14">

@@ -1,13 +1,14 @@
-import React from "react";
+"use client";
 
-type Props = {
-  children: React.ReactNode;
-};
+import { usePathname } from "next/navigation";
 
-export const Header = ({ children }: Props) => {
+export const Header = () => {
+  const pathname = usePathname();
+  const lastElement = pathname.split("/").pop();
+
   return (
     <header className="container flex items-center justify-between px-14 py-9">
-      {children}
+      <h1 className="text-3xl font-bold capitalize">{lastElement}</h1>
     </header>
   );
 };
