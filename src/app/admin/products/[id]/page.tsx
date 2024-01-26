@@ -14,13 +14,13 @@ export default async function EditProductPage({
 
   return (
     <>
-      <Header>
+      {/* <Header>
         <div className="flex items-center gap-4">
           <ButtonHistoryBack withArrow />
           <h1 className="text-3xl font-bold">Edit your product</h1>
         </div>
         {product && <ProductDeleteForm id={product.id} />}
-      </Header>
+      </Header> */}
       <div className="container flex items-start justify-between px-14">
         <ProductForm product={product} asEdit />
         <ProductStatusForm product={product} />

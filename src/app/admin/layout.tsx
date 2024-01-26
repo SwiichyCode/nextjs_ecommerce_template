@@ -1,7 +1,5 @@
 import { Sidebar } from "@/modules/Admin/components/layouts/Sidebar";
 import { SubNavigation } from "@/modules/Admin/components/layouts/SubNavigation";
-import { Suspense } from "react";
-import Loading from "./loading";
 import { Header } from "@/modules/Admin/components/layouts/Header";
 
 type Props = {
