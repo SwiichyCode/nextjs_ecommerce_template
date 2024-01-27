@@ -1,7 +1,6 @@
 import { stripe } from "@/lib/stripe";
-import { paymentColumns } from "@/modules/Admin/components/PaymentsDataTable/columns";
-import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
-import { Header } from "@/modules/Admin/components/layouts/Header";
+import { PaymentsDataTable } from "@/modules/Admin/components/PaymentsDataTable";
+import { PaymentsTabs } from "@/modules/Admin/components/PaymentsTabs";
 
 export default async function PaymentsPage() {
   const payments = await stripe.paymentIntents.list({
@@ -10,13 +9,8 @@ export default async function PaymentsPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 px-14">
-      <DataTable
-        data={payments.data}
-        columns={paymentColumns}
-        asRowLink
-        route={"payments"}
-        withPagination
-      />
+      <PaymentsTabs />
+      <PaymentsDataTable payments={payments.data} />
     </div>
   );
 }
