@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import { ButtonHistoryBack } from "@/modules/Admin/components/common/ButtonHistoryBack";
 import { PropsWithChildren } from "react";
 import { cn } from "@/lib/utils";
+import { ButtonLink } from "../common/ButtonLink";
+import { ADD_PRODUCT_URL } from "@/constants/urls";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -24,6 +26,13 @@ export const Header = () => {
 
   const handleChildren = () => {
     switch (lastElement) {
+      case "products":
+        return (
+          <div className="flex w-full items-center justify-between">
+            <Title>Products</Title>
+            <ButtonLink href={ADD_PRODUCT_URL} src="/icons/plus.svg" />
+          </div>
+        );
       case "add":
         return (
           <TitleWrapper>
