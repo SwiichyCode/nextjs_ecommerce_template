@@ -27,10 +27,11 @@ export async function POST(req: Request) {
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
         await CheckoutService.processCheckoutSession({
-          sessionId: session.id,
-          paymentIntentId: session.payment_intent as string,
-          customer_name: customerDetails.name,
-          customer_address: customerDetails.address,
+          sessionId: session.id, // Session ID
+          paymentIntentId: session.payment_intent as string, // Payment intent ID
+          customer_name: customerDetails.name, // Customer name
+          customer_address: customerDetails.address, // Customer address
+          amount_total: session.amount_total!, // Order total amount
         });
       }
 

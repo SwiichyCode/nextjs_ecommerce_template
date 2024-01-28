@@ -134,11 +134,13 @@ class CheckoutService {
     paymentIntentId,
     customer_name,
     customer_address,
+    amount_total,
   }: {
     sessionId: string;
     paymentIntentId: string;
     customer_name: string;
     customer_address: Stripe.Address;
+    amount_total: number;
   }) {
     const checkout_session = await this.findCheckoutSession(sessionId);
 
@@ -163,9 +165,8 @@ class CheckoutService {
         sessionId: checkout_session.sessionId,
         userId: checkout_session.userId,
         paymentIntentId: paymentIntentId,
-        productIds: checkout_session.productIds,
-        quantities: checkout_session.quantities,
         customerInformationId: customer_information.id,
+        amountTotal: amount_total,
       },
     });
 

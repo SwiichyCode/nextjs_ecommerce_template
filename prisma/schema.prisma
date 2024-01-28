@@ -146,15 +146,14 @@ model Order {
     userId                String
     sessionId             String
     paymentIntentId       String              @unique
-    customerInformation   CustomerInformation @relation(fields: [customerInformationId], references: [id])
+    amountTotal           Int
     user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-    productIds            Int[]
-    quantities            Int[]
     status                OrderStatus         @default(PROCESSING)
+    customerInformationId Int
+    customerInformation   CustomerInformation @relation(fields: [customerInformationId], references: [id])
+    orderItem             OrderItem[]
     createdAt             DateTime            @default(now())
     updatedAt             DateTime            @updatedAt
-    customerInformationId Int
-    orderItem             OrderItem[]
 }
 
 model OrderItem {
