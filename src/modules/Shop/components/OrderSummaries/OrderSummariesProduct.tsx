@@ -1,22 +1,20 @@
 import Image from "next/image";
-import type { Product } from "@prisma/client";
+import type { OrderProduct } from "../../types/order.type";
 
 type Props = {
-  orderItems: {
-    product: Product;
-  }[];
+  currentOrder: OrderProduct[];
 };
 
-export const OrderSummariesProduct = ({ orderItems }: Props) => {
+export const OrderSummariesProduct = ({ currentOrder }: Props) => {
   return (
     <ul
       role="list"
       className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
     >
-      {orderItems.map((item) => (
-        <li key={item.product.id} className="flex space-x-6 py-6">
+      {currentOrder.map(({ id, pictures, slug, name, price, quantity }) => (
+        <li key={id} className="flex space-x-6 py-6">
           <Image
-            src={item.product.pictures[0]!}
+            src={pictures[0]!}
             width={100}
             height={100}
             alt="product-image"
@@ -24,11 +22,12 @@ export const OrderSummariesProduct = ({ orderItems }: Props) => {
           />
           <div className="flex-auto space-y-1">
             <h3 className="text-gray-900">
-              <a href={item.product.slug}>{item.product.name}</a>
+              <a href={slug}>{name}</a>
+              <span className="ml-4 text-gray-500">x{quantity}</span>
             </h3>
           </div>
           <p className="flex-none font-medium text-gray-900">
-            ${item.product.price}
+            ${price * quantity}
           </p>
         </li>
       ))}

@@ -25,29 +25,6 @@ class CheckoutService {
     });
   }
 
-  static async getOrder({
-    sessionId, // Use session ID for success page
-    paymentIntentId, // Use payment intent ID for admin payment page
-  }: {
-    sessionId?: string;
-    paymentIntentId?: string;
-  }) {
-    return await db.order.findFirst({
-      where: {
-        sessionId: sessionId ?? undefined, // Use session ID for success page
-        paymentIntentId: paymentIntentId ?? undefined, // Use payment intent ID for admin payment page
-      },
-      include: {
-        orderItem: {
-          include: {
-            product: true,
-          },
-        },
-        customerInformation: true,
-      },
-    });
-  }
-
   static async findCheckoutSession(sessionId: string) {
     if (!sessionId) {
       throw new Error("Session ID is required");
@@ -129,37 +106,27 @@ class CheckoutService {
     );
   }
 
-  static async getOrderInformations({
-    sessionId,
-    paymentIntentId,
+  static async getOrder({
+    sessionId, // Use session ID for success page
+    paymentIntentId, // Use payment intent ID for admin payment page
   }: {
     sessionId?: string;
     paymentIntentId?: string;
   }) {
-    const order = await db.order.findFirst({
+    return await db.order.findFirst({
       where: {
-        sessionId: sessionId ?? undefined,
-        paymentIntentId: paymentIntentId ?? undefined,
+        sessionId: sessionId ?? undefined, // Use session ID for success page
+        paymentIntentId: paymentIntentId ?? undefined, // Use payment intent ID for admin payment page
       },
-
       include: {
+        orderItem: {
+          include: {
+            product: true,
+          },
+        },
         customerInformation: true,
       },
     });
-
-    if (!order) {
-      throw new Error("order is not defined");
-    }
-
-    const products = await db.product.findMany({
-      where: {
-        id: {
-          in: order.productIds.map((product) => product),
-        },
-      },
-    });
-
-    return { products, order };
   }
 
   static async processCheckoutSession({
@@ -219,36 +186,6 @@ class CheckoutService {
 
     await this.removeCheckoutSession(sessionId);
     await CartService.removeCart(checkout_session.userId);
-  }
-
-  static async summariesSubtotal(
-    productIds: number[],
-    quantities: number[],
-  ): Promise<number> {
-    // Fetch the products from the database
-    const products = await db.product.findMany({
-      where: { id: { in: productIds } },
-    });
-
-    // Create a map of product id to product for quick lookup
-    const productMap = products.reduce(
-      (map, product) => {
-        map[product.id] = product;
-        return map;
-      },
-      {} as Record<number, Product>,
-    );
-
-    // Calculate the subtotal
-    let subtotal = 0;
-    for (let i = 0; i < productIds.length; i++) {
-      const product = productMap[productIds[i]!];
-      if (product) {
-        subtotal += product.price * quantities[i]!;
-      }
-    }
-
-    return subtotal;
   }
 }
 
