@@ -1,4 +1,4 @@
-import CheckoutService from "@/modules/Shop/services/checkoutService";
+import CheckoutService from "@/modules/Shop/services/checkout.service";
 import { prismaMock } from "../../singleton";
 
 enum OrderStatus {

@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { PRODUCT_URL } from "@/constants/urls";
-import CheckoutService from "@/modules/Shop/services/checkoutService";
-import MailingService from "@/modules/Shop/services/mailingService";
+import CheckoutService from "@/modules/Shop/services/checkout.service";
+import MailingService from "@/modules/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
 
 const secret = env.STRIPE_WEBHOOK_SECRET;

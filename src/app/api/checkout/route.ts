@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { PRODUCT_URL } from "@/constants/urls";
 import { getServerAuthSession } from "@/server/auth";
-import { createCheckoutSession } from "@/modules/Shop/services/createCheckoutSession";
-import CheckoutService from "@/modules/Shop/services/checkoutService";
+import StripeService from "@/modules/Shop/services/stripe.service";
+import CheckoutService from "@/modules/Shop/services/checkout.service";
 import { Prisma } from "@prisma/client";
 import { UndefinedSessionMedataError } from "@/errors";
 import type { Products } from "@/lib/stripe";
@@ -15,7 +15,8 @@ export const POST = async (request: Request) => {
 
     if (!user_session?.user) throw new Error("user is not defined");
 
-    const checkout_session = await createCheckoutSession(products);
+    const checkout_session =
+      await StripeService.createCheckoutSession(products);
 
     if (!checkout_session.metadata) {
       throw new UndefinedSessionMedataError();

@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import CartService from "./cartService";
+import CartService from "./cart.service";
 import type Stripe from "stripe";
 
 type ProductStock = {

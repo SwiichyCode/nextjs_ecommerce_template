@@ -5,10 +5,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useCartState } from "../../stores/useCartStore";
 import { useCartContext } from "../CartContext";
 import { useToast } from "@/components/ui/use-toast";
-import { handleCheckoutSession } from "../../services/handleCheckoutSession";
 import { ShoppingCartFooter } from "./ShoppingCartFooter";
 import { ShoppingCartProducts } from "./ShoppingCartProducts";
 import { ShoppingCartHeading } from "./ShoppingCartHeading";
+import StripeService from "../../services/stripe.service";
 import type { Session } from "next-auth";
 import type { Cart, CartItem, Product } from "@prisma/client";
 
@@ -50,7 +50,7 @@ export const ShoppingCart = ({ session }: Props) => {
         return;
       }
 
-      await handleCheckoutSession(optimisticCart);
+      await StripeService.handleCheckoutSession(optimisticCart);
     });
   };
 

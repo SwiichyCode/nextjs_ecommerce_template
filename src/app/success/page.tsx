@@ -1,5 +1,5 @@
 import OrderSummaries from "@/modules/Shop/components/OrderSummaries";
-import CheckoutService from "@/modules/Shop/services/checkoutService";
+import CheckoutService from "@/modules/Shop/services/checkout.service";
 import { StripeService } from "@/modules/Shop/services/stripe.service";
 
 export default async function SuccessPage({

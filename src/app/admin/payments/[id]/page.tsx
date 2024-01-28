@@ -1,5 +1,5 @@
 import { stripe } from "@/lib/stripe";
-import CheckoutService from "@/modules/Shop/services/checkoutService";
+import CheckoutService from "@/modules/Shop/services/checkout.service";
 
 export default async function PaymentPage({
   params,

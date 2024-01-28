@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import CartService from "@/modules/Shop/services/cartService";
+import CartService from "@/modules/Shop/services/cart.service";
 import { userAction } from "@/lib/safe-actions";
 import { addProductActionSchema } from "./addproduct.schema";
 
