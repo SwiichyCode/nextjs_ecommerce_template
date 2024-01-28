@@ -31,8 +31,6 @@ export const POST = async (request: Request) => {
       quantities: JSON.parse(checkout_session.metadata.quantity!),
     };
 
-    console.log(checkout_data);
-
     await CheckoutService.createCheckoutSession(checkout_data);
 
     revalidatePath(PRODUCT_URL);

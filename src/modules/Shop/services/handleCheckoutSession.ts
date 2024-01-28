@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { ProductCart } from "../stores/useCartStore";
 import { API_CHECKOUT_URL } from "@/constants/urls";
-import { Product } from "@prisma/client";
 
 type CheckoutProduct = {
   price_data: {

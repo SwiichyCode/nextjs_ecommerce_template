@@ -7,21 +7,17 @@ export const createCheckoutSession = async (products: Products) => {
     mode: "payment",
     payment_method_types: ["card", "paypal"],
     metadata: {
-      // product_id: JSON.stringify(
-      //   products.map(
-      //     (product) => product.price_data?.product_data?.metadata?.product_id,
-      //   ),
-      // ),
-      products: JSON.stringify(
+      product_id: JSON.stringify(
         products.map(
-          (product) => product.price_data?.product_data?.metadata?.product,
+          (product) => product.price_data?.product_data?.metadata?.product_id,
         ),
       ),
-      // quantity: JSON.stringify(
-      //   products.map(
-      //     (product) => product.price_data?.product_data?.metadata?.quantity,
-      //   ),
-      // ),
+
+      quantity: JSON.stringify(
+        products.map(
+          (product) => product.price_data?.product_data?.metadata?.quantity,
+        ),
+      ),
     },
     expires_at: Math.floor(Date.now() / 1000) + 60 * 30,
     success_url:
