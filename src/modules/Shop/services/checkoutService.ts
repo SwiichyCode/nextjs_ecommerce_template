@@ -1,7 +1,6 @@
 import { db } from "@/server/db";
-import type { Product } from "@prisma/client";
-import type Stripe from "stripe";
 import CartService from "./cartService";
+import type Stripe from "stripe";
 
 type ProductStock = {
   productIds: number[];

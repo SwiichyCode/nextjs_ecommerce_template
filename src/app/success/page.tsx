@@ -1,6 +1,6 @@
 import OrderSummaries from "@/modules/Shop/components/OrderSummaries";
 import CheckoutService from "@/modules/Shop/services/checkoutService";
-import { db } from "@/server/db";
+import { StripeService } from "@/modules/Shop/services/stripe.service";
 
 export default async function SuccessPage({
   searchParams,
@@ -16,5 +16,9 @@ export default async function SuccessPage({
     return <div>Order not found</div>;
   }
 
-  return <OrderSummaries order={order} />;
+  const paymentMethod = await StripeService.getPaymentMethod(
+    order.paymentIntentId,
+  );
+
+  return <OrderSummaries order={order} paymentMethod={paymentMethod} />;
 }

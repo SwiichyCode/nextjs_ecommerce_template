@@ -1,33 +1,34 @@
-import Image from "next/image";
-import type { OrderWithCustomerInformation } from "@/modules/Shop/types/order.type";
+import { PaymentMethodCard } from "../PaymentMethodCard";
+import type { CreditCard } from "@/modules/Shop/types/order.type";
+import type Stripe from "stripe";
 
 type Props = {
-  order: OrderWithCustomerInformation | null;
+  paymentMethod: Stripe.PaymentMethod;
 };
 
-export const OrderSummariesClient = ({ order }: Props) => {
+export const OrderSummariesClient = ({ paymentMethod }: Props) => {
   return (
     <dl className="mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600">
       <div>
         <dt className="font-medium text-gray-900">Shipping Address</dt>
         <dd className="mt-2">
           <address className="not-italic">
-            <span className="block">{order?.customerInformation.name}</span>
+            <span className="block">{paymentMethod.billing_details.name}</span>
             <span className="block">
-              {order?.customerInformation.addressLine1
-                ? order?.customerInformation.addressLine1
+              {paymentMethod.billing_details.address?.line1
+                ? paymentMethod.billing_details.address?.line1
                 : "7363 Cynthia Pass"}
             </span>
             <span className="block">
-              {order?.customerInformation.city
-                ? order?.customerInformation.city
+              {paymentMethod.billing_details.address?.city
+                ? paymentMethod.billing_details.address?.city
                 : "Toronto"}
               ,{" "}
-              {order?.customerInformation.state
-                ? order?.customerInformation.state
+              {paymentMethod.billing_details.address?.state
+                ? paymentMethod.billing_details.address?.state
                 : "ON"}{" "}
-              {order?.customerInformation.postalCode
-                ? order?.customerInformation.postalCode
+              {paymentMethod.billing_details.address?.postal_code
+                ? paymentMethod.billing_details.address?.postal_code
                 : "N3Y 4H8"}
             </span>
           </address>
@@ -36,19 +37,23 @@ export const OrderSummariesClient = ({ order }: Props) => {
       <div>
         <dt className="font-medium text-gray-900">Payment Information</dt>
         <dd className="mt-2 space-y-2 sm:flex sm:space-x-4 sm:space-y-0">
-          <div className="flex-none">
-            <Image
-              src="/icons/visa.svg"
-              width={36}
-              height={24}
-              alt="visa-card"
-            />
-            <p className="sr-only">Visa</p>
-          </div>
-          <div className="flex-auto">
-            <p className="text-gray-900">Ending with 4242</p>
-            <p>Expires 12 / 21</p>
-          </div>
+          {paymentMethod.card && (
+            <>
+              <PaymentMethodCard
+                card={paymentMethod.card.brand as CreditCard}
+              />
+              <div className="flex-auto">
+                <p className="text-gray-900">
+                  Ending with {paymentMethod.card.last4}
+                </p>
+                <p>
+                  Expires{" "}
+                  {paymentMethod.card.exp_month.toString().padStart(2, "0")} /
+                  {paymentMethod.card.exp_year.toString().slice(-2)}
+                </p>
+              </div>
+            </>
+          )}
         </dd>
       </div>
     </dl>

@@ -5,16 +5,18 @@ import { OrderSummariesSubtotal } from "./OrderSummariesSubtotal";
 import { OrderSummariesProduct } from "./OrderSummariesProduct";
 import { OrderSummariesHeading } from "./OrderSummariesHeading";
 import { transformOrderData } from "../../utils/transformOrderData";
-import { subTotal } from "../../utils/subTotal";
+import { formatPriceCents } from "../../utils/formatPrice";
 import type { OrderWithProduct } from "@/modules/Shop/types/order.type";
+import type Stripe from "stripe";
 
 type Props = {
   order: OrderWithProduct;
+  paymentMethod: Stripe.PaymentMethod;
 };
 
-export default async function OrderSummaries({ order }: Props) {
+export default async function OrderSummaries({ order, paymentMethod }: Props) {
   const currentOrder = transformOrderData(order);
-  const subtotal = subTotal(currentOrder);
+  const subtotal = formatPriceCents(order.amountTotal);
 
   return (
     <main className="max-h-screen overflow-y-scroll">
@@ -34,7 +36,7 @@ export default async function OrderSummaries({ order }: Props) {
             <OrderSummariesHeading />
             <OrderSummariesProduct currentOrder={currentOrder} />
             <OrderSummariesSubtotal subtotal={subtotal} />
-            <OrderSummariesClient order={order} />
+            <OrderSummariesClient paymentMethod={paymentMethod} />
             <OrderSummariesRedirect />
           </div>
         </div>
