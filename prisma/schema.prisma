@@ -97,18 +97,19 @@ model CartItem {
 }
 
 model Product {
-    id          Int        @id @default(autoincrement())
+    id          Int         @id @default(autoincrement())
     name        String
     description String
     pictures    String[]
     price       Int
     stock       Int
     weight      Float
-    status      Status     @default(ACTIVE)
+    status      Status      @default(ACTIVE)
     variants    Variant[]
     slug        String
     cartItems   CartItem[]
-    createdAt   DateTime   @default(now())
+    orders      OrderItem[]
+    createdAt   DateTime    @default(now())
 }
 
 model Variant {
@@ -153,6 +154,18 @@ model Order {
     createdAt             DateTime            @default(now())
     updatedAt             DateTime            @updatedAt
     customerInformationId Int
+    OrderItem             OrderItem[]
+}
+
+model OrderItem {
+    id        Int      @id @default(autoincrement())
+    orderId   Int
+    productId Int
+    quantity  Int
+    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model CustomerInformation {

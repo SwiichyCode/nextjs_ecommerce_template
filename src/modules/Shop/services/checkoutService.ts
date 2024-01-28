@@ -204,16 +204,37 @@ class CheckoutService {
       },
     });
 
-    const order = {
-      sessionId: checkout_session.sessionId,
-      userId: checkout_session.userId,
-      paymentIntentId: paymentIntentId,
-      productIds: checkout_session.productIds,
-      quantities: checkout_session.quantities,
-      customerInformationId: customer_information.id,
-    };
+    // const order = {
+    //   sessionId: checkout_session.sessionId,
+    //   userId: checkout_session.userId,
+    //   paymentIntentId: paymentIntentId,
+    //   productIds: checkout_session.productIds,
+    //   quantities: checkout_session.quantities,
+    //   customerInformationId: customer_information.id,
+    // };
 
-    await this.createOrder(order);
+    // await this.createOrder(order);
+
+    const order = await db.order.create({
+      data: {
+        sessionId: checkout_session.sessionId,
+        userId: checkout_session.userId,
+        paymentIntentId: paymentIntentId,
+        productIds: checkout_session.productIds,
+        quantities: checkout_session.quantities,
+        customerInformationId: customer_information.id,
+      },
+    });
+
+    for (let i = 0; i < checkout_session.productIds.length; i++) {
+      await db.orderItem.create({
+        data: {
+          orderId: order.id,
+          productId: checkout_session.productIds[i]!,
+          quantity: checkout_session.quantities[i]!,
+        },
+      });
+    }
 
     await this.updateProductStock(
       checkout_session.productIds,
