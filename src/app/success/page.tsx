@@ -1,14 +1,20 @@
 import OrderSummaries from "@/modules/Shop/components/OrderSummaries";
 import CheckoutService from "@/modules/Shop/services/checkoutService";
+import { db } from "@/server/db";
 
 export default async function SuccessPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams: Record<string, string>;
 }) {
-  const { products, order } = await CheckoutService.getOrderInformations({
-    sessionId: searchParams?.session_id as string,
+  const order = await CheckoutService.getOrder({
+    sessionId: searchParams.sessionId,
+    paymentIntentId: undefined,
   });
 
-  return <OrderSummaries products={products} order={order} />;
+  if (!order) {
+    return <div>Order not found</div>;
+  }
+
+  return <OrderSummaries order={order} />;
 }

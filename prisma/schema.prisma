@@ -154,7 +154,7 @@ model Order {
     createdAt             DateTime            @default(now())
     updatedAt             DateTime            @updatedAt
     customerInformationId Int
-    OrderItem             OrderItem[]
+    orderItem             OrderItem[]
 }
 
 model OrderItem {

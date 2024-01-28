@@ -5,22 +5,33 @@ import { OrderSummariesSubtotal } from "./OrderSummariesSubtotal";
 import { OrderSummariesProduct } from "./OrderSummariesProduct";
 import { OrderSummariesHeading } from "./OrderSummariesHeading";
 import CheckoutService from "../../services/checkoutService";
-import type { CustomerInformation, Order, Product } from "@prisma/client";
+import type {
+  CustomerInformation,
+  Order,
+  OrderItem,
+  Product,
+} from "@prisma/client";
 
 export interface OrderWithCustomerInformation extends Order {
   customerInformation: CustomerInformation;
 }
 
+export interface OrderWithProduct extends OrderWithCustomerInformation {
+  orderItem: {
+    product: Product;
+  }[];
+}
+
 type Props = {
-  products: Product[];
-  order: OrderWithCustomerInformation | null;
+  order: OrderWithProduct;
 };
 
-export default async function OrderSummaries({ products, order }: Props) {
-  const subtotal = await CheckoutService.summariesSubtotal(
-    order?.productIds ?? [],
-    order?.quantities ?? [],
-  );
+export default async function OrderSummaries({ order }: Props) {
+  // const subtotal = await CheckoutService.summariesSubtotal(
+  //   order?.productIds ?? [],
+  //   order?.quantities ?? [],
+  // );
+
   return (
     <main className="max-h-screen overflow-y-scroll">
       <div className="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
@@ -37,9 +48,9 @@ export default async function OrderSummaries({ products, order }: Props) {
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-12 xl:gap-x-24">
           <div className="lg:col-start-2">
             <OrderSummariesHeading />
-            <OrderSummariesProduct products={products} />
-            <OrderSummariesSubtotal subtotal={subtotal} />
-            <OrderSummariesClient order={order} />
+            <OrderSummariesProduct orderItems={order.orderItem} />
+            {/* <OrderSummariesSubtotal subtotal={subtotal} /> */}
+            {/* <OrderSummariesClient order={order} /> */}
             <OrderSummariesRedirect />
           </div>
         </div>

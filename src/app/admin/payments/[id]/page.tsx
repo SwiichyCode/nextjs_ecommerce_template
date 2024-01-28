@@ -6,7 +6,7 @@ export default async function PaymentPage({
 }: {
   params: { id: string };
 }) {
-  const { products, order } = await CheckoutService.getOrderInformations({
+  const order = await CheckoutService.getOrder({
     paymentIntentId: params.id,
   });
   const paymentIntent = await stripe.paymentIntents.retrieve(params.id);

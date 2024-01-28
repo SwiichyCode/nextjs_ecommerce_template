@@ -14,19 +14,6 @@ type CreateCheckoutSessionType = ProductStock & {
   sessionUrl: string;
 };
 
-// type CreateCheckoutSessionType = Product & {
-//   sessionId: string;
-//   userId: string;
-//   sessionUrl: string;
-// };
-
-type CreateOrderType = ProductStock & {
-  sessionId: string;
-  userId: string;
-  paymentIntentId: string;
-  customerInformationId: number;
-};
-
 class CheckoutService {
   // createCheckoutSession.test.ts
   static async createCheckoutSession(
@@ -38,25 +25,25 @@ class CheckoutService {
     });
   }
 
-  //createOrder.test.ts
-  static async createOrder(orderData: CreateOrderType) {
-    if (!orderData) {
-      throw new Error("orderData is required");
-    }
-
-    return await db.order.create({
-      data: orderData,
-    });
-  }
-
-  static async getOrder(paymentIntentId: string) {
-    if (!paymentIntentId) {
-      throw new Error("paymentIntentId is required");
-    }
-
+  static async getOrder({
+    sessionId, // Use session ID for success page
+    paymentIntentId, // Use payment intent ID for admin payment page
+  }: {
+    sessionId?: string;
+    paymentIntentId?: string;
+  }) {
     return await db.order.findFirst({
       where: {
-        paymentIntentId,
+        sessionId: sessionId ?? undefined, // Use session ID for success page
+        paymentIntentId: paymentIntentId ?? undefined, // Use payment intent ID for admin payment page
+      },
+      include: {
+        orderItem: {
+          include: {
+            product: true,
+          },
+        },
+        customerInformation: true,
       },
     });
   }
@@ -203,17 +190,6 @@ class CheckoutService {
         country: customer_address.country! || "",
       },
     });
-
-    // const order = {
-    //   sessionId: checkout_session.sessionId,
-    //   userId: checkout_session.userId,
-    //   paymentIntentId: paymentIntentId,
-    //   productIds: checkout_session.productIds,
-    //   quantities: checkout_session.quantities,
-    //   customerInformationId: customer_information.id,
-    // };
-
-    // await this.createOrder(order);
 
     const order = await db.order.create({
       data: {
