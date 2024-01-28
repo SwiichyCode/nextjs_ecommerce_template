@@ -17,6 +17,7 @@ type CreateCheckoutSessionType = ProductStock & {
 type CreateOrderType = ProductStock & {
   sessionId: string;
   userId: string;
+  paymentIntentId: string;
   customerInformationId: number;
 };
 
@@ -146,10 +147,12 @@ class CheckoutService {
 
   static async processCheckoutSession({
     sessionId,
+    paymentIntentId,
     customer_name,
     customer_address,
   }: {
     sessionId: string;
+    paymentIntentId: string;
     customer_name: string;
     customer_address: Stripe.Address;
   }) {
@@ -174,6 +177,7 @@ class CheckoutService {
     const order = {
       sessionId: checkout_session.sessionId,
       userId: checkout_session.userId,
+      paymentIntentId: paymentIntentId,
       productIds: checkout_session.productIds,
       quantities: checkout_session.quantities,
       customerInformationId: customer_information.id,

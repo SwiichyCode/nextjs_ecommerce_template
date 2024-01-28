@@ -20,10 +20,15 @@ export async function POST(req: Request) {
       const session = event.data.object;
       const customerDetails = session.customer_details;
 
+      if (!session.payment_intent) {
+        throw new Error("Payment intent is not defined");
+      }
+
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
         await CheckoutService.processCheckoutSession({
           sessionId: session.id,
+          paymentIntentId: session.payment_intent as string,
           customer_name: customerDetails.name,
           customer_address: customerDetails.address,
         });

@@ -144,6 +144,7 @@ model Order {
     id                    Int                 @id @default(autoincrement())
     userId                String
     sessionId             String
+    paymentIntentId       String              @unique
     customerInformation   CustomerInformation @relation(fields: [customerInformationId], references: [id])
     user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
     productIds            Int[]
