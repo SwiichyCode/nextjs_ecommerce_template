@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { OrderWithCustomerInformation } from "./index";
+import type { OrderWithCustomerInformation } from "@/modules/Shop/types/order.type";
 
 type Props = {
   order: OrderWithCustomerInformation | null;
