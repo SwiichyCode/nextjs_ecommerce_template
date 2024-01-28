@@ -21,6 +21,8 @@ export const POST = async (request: Request) => {
       throw new UndefinedSessionMedataError();
     }
 
+    // Stripe limitation string character for metadata is 500
+
     const checkout_data = {
       sessionId: checkout_session.id,
       userId: user_session.user.id,
@@ -28,6 +30,8 @@ export const POST = async (request: Request) => {
       productIds: JSON.parse(checkout_session.metadata.product_id!),
       quantities: JSON.parse(checkout_session.metadata.quantity!),
     };
+
+    console.log(checkout_data);
 
     await CheckoutService.createCheckoutSession(checkout_data);
 

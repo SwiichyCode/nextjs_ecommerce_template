@@ -14,6 +14,12 @@ type CreateCheckoutSessionType = ProductStock & {
   sessionUrl: string;
 };
 
+// type CreateCheckoutSessionType = Product & {
+//   sessionId: string;
+//   userId: string;
+//   sessionUrl: string;
+// };
+
 type CreateOrderType = ProductStock & {
   sessionId: string;
   userId: string;
@@ -26,6 +32,7 @@ class CheckoutService {
   static async createCheckoutSession(
     checkoutSessionData: CreateCheckoutSessionType,
   ) {
+    // Change checkoutSession Model && implement Products relation
     return await db.checkoutSession.create({
       data: checkoutSessionData,
     });
@@ -39,6 +46,18 @@ class CheckoutService {
 
     return await db.order.create({
       data: orderData,
+    });
+  }
+
+  static async getOrder(paymentIntentId: string) {
+    if (!paymentIntentId) {
+      throw new Error("paymentIntentId is required");
+    }
+
+    return await db.order.findFirst({
+      where: {
+        paymentIntentId,
+      },
     });
   }
 
@@ -123,10 +142,17 @@ class CheckoutService {
     );
   }
 
-  static async getOrderInformations(sessionId: string) {
+  static async getOrderInformations({
+    sessionId,
+    paymentIntentId,
+  }: {
+    sessionId?: string;
+    paymentIntentId?: string;
+  }) {
     const order = await db.order.findFirst({
       where: {
-        sessionId: sessionId,
+        sessionId: sessionId ?? undefined,
+        paymentIntentId: paymentIntentId ?? undefined,
       },
 
       include: {
@@ -134,10 +160,14 @@ class CheckoutService {
       },
     });
 
+    if (!order) {
+      throw new Error("order is not defined");
+    }
+
     const products = await db.product.findMany({
       where: {
         id: {
-          in: order?.productIds.map((product) => product),
+          in: order.productIds.map((product) => product),
         },
       },
     });
