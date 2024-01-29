@@ -8,8 +8,7 @@ export default async function SuccessPage({
   searchParams: Record<string, string>;
 }) {
   const order = await CheckoutService.getOrder({
-    sessionId: searchParams.sessionId,
-    paymentIntentId: undefined,
+    sessionId: searchParams.session_id,
   });
 
   if (!order) {

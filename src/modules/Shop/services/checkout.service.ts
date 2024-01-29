@@ -73,8 +73,7 @@ class CheckoutService {
   static async getOrder(data: getOrderType) {
     return await db.order.findFirst({
       where: {
-        sessionId: data.sessionId ?? undefined, // Use session ID for success page
-        paymentIntentId: data.paymentIntentId ?? undefined, // Use payment intent ID for admin payment page
+        sessionId: data.sessionId, // Use session ID for success page
       },
       include: {
         orderItem: {
