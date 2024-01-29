@@ -43,15 +43,17 @@ export async function POST(req: Request) {
       event.type === "checkout.session.expired" ||
       event.type === "checkout.session.async_payment_failed"
     ) {
-      const checkout_session = await CheckoutService.findCheckoutSession(
-        event.data.object.id,
-      );
+      const checkout_session = await CheckoutService.findCheckoutSession({
+        sessionId: event.data.object.id,
+      });
 
       if (!checkout_session) {
         throw new Error("checkout_session is not defined");
       }
 
-      await CheckoutService.removeCheckoutSession(event.data.object.id);
+      await CheckoutService.removeCheckoutSession({
+        sessionId: checkout_session.sessionId,
+      });
     }
 
     revalidatePath(PRODUCT_URL);

@@ -11,19 +11,40 @@ enum OrderStatus {
 
 test("should create a order", async () => {
   const mockOrderData = {
+    id: 1,
     sessionId: "sessionId",
     userId: "userId",
     customerInformationId: 1,
-    productIds: [1],
-    quantities: [1],
+    paymentIntentId: "paymentIntentId",
+    amountTotal: 1,
+    status: OrderStatus.PROCESSING,
+    orderItem: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+    ],
+
+    createdAt: expect.any(Date),
+    updatedAt: expect.any(Date),
   };
 
   const mockOrder = {
     id: 1,
-    status: OrderStatus.PENDING,
+    sessionId: "sessionId",
+    userId: "userId",
+    customerInformationId: 1,
+    paymentIntentId: "paymentIntentId",
+    amountTotal: 1,
+    status: OrderStatus.PROCESSING,
+    orderItem: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+    ],
     createdAt: expect.any(Date),
     updatedAt: expect.any(Date),
-    ...mockOrderData,
   };
 
   prismaMock.order.create.mockResolvedValue(mockOrder);
