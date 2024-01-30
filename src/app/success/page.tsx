@@ -7,6 +7,10 @@ export default async function SuccessPage({
 }: {
   searchParams: Record<string, string>;
 }) {
+  if (!searchParams.session_id) {
+    return <div>Invalid session id</div>;
+  }
+
   const order = await CheckoutService.getOrder({
     sessionId: searchParams.session_id,
   });

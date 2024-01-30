@@ -11,6 +11,7 @@ import type {
   processCheckoutSessionType,
   updateProductStockType,
 } from "../types/checkoutservice.type";
+import { xor } from "@/lib/utils";
 
 class CheckoutService {
   static async createCheckoutSession(data: createCheckoutSessionType) {
@@ -70,10 +71,17 @@ class CheckoutService {
     );
   }
 
-  static async getOrder(data: getOrderType) {
-    return await db.order.findFirst({
+  static getOrder(data: getOrderType) {
+    if (
+      !xor(data.sessionId === undefined, data.paymentIntentId === undefined)
+    ) {
+      throw new Error("Either sessionId or paymentIntentId is required");
+    }
+
+    return db.order.findFirst({
       where: {
         sessionId: data.sessionId, // Use session ID for success page
+        paymentIntentId: data.paymentIntentId, // Use payment intent ID for webhook
       },
       include: {
         orderItem: {
