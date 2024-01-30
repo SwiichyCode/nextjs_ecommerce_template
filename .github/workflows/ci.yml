@@ -8,6 +8,7 @@ on:
 
 env: 
   NODE_ENV: test
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 jobs:
   build:
