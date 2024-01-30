@@ -47,6 +47,24 @@ class CartService {
     });
   }
 
+  static async updateCartItemQuantity(
+    userId: string,
+    productId: number,
+    quantity: number,
+  ) {
+    await db.cartItem.updateMany({
+      where: {
+        cart: {
+          userId,
+        },
+        productId,
+      },
+      data: {
+        quantity,
+      },
+    });
+  }
+
   static async removeCartItem(userId: string, productId: number) {
     await db.cartItem.deleteMany({
       where: {

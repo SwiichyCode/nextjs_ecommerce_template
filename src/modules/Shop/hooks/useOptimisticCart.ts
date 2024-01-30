@@ -1,7 +1,7 @@
 import { useOptimistic } from "react";
 import type { ProductCart } from "../stores/useCartStore";
 
-export type Action = "add" | "remove";
+export type Action = "add" | "increment" | "decrement" | "remove";
 export type SetOptimisticType = { action: Action; product: ProductCart };
 export type SetOptimisticCartFunction = (action: SetOptimisticType) => void;
 
@@ -12,6 +12,23 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
       switch (action) {
         case "add":
           return [...state, product];
+
+        case "increment":
+          return state.map((item) => {
+            if (item.id === product.id) {
+              return { ...item, quantity: item.quantity + 1 };
+            }
+            return item;
+          });
+
+        case "decrement":
+          return state.map((item) => {
+            if (item.id === product.id) {
+              return { ...item, quantity: item.quantity - 1 };
+            }
+            return item;
+          });
+
         case "remove":
           return state.filter((item) => item.id !== product.id);
         default:

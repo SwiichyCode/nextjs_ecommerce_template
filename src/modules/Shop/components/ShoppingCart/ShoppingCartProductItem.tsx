@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { useTransition } from "react";
 import type { SetOptimisticCartFunction } from "../../hooks/useOptimisticCart";
 import type { ProductCart } from "../../stores/useCartStore";
 import { removeProduct } from "../../actions/cart/removeproduct.action";
+import { updateProductQuantity } from "../../actions/cart/updateproductquantity.action";
+import { cn } from "@/lib/utils";
 
 type Props = {
   item: ProductCart;
@@ -15,6 +18,22 @@ export const ShoppingCartProductItem = ({
   setOptimisticCart,
 }: Props) => {
   const { id, pictures, slug, name, price } = item;
+  const [isPending, startTransition] = useTransition();
+
+  const updateQuantity = async (action: "increment" | "decrement") => {
+    startTransition(async () => {
+      if (action === "decrement" && quantity === 1) {
+        setOptimisticCart({ action: "remove", product: item });
+        await removeProduct({ productId: id });
+      }
+
+      setOptimisticCart({ action, product: item });
+      await updateProductQuantity({
+        productId: id,
+        quantity: action === "increment" ? quantity + 1 : quantity - 1,
+      });
+    });
+  };
 
   return (
     <li key={id} className="flex py-6">
@@ -33,19 +52,45 @@ export const ShoppingCartProductItem = ({
           <h3>
             <a href={slug}>{name}</a>
           </h3>
-          <p className="ml-4">${price}</p>
+          <p className="ml-4">${quantity * price}</p>
         </div>
 
         <div className="flex flex-1 items-end justify-between text-sm">
-          <p className="text-gray-500">Qty {quantity}</p>
+          <div className="flex flex-col">
+            <form className="flex items-center gap-2">
+              <button
+                type="submit"
+                disabled={isPending}
+                className={cn(
+                  "flex w-6 items-center justify-center rounded bg-slate-200 px-2",
+                  isPending && "opacity-50",
+                )}
+                formAction={async () => {
+                  await updateQuantity("decrement");
+                }}
+              >
+                -
+              </button>
+              <p className="text-gray-500">{quantity}</p>
+              <button
+                type="submit"
+                className={cn(
+                  "flex w-6 items-center justify-center rounded bg-slate-200 px-2",
+                  isPending && "opacity-50",
+                )}
+                formAction={async () => {
+                  await updateQuantity("increment");
+                }}
+              >
+                +
+              </button>
+            </form>
+          </div>
 
           <form
             className="flex"
             action={async () => {
-              // Set the optimistic cart state
               setOptimisticCart({ action: "remove", product: item });
-              // await removeCartItem(id);
-
               await removeProduct({
                 productId: id,
               });
