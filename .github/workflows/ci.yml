@@ -9,7 +9,7 @@ on:
 env: 
   NODE_ENV: test
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
+  NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}
 jobs:
   build:
     runs-on: ubuntu-latest
