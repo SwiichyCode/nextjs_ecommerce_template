@@ -27,7 +27,9 @@ export async function POST(req: Request) {
         throw new Error("Payment intent is not defined");
       }
 
-      console.log(event.request?.idempotency_key);
+      if (event.pending_webhooks > 1) {
+        throw new Error("Webhook is already processing");
+      }
 
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
