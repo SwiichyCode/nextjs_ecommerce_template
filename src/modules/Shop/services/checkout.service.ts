@@ -112,7 +112,7 @@ class CheckoutService {
     });
   }
 
-  static getIdempotencyKey(data: { idempotencyKey: string }) {
+  static async getIdempotencyKey(data: { idempotencyKey: string }) {
     return db.order.findFirstOrThrow({
       where: {
         idempotencyKey: data.idempotencyKey,
@@ -131,13 +131,13 @@ class CheckoutService {
       throw new Error("checkout_session is not defined");
     }
 
-    // const idempotency_key = await this.getIdempotencyKey({
-    //   idempotencyKey: data.idempotencyKey,
-    // });
+    const idempotency_key = await this.getIdempotencyKey({
+      idempotencyKey: data.idempotencyKey,
+    });
 
-    // if (idempotency_key) {
-    //   throw new Error("idempotency_key already exists");
-    // }
+    if (idempotency_key) {
+      throw new Error("idempotency_key already exists");
+    }
 
     const customer_information = await this.createCustomerInformation({
       name: data.customer_name,
