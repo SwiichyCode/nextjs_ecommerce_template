@@ -112,10 +112,10 @@ class CheckoutService {
     });
   }
 
-  static async getIdempotencyKey(data: { idempotencyKey: string }) {
+  static async getIdempotencyKey(data: { sessionId: string }) {
     return await db.order.findFirstOrThrow({
       where: {
-        idempotencyKey: data.idempotencyKey,
+        sessionId: data.sessionId,
       },
 
       select: {

@@ -7,6 +7,7 @@ import { PRODUCT_URL } from "@/constants/urls";
 import CheckoutService from "@/modules/Shop/services/checkout.service";
 import MailingService from "@/modules/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 // stripe webhook lock event
 // stripe webhook idempotency key
@@ -27,8 +28,16 @@ export async function POST(req: Request) {
         throw new Error("Payment intent is not defined");
       }
 
-      if (event.pending_webhooks > 1) {
-        throw new Error("Webhook is already processing");
+      // if (event.pending_webhooks > 1) {
+      //   throw new Error("Webhook is already processing");
+      // }
+
+      const idempotency_key = await CheckoutService.getIdempotencyKey({
+        sessionId: session.id,
+      });
+
+      if (idempotency_key) {
+        throw new Error("Idempotency key is already defined");
       }
 
       // Fix case if not a physical product
@@ -36,7 +45,7 @@ export async function POST(req: Request) {
         await CheckoutService.processCheckoutSession({
           sessionId: session.id, // Session ID
           paymentIntentId: session.payment_intent as string, // Payment intent ID
-          idempotencyKey: event.id, // Idempotency key
+          idempotencyKey: uuidv4(), // Idempotency key
           customer_name: customerDetails.name, // Customer name
           customer_address: customerDetails.address, // Customer address
           amount_total: session.amount_total!, // Order total amount
