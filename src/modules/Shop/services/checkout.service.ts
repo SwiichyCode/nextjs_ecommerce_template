@@ -112,8 +112,8 @@ class CheckoutService {
     });
   }
 
-  static async getIdempotencyKey(data: { idempotencyKey: string }) {
-    db.order.findFirstOrThrow({
+  static getIdempotencyKey(data: { idempotencyKey: string }) {
+    return db.order.findFirstOrThrow({
       where: {
         idempotencyKey: data.idempotencyKey,
       },
@@ -135,7 +135,7 @@ class CheckoutService {
       idempotencyKey: data.idempotencyKey,
     });
 
-    if (idempotency_key! === data.idempotencyKey) {
+    if (idempotency_key) {
       throw new Error("idempotency_key already exists");
     }
 
