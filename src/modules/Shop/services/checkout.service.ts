@@ -113,15 +113,19 @@ class CheckoutService {
   }
 
   static async getIdempotencyKey(data: { sessionId: string }) {
-    return await db.order.findFirstOrThrow({
-      where: {
-        sessionId: data.sessionId,
-      },
+    try {
+      return await db.order.findFirstOrThrow({
+        where: {
+          sessionId: data.sessionId,
+        },
 
-      select: {
-        idempotencyKey: true,
-      },
-    });
+        select: {
+          idempotencyKey: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   static async processCheckoutSession(data: processCheckoutSessionType) {

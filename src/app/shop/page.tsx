@@ -19,12 +19,6 @@ export default async function ShopPage() {
     : [];
 
   const currentCart = transformCartData(cart[0]?.cartItems ?? []);
-  const a = await CheckoutService.getIdempotencyKey({
-    sessionId:
-      "cs_test_a1OsywgEvXdjsMLZYUtND6M1rIoj2jN5G0baG2Ob753GbHL9TWviA9KDS6",
-  });
-
-  console.log(a);
 
   return (
     <>
