@@ -32,13 +32,13 @@ export async function POST(req: Request) {
       //   throw new Error("Webhook is already processing");
       // }
 
-      // const idempotency_key = await CheckoutService.getIdempotencyKey({
-      //   sessionId: session.id,
-      // });
+      const idempotency_key = await CheckoutService.getIdempotencyKey({
+        sessionId: session.id,
+      });
 
-      // if (idempotency_key) {
-      //   throw new Error("Idempotency key is already defined");
-      // }
+      if (idempotency_key.idempotencyKey) {
+        throw new Error("Idempotency key is already defined");
+      }
 
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
