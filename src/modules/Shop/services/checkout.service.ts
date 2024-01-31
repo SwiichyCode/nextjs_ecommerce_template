@@ -112,10 +112,10 @@ class CheckoutService {
     });
   }
 
-  static async getIdempotencyKey(data: { idempotencyKey: string }) {
+  static async getIdempotencyKey(data: { sessionId: string }) {
     return db.order.findFirstOrThrow({
       where: {
-        idempotencyKey: data.idempotencyKey,
+        sessionId: data.sessionId,
       },
     });
   }
@@ -132,7 +132,7 @@ class CheckoutService {
     }
 
     const idempotency_key = await this.getIdempotencyKey({
-      idempotencyKey: data.idempotencyKey,
+      sessionId: data.sessionId,
     });
 
     if (idempotency_key) {
