@@ -28,15 +28,11 @@ export async function POST(req: Request) {
         throw new Error("Payment intent is not defined");
       }
 
-      // if (event.pending_webhooks > 1) {
-      //   throw new Error("Webhook is already processing");
-      // }
-
       const idempotency_key = await CheckoutService.getIdempotencyKey({
         sessionId: session.id,
       });
 
-      if (!idempotency_key?.idempotencyKey) {
+      if (!idempotency_key?.idempotencyKey || event.pending_webhooks > 1) {
         // Fix case if not a physical product
         if (customerDetails?.name && customerDetails?.address) {
           await CheckoutService.processCheckoutSession({
@@ -49,7 +45,7 @@ export async function POST(req: Request) {
           });
         }
       } else {
-        throw new Error("Idempotency key is already defined");
+        throw new Error("Webhook is already processing");
       }
 
       const customerEmail = event.data.object.customer_details?.email;
