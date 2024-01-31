@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         await CheckoutService.processCheckoutSession({
           sessionId: session.id, // Session ID
           paymentIntentId: session.payment_intent as string, // Payment intent ID
-          // idempotencyKey: event.id,
+          idempotencyKey: event.id!, // Idempotency key
           customer_name: customerDetails.name, // Customer name
           customer_address: customerDetails.address, // Customer address
           amount_total: session.amount_total!, // Order total amount

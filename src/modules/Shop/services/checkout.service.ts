@@ -113,7 +113,7 @@ class CheckoutService {
   }
 
   static async getIdempotencyKey(data: { idempotencyKey: string }) {
-    return db.order.findFirstOrThrow({
+    return await db.order.findFirstOrThrow({
       where: {
         idempotencyKey: data.idempotencyKey,
       },
@@ -125,14 +125,6 @@ class CheckoutService {
   }
 
   static async processCheckoutSession(data: processCheckoutSessionType) {
-    // const idempotency_key = await this.getIdempotencyKey({
-    //   idempotencyKey: data.idempotencyKey,
-    // });
-
-    // if (idempotency_key) {
-    //   throw new Error("idempotency_key already exists");
-    // }
-
     const checkout_session = await this.findCheckoutSession({
       sessionId: data.sessionId,
     });
@@ -154,8 +146,8 @@ class CheckoutService {
     const order = await this.createOrder({
       sessionId: checkout_session.sessionId,
       userId: checkout_session.userId,
-      idempotencyKey: data.idempotencyKey,
       paymentIntentId: data.paymentIntentId,
+      idempotencyKey: data.idempotencyKey,
       customerInformationId: customer_information.id,
       amountTotal: data.amount_total,
     });
