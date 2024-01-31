@@ -54,7 +54,7 @@ export type createCustomerInformationType = {
 export type processCheckoutSessionType = {
   sessionId: string;
   paymentIntentId: string;
-  idempotencyKey: string;
+  idempotencyKey?: string;
   customer_name: string;
   customer_address: Stripe.Address;
   amount_total: number;

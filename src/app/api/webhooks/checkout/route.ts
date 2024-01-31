@@ -27,12 +27,14 @@ export async function POST(req: Request) {
         throw new Error("Payment intent is not defined");
       }
 
+      console.log(event.request?.idempotency_key);
+
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
         await CheckoutService.processCheckoutSession({
           sessionId: session.id, // Session ID
           paymentIntentId: session.payment_intent as string, // Payment intent ID
-          idempotencyKey: event.id, // Idempotency key
+          // idempotencyKey: event.id,
           customer_name: customerDetails.name, // Customer name
           customer_address: customerDetails.address, // Customer address
           amount_total: session.amount_total!, // Order total amount

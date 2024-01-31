@@ -117,17 +117,21 @@ class CheckoutService {
       where: {
         idempotencyKey: data.idempotencyKey,
       },
+
+      select: {
+        idempotencyKey: true,
+      },
     });
   }
 
   static async processCheckoutSession(data: processCheckoutSessionType) {
-    const idempotency_key = await this.getIdempotencyKey({
-      idempotencyKey: data.idempotencyKey,
-    });
+    // const idempotency_key = await this.getIdempotencyKey({
+    //   idempotencyKey: data.idempotencyKey,
+    // });
 
-    if (idempotency_key) {
-      throw new Error("idempotency_key already exists");
-    }
+    // if (idempotency_key) {
+    //   throw new Error("idempotency_key already exists");
+    // }
 
     const checkout_session = await this.findCheckoutSession({
       sessionId: data.sessionId,
