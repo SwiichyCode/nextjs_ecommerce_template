@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
-import { PRODUCT_URL } from "@/constants/urls";
+import { ADMIN_URL, PRODUCT_URL } from "@/constants/urls";
 import CheckoutService from "@/features/Shop/services/checkout.service";
 import MailingService from "@/features/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       });
     }
 
-    revalidatePath(PRODUCT_URL);
+    revalidatePath(ADMIN_URL);
 
     return NextResponse.json({ result: event, ok: true });
   } catch (error) {

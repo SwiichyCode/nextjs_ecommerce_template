@@ -1,48 +1,25 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { PRODUCT_URL } from "@/constants/urls";
-import { getServerAuthSession } from "@/server/auth";
-import StripeService from "@/features/Shop/services/stripe.service";
-import CheckoutService from "@/features/Shop/services/checkout.service";
 import { Prisma } from "@prisma/client";
-import { UndefinedSessionMedataError } from "@/errors";
-import type { Products } from "@/lib/stripe";
+import { getServerAuthSession } from "@/server/auth";
+import { checkoutHandler } from "@/modules/payments/checkoutHandler";
+import { PRODUCT_URL } from "@/constants/urls";
+import { checkoutErrorHandler } from "@/modules/payments/checkoutErrorHandler";
 
 export const POST = async (request: Request) => {
   try {
-    const { products } = (await request.json()) as { products: Products };
     const user_session = await getServerAuthSession();
+    if (!user_session?.user) throw new Error("User is not authenticated");
 
-    if (!user_session?.user) throw new Error("user is not defined");
+    const checkout_session = await checkoutHandler(request, user_session);
 
-    const checkout_session =
-      await StripeService.createCheckoutSession(products);
-
-    if (!checkout_session.metadata) {
-      throw new UndefinedSessionMedataError();
-    }
-
-    // Stripe limitation string character for metadata is 500
-
-    const checkout_data = {
-      sessionId: checkout_session.id,
-      userId: user_session.user.id,
-      sessionUrl: checkout_session.url!,
-      productIds: JSON.parse(checkout_session.metadata.product_id!),
-      quantities: JSON.parse(checkout_session.metadata.quantity!),
-    };
-
-    await CheckoutService.createCheckoutSession(checkout_data);
+    if (!checkout_session) throw new Error("Checkout session is undefined");
 
     revalidatePath(PRODUCT_URL);
 
     return NextResponse.json({ url: checkout_session.url });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientValidationError) {
-      return new NextResponse(JSON.stringify({ error: error.message }), {
-        status: 404,
-      });
-    }
+    checkoutErrorHandler(error);
 
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 400 });

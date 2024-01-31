@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ShoppingCartFooter } from "./ShoppingCartFooter";
 import { ShoppingCartProducts } from "./ShoppingCartProducts";
 import { ShoppingCartHeading } from "./ShoppingCartHeading";
-import StripeService from "../../services/stripe.service";
+import StripeService from "../../../../modules/payments/stripe/service/stripe.service";
 import type { Session } from "next-auth";
 import type { Cart, CartItem, Product } from "@prisma/client";
 

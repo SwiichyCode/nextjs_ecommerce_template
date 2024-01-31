@@ -1,6 +1,6 @@
 import axios from "axios";
 import { stripe, type Products } from "@/lib/stripe";
-import type { ProductCart } from "../stores/useCartStore";
+import type { ProductCart } from "../../../../features/Shop/stores/useCartStore";
 import { API_CHECKOUT_URL } from "@/constants/urls";
 import { env } from "@/env";
 
