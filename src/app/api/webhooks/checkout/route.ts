@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         sessionId: session.id,
       });
 
-      if (idempotency_key.idempotencyKey) {
+      if (!idempotency_key.idempotencyKey) {
         // Fix case if not a physical product
         if (customerDetails?.name && customerDetails?.address) {
           await CheckoutService.processCheckoutSession({
