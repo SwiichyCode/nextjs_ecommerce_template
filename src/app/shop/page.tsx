@@ -1,9 +1,9 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
-import { ProductList } from "@/modules/Shop/components/ProductList";
-import { ContextOptimisticWrapper } from "@/modules/Shop/components/ContextOptimisticWrapper";
-import { transformCartData } from "@/modules/Shop/utils/transformCartData";
-import CheckoutService from "@/modules/Shop/services/checkout.service";
+import { ProductList } from "@/features/Shop/components/ProductList";
+import { ContextOptimisticWrapper } from "@/features/Shop/components/ContextOptimisticWrapper";
+import { transformCartData } from "@/features/Shop/utils/transformCartData";
+import CheckoutService from "@/features/Shop/services/checkout.service";
 
 export default async function ShopPage() {
   const session = await getServerAuthSession();

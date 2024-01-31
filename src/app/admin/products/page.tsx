@@ -1,6 +1,6 @@
-import { ProductProvider } from "@/modules/Admin/context/useProductContext";
-import { ProductsDataTableWrapper } from "@/modules/Admin/components/ProductsDataTable/wrapper";
-import ProductService from "@/modules/Admin/services/productService";
+import { ProductProvider } from "@/features/Admin/context/useProductContext";
+import { ProductsDataTableWrapper } from "@/features/Admin/components/ProductsDataTable/wrapper";
+import ProductService from "@/features/Admin/services/productService";
 
 export const revalidate = 10;
 

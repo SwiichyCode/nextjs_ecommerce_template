@@ -1,6 +1,6 @@
-import OrderSummaries from "@/modules/Shop/components/OrderSummaries";
-import CheckoutService from "@/modules/Shop/services/checkout.service";
-import { StripeService } from "@/modules/Shop/services/stripe.service";
+import OrderSummaries from "@/features/Shop/components/OrderSummaries";
+import CheckoutService from "@/features/Shop/services/checkout.service";
+import { StripeService } from "@/features/Shop/services/stripe.service";
 
 export default async function SuccessPage({
   searchParams,

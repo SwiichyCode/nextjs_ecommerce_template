@@ -1,6 +1,6 @@
-import { Sidebar } from "@/modules/Admin/components/layouts/Sidebar";
-import { SubNavigation } from "@/modules/Admin/components/layouts/SubNavigation";
-import { Header } from "@/modules/Admin/components/layouts/Header";
+import { Sidebar } from "@/features/Admin/components/layouts/Sidebar";
+import { SubNavigation } from "@/features/Admin/components/layouts/SubNavigation";
+import { Header } from "@/features/Admin/components/layouts/Header";
 
 type Props = {
   children: React.ReactNode;

@@ -1,6 +1,5 @@
 import { getServerAuthSession } from "@/server/auth";
 import { Role } from "@/constants/enum";
-import { Button } from "@/components/ui/button";
 
 export default async function AdminPage() {
   const session = await getServerAuthSession();

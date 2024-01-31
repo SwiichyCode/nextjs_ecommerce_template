@@ -1,9 +1,6 @@
-import { Header } from "@/modules/Admin/components/layouts/Header";
-import { ButtonHistoryBack } from "@/modules/Admin/components/common/ButtonHistoryBack";
-import { ProductForm } from "@/modules/Admin/components/forms/product.form";
-import { ProductDeleteForm } from "@/modules/Admin/components/forms/deleteproduct.form";
-import { ProductStatusForm } from "@/modules/Admin/components/forms/updateproductstatus.form";
-import ProductService from "@/modules/Admin/services/productService";
+import { ProductForm } from "@/features/Admin/components/forms/product.form";
+import { ProductStatusForm } from "@/features/Admin/components/forms/updateproductstatus.form";
+import ProductService from "@/features/Admin/services/productService";
 
 export default async function EditProductPage({
   params,

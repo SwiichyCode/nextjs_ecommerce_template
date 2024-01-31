@@ -1,6 +1,6 @@
 import { prismaMock } from "../../singleton";
-import CheckoutService from "@/modules/Shop/services/checkout.service";
-import type { updateProductStockType } from "@/modules/Shop/types/checkoutservice.type";
+import CheckoutService from "@/features/Shop/services/checkout.service";
+import type { updateProductStockType } from "@/features/Shop/types/checkoutservice.type";
 
 enum Status {
   ACTIVE = "ACTIVE",

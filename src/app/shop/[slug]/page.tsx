@@ -1,4 +1,4 @@
-import { ProductOverview } from "@/modules/Shop/components/ProductOverview";
+import { ProductOverview } from "@/features/Shop/components/ProductOverview";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 

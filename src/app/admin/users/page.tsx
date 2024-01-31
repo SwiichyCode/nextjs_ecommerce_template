@@ -1,6 +1,6 @@
-import { RoleForm } from "@/modules/Admin/components/forms/updateuserrole.form";
-import { DataTable } from "@/modules/Admin/components/ProductsDataTable";
-import { userColumns } from "@/modules/Admin/components/UsersDataTable/column";
+import { RoleForm } from "@/features/Admin/components/forms/updateuserrole.form";
+import { DataTable } from "@/features/Admin/components/ProductsDataTable";
+import { userColumns } from "@/features/Admin/components/UsersDataTable/column";
 import { db } from "@/server/db";
 
 export default async function UsersPage() {
