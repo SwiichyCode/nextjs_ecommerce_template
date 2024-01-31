@@ -37,19 +37,19 @@ export async function POST(req: Request) {
       });
 
       if (idempotency_key.idempotencyKey) {
+        // Fix case if not a physical product
+        if (customerDetails?.name && customerDetails?.address) {
+          await CheckoutService.processCheckoutSession({
+            sessionId: session.id, // Session ID
+            paymentIntentId: session.payment_intent as string, // Payment intent ID
+            idempotencyKey: uuidv4(), // Idempotency key
+            customer_name: customerDetails.name, // Customer name
+            customer_address: customerDetails.address, // Customer address
+            amount_total: session.amount_total!, // Order total amount
+          });
+        }
+      } else {
         throw new Error("Idempotency key is already defined");
-      }
-
-      // Fix case if not a physical product
-      if (customerDetails?.name && customerDetails?.address) {
-        await CheckoutService.processCheckoutSession({
-          sessionId: session.id, // Session ID
-          paymentIntentId: session.payment_intent as string, // Payment intent ID
-          idempotencyKey: uuidv4(), // Idempotency key
-          customer_name: customerDetails.name, // Customer name
-          customer_address: customerDetails.address, // Customer address
-          amount_total: session.amount_total!, // Order total amount
-        });
       }
 
       const customerEmail = event.data.object.customer_details?.email;
