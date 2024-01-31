@@ -112,16 +112,22 @@ class CheckoutService {
     });
   }
 
-  static async getIdempotencyKey(data: { sessionId: string }) {
+  static async getIdempotencyKey(data: { idempotencyKey: string }) {
     return db.order.findFirstOrThrow({
       where: {
-        sessionId: data.sessionId,
+        idempotencyKey: data.idempotencyKey,
       },
     });
   }
 
   static async processCheckoutSession(data: processCheckoutSessionType) {
-    // Store stripe event id order
+    const idempotency_key = await this.getIdempotencyKey({
+      idempotencyKey: data.idempotencyKey,
+    });
+
+    if (idempotency_key) {
+      throw new Error("idempotency_key already exists");
+    }
 
     const checkout_session = await this.findCheckoutSession({
       sessionId: data.sessionId,
@@ -129,14 +135,6 @@ class CheckoutService {
 
     if (!checkout_session) {
       throw new Error("checkout_session is not defined");
-    }
-
-    const idempotency_key = await this.getIdempotencyKey({
-      sessionId: data.sessionId,
-    });
-
-    if (idempotency_key) {
-      throw new Error("idempotency_key already exists");
     }
 
     const customer_information = await this.createCustomerInformation({
@@ -152,6 +150,7 @@ class CheckoutService {
     const order = await this.createOrder({
       sessionId: checkout_session.sessionId,
       userId: checkout_session.userId,
+      idempotencyKey: data.idempotencyKey,
       paymentIntentId: data.paymentIntentId,
       customerInformationId: customer_information.id,
       amountTotal: data.amount_total,
