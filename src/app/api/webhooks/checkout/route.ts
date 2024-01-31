@@ -8,6 +8,9 @@ import CheckoutService from "@/modules/Shop/services/checkout.service";
 import MailingService from "@/modules/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
 
+// stripe webhook lock event
+// stripe webhook idempotency key
+
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: Request) {
@@ -29,6 +32,7 @@ export async function POST(req: Request) {
         await CheckoutService.processCheckoutSession({
           sessionId: session.id, // Session ID
           paymentIntentId: session.payment_intent as string, // Payment intent ID
+          idempotencyKey: session.id, // Idempotency key
           customer_name: customerDetails.name, // Customer name
           customer_address: customerDetails.address, // Customer address
           amount_total: session.amount_total!, // Order total amount

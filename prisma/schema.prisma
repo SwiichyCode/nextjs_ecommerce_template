@@ -145,6 +145,7 @@ model Order {
     id                    Int                 @id @default(autoincrement())
     userId                String
     sessionId             String
+    idempotencyKey        String?
     paymentIntentId       String              @unique
     amountTotal           Int
     user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)

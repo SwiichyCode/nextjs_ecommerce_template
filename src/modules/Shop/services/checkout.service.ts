@@ -112,13 +112,31 @@ class CheckoutService {
     });
   }
 
+  static async getIdempotencyKey(data: { idempotencyKey: string }) {
+    db.order.findFirstOrThrow({
+      where: {
+        idempotencyKey: data.idempotencyKey,
+      },
+    });
+  }
+
   static async processCheckoutSession(data: processCheckoutSessionType) {
+    // Store stripe event id order
+
     const checkout_session = await this.findCheckoutSession({
       sessionId: data.sessionId,
     });
 
     if (!checkout_session) {
       throw new Error("checkout_session is not defined");
+    }
+
+    const idempotency_key = await this.getIdempotencyKey({
+      idempotencyKey: data.idempotencyKey,
+    });
+
+    if (idempotency_key! === data.idempotencyKey) {
+      throw new Error("idempotency_key already exists");
     }
 
     const customer_information = await this.createCustomerInformation({

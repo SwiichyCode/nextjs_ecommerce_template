@@ -29,6 +29,7 @@ export type getOrderType = {
 export type createOrderType = {
   sessionId: string;
   userId: string;
+  idempotencyKey?: string;
   paymentIntentId: string;
   customerInformationId: number;
   amountTotal: number;
@@ -46,7 +47,6 @@ export type createCustomerInformationType = {
   addressLine2: string;
   city: string;
   state: string;
-
   postalCode: string;
   country: string;
 };
@@ -54,6 +54,7 @@ export type createCustomerInformationType = {
 export type processCheckoutSessionType = {
   sessionId: string;
   paymentIntentId: string;
+  idempotencyKey: string;
   customer_name: string;
   customer_address: Stripe.Address;
   amount_total: number;

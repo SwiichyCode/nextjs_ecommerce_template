@@ -15,8 +15,8 @@ export const updateProductQuantity = userAction(
       );
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
+    } finally {
+      revalidatePath("/shop");
     }
-
-    revalidatePath("/", "layout");
   },
 );
