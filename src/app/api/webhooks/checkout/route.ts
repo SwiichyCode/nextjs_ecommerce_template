@@ -9,9 +9,6 @@ import MailingService from "@/modules/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
-// stripe webhook lock event
-// stripe webhook idempotency key
-
 const secret = env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: Request) {
@@ -32,6 +29,7 @@ export async function POST(req: Request) {
         sessionId: session.id,
       });
 
+      // Check if webhook is already processing
       if (!idempotency_key?.idempotencyKey || event.pending_webhooks > 1) {
         // Fix case if not a physical product
         if (customerDetails?.name && customerDetails?.address) {
