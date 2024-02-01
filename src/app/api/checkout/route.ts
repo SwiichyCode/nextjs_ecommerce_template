@@ -4,6 +4,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { checkoutHandler } from "@/modules/payments/checkoutHandler";
 import { paymentErrorHandler } from "@/modules/payments/paymentErrorHandler";
 import { PRODUCT_URL } from "@/constants/urls";
+import CheckoutService from "@/features/Shop/services/checkout.service";
 
 export const POST = async (request: Request) => {
   try {
@@ -13,6 +14,8 @@ export const POST = async (request: Request) => {
     const checkout_session = await checkoutHandler(request, user_session);
 
     if (!checkout_session) throw new Error("Checkout session is undefined");
+
+    await CheckoutService.validateCheckoutSession(checkout_session);
 
     revalidatePath(PRODUCT_URL);
 

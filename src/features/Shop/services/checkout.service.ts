@@ -12,6 +12,7 @@ import type {
   updateProductStockType,
 } from "../types/checkoutservice.type";
 import { xor } from "@/lib/utils";
+import Stripe from "stripe";
 
 class CheckoutService {
   static async createCheckoutSession(data: createCheckoutSessionType) {
@@ -42,6 +43,47 @@ class CheckoutService {
         sessionId: data.sessionId,
       },
     });
+  }
+
+  static async validateCheckoutSession(
+    checkout_session: Stripe.Checkout.Session,
+  ) {
+    const productIds = JSON.parse(
+      checkout_session.metadata?.product_id ?? "[]",
+    ) as number[];
+
+    const quantities = JSON.parse(
+      checkout_session.metadata?.quantity ?? "[]",
+    ) as number[];
+
+    const dbProducts = await db.product.findMany({
+      where: {
+        id: {
+          in: productIds,
+        },
+      },
+    });
+
+    const calculatedTotalAmount = dbProducts.reduce((acc, product, index) => {
+      const quantity = Number(quantities[index]);
+      const price = Number(product.price);
+
+      if (isNaN(quantity) || isNaN(price)) {
+        throw new Error(
+          `Invalid value: quantity = ${quantities[index]}, price = ${product.price}`,
+        );
+      }
+
+      return acc + price * 100 * quantity;
+    }, 0);
+
+    const totalAmount = checkout_session.amount_total ?? 0;
+
+    if (totalAmount !== calculatedTotalAmount) {
+      throw new Error(
+        `Invalid total amount: ${totalAmount} !== ${calculatedTotalAmount}`,
+      );
+    }
   }
 
   static async updateProductStock(data: updateProductStockType) {
