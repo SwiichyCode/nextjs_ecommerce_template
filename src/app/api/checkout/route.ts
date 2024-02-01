@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { Prisma } from "@prisma/client";
 import { getServerAuthSession } from "@/server/auth";
 import { checkoutHandler } from "@/modules/payments/checkoutHandler";
+import { paymentErrorHandler } from "@/modules/payments/paymentErrorHandler";
 import { PRODUCT_URL } from "@/constants/urls";
-import { checkoutErrorHandler } from "@/modules/payments/checkoutErrorHandler";
 
 export const POST = async (request: Request) => {
   try {
@@ -19,7 +18,7 @@ export const POST = async (request: Request) => {
 
     return NextResponse.json({ url: checkout_session.url });
   } catch (error) {
-    checkoutErrorHandler(error);
+    paymentErrorHandler(error);
 
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 400 });

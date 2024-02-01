@@ -1,6 +1,6 @@
-import { StripeCheckout } from "./stripe/stripe";
-import { Session } from "next-auth";
 import { env } from "@/env";
+import { Session } from "next-auth";
+import { StripeCheckout } from "./stripe/stripe.checkout";
 
 export const checkoutHandler = async (
   request: Request,

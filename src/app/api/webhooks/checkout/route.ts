@@ -8,74 +8,20 @@ import CheckoutService from "@/features/Shop/services/checkout.service";
 import MailingService from "@/features/Shop/services/mailing.service";
 import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
+import { webhookHandler } from "@/modules/payments/webhookHandler";
+import { paymentErrorHandler } from "@/modules/payments/paymentErrorHandler";
 
-const secret = env.STRIPE_WEBHOOK_SECRET;
+// const secret = env.STRIPE_WEBHOOK_SECRET;
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.text();
-    const signature = headers().get("stripe-signature")!;
-    const event = stripe.webhooks.constructEvent(body, signature, secret);
-
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
-      const customerDetails = session.customer_details;
-
-      if (!session.payment_intent) {
-        throw new Error("Payment intent is not defined");
-      }
-
-      const idempotency_key = await CheckoutService.getIdempotencyKey({
-        sessionId: session.id,
-      });
-
-      // Check if webhook is already processing
-      if (!idempotency_key?.idempotencyKey || event.pending_webhooks > 1) {
-        // Fix case if not a physical product
-        if (customerDetails?.name && customerDetails?.address) {
-          await CheckoutService.processCheckoutSession({
-            sessionId: session.id, // Session ID
-            paymentIntentId: session.payment_intent as string, // Payment intent ID
-            idempotencyKey: uuidv4(), // Idempotency key
-            customer_name: customerDetails.name, // Customer name
-            customer_address: customerDetails.address, // Customer address
-            amount_total: session.amount_total!, // Order total amount
-          });
-        }
-      } else {
-        throw new Error("Webhook is already processing");
-      }
-
-      const customerEmail = event.data.object.customer_details?.email;
-      await MailingService.sendOrderConfirmationEmail(customerEmail!);
-    }
-
-    if (
-      event.type === "checkout.session.expired" ||
-      event.type === "checkout.session.async_payment_failed"
-    ) {
-      const checkout_session = await CheckoutService.findCheckoutSession({
-        sessionId: event.data.object.id,
-      });
-
-      if (!checkout_session) {
-        throw new Error("checkout_session is not defined");
-      }
-
-      await CheckoutService.removeCheckoutSession({
-        sessionId: checkout_session.sessionId,
-      });
-    }
-
+    const event = await webhookHandler(request);
     revalidatePath(ADMIN_URL);
 
     return NextResponse.json({ result: event, ok: true });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientValidationError) {
-      return new NextResponse(JSON.stringify({ error: error.message }), {
-        status: 404,
-      });
-    }
+    paymentErrorHandler(error);
+
     return new NextResponse(JSON.stringify({ error: error }), {
       status: 500,
     });
