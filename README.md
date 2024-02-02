@@ -18,6 +18,10 @@ We are constantly working to improve and add new features to our project. Here a
 
 - **Webhook Implementation for Payment Events**: We plan to implement webhooks to intercept payment events and perform database operations. This will allow us to automate processes such as updating order status and inventory based on payment events, enhancing the efficiency of our e-commerce operations.
 
+- **Price Consistency Verification**: We have added a feature to verify the consistency of prices between the payment request and the products in our database. This ensures that the total amount charged during checkout matches the actual cost of the products, providing an additional layer of security and accuracy in our e-commerce transactions.
+
+- **Stock Availability Verification Before Checkout**:We have implemented a feature to check the availability of products in stock before proceeding to the checkout. This ensures that all products in the customer's cart are available for purchase, providing a smoother and more reliable shopping experience.
+
 ## Built With
 
 This project is built with the following technologies:
