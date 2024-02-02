@@ -5,10 +5,10 @@ import { useTransition } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { isProductAvailable } from "../actions/isProductAvailable";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
+import ValidationService from "../services/validation.service";
 import { addProduct } from "../actions/cart/addproduct.action";
 import type { Product } from "@prisma/client";
 import type { Session } from "next-auth";
@@ -40,7 +40,10 @@ export const ProductOverview = ({ session, product }: Props) => {
 
     startTransition(async () => {
       try {
-        const isAvailable = await isProductAvailable(id);
+        const isAvailable =
+          await ValidationService.checkValidityOfStockBeforeAddingToCart(
+            product.id,
+          );
 
         if (!isAvailable) {
           toast({

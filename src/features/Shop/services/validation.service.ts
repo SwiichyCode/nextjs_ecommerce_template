@@ -7,6 +7,18 @@ import type { Product } from "@prisma/client";
 type ProductQuantities = Record<number, number>;
 
 class ValidationService {
+  static async checkValidityOfStockBeforeAddingToCart(productId: number) {
+    const { updatedProducts } = await ProductService.updatedProducts();
+    const currentProduct = updatedProducts.find((p) => p.id === productId);
+
+    if (!currentProduct) {
+      throw new Error("product is not defined");
+    }
+
+    const isAvailable = currentProduct.stock > 0;
+    return isAvailable;
+  }
+
   static async checkValidityOfStockBeforeCheckout(products: Products) {
     const { updatedProducts } = await ProductService.updatedProducts();
 
