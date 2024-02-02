@@ -9,6 +9,8 @@ export const StripeCheckout = async (
 ) => {
   const { products } = (await request.json()) as { products: Products };
 
+  await CheckoutService.checkValidityOfStockBeforeCheckout(products);
+
   const checkout_session = await StripeService.createCheckoutSession(products);
 
   if (!checkout_session.metadata) {

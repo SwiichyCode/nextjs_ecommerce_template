@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Product } from "@prisma/client";
 import { ProductStatus } from "@/constants/enum";
+import { PRODUCT_LENGTH_ALERT } from "@/constants";
 
 const handleRewriteStatus = (status: ProductStatus) => {
   if (status === ProductStatus.ACTIVE) return "Actif";
@@ -71,6 +72,15 @@ export const productColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "stock",
     header: "In stock",
+    cell: ({ row }) => {
+      const { stock } = row.original;
+
+      return (
+        <span className={cn(stock <= PRODUCT_LENGTH_ALERT && "text-red-500")}>
+          {stock}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "weight",

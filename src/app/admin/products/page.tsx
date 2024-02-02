@@ -1,21 +1,19 @@
-import { ProductProvider } from "@/features/Admin/context/useProductContext";
-import { ProductsDataTableWrapper } from "@/features/Admin/components/ProductsDataTable/wrapper";
 import ProductService from "@/features/Admin/services/productService";
-
+import { DataTable } from "@/features/Admin/components/ProductsDataTable";
+import { productColumns } from "@/features/Admin/components/ProductsDataTable/columns";
 export const revalidate = 10;
 
 export default async function ProductPage() {
-  const products = await ProductService.updatedProducts();
-
-  {
-    /*<p>{products.length} available products</p>*/
-  }
+  const { products } = await ProductService.updatedProducts();
 
   return (
-    <ProductProvider products={products}>
-      <div className="mx-auto w-full max-w-5xl px-14">
-        <ProductsDataTableWrapper />
-      </div>
-    </ProductProvider>
+    <div className="mx-auto w-full max-w-5xl px-14">
+      <DataTable
+        columns={productColumns}
+        data={products}
+        route={"products"}
+        asRowLink
+      />
+    </div>
   );
 }

@@ -50,7 +50,16 @@ export const ShoppingCart = ({ session }: Props) => {
         return;
       }
 
-      await StripeService.handleCheckoutSession(optimisticCart);
+      const response =
+        await StripeService.handleCheckoutSession(optimisticCart);
+
+      if (response?.error) {
+        toast({
+          title: "An error occurred",
+          description: response.error,
+        });
+        return;
+      }
     });
   };
 

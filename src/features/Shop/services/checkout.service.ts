@@ -13,6 +13,10 @@ import type {
 } from "../types/checkoutservice.type";
 import { xor } from "@/lib/utils";
 import Stripe from "stripe";
+import ProductService from "@/features/Admin/services/productService";
+import { Products } from "@/lib/stripe";
+
+type ProductQuantities = Record<number, number>;
 
 class CheckoutService {
   static async createCheckoutSession(data: createCheckoutSessionType) {
@@ -45,7 +49,34 @@ class CheckoutService {
     });
   }
 
-  static async validateCheckoutSession(
+  static async checkValidityOfStockBeforeCheckout(products: Products) {
+    const { updatedProducts } = await ProductService.updatedProducts();
+
+    const productQuantities = products.reduce(
+      (acc, { price_data, quantity = 0 }) => {
+        const id = price_data?.product_data?.metadata?.product_id;
+        if (id != null) {
+          acc[typeof id === "number" ? id : parseInt(id, 10)] = quantity;
+        }
+        return acc;
+      },
+      {} as ProductQuantities,
+    );
+
+    const outOfStockProducts = updatedProducts.filter(
+      ({ id, stock }) => stock < productQuantities[id]! || 0,
+    );
+
+    if (outOfStockProducts.length > 0) {
+      const errorDetails = outOfStockProducts
+        .map(({ name, stock }) => `${name} (available stock: ${stock})`)
+        .join(", ");
+
+      throw new Error(`Stock not available for ${errorDetails}`);
+    }
+  }
+
+  static async validateTotalAmountInCheckoutSession(
     checkout_session: Stripe.Checkout.Session,
   ) {
     const productIds = JSON.parse(

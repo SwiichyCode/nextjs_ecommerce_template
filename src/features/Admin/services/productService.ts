@@ -47,7 +47,7 @@ class ProductService {
       return { ...product, stock: product.stock - totalQuantityOrdered };
     });
 
-    return updatedProducts;
+    return { products, updatedProducts };
   }
 
   static async createProduct(data: z.infer<typeof productActionSchema>) {

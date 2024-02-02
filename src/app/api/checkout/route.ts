@@ -15,7 +15,10 @@ export const POST = async (request: Request) => {
 
     if (!checkout_session) throw new Error("Checkout session is undefined");
 
-    await CheckoutService.validateCheckoutSession(checkout_session);
+    //Extract logic outside of route
+    await CheckoutService.validateTotalAmountInCheckoutSession(
+      checkout_session,
+    );
 
     revalidatePath(PRODUCT_URL);
 
@@ -24,7 +27,8 @@ export const POST = async (request: Request) => {
     paymentErrorHandler(error);
 
     if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      // return NextResponse.json({ error: error.message }, { status: 400 });
+      return new Response(error.message, { status: 400 });
     } else {
       return new NextResponse(JSON.stringify({ error: "Unknown error" }), {
         status: 500,

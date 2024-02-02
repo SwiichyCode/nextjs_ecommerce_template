@@ -42,6 +42,7 @@ export const StripeWebhook = async (request: Request) => {
       throw new Error("Webhook is already processing");
     }
 
+    // Send order confirmation email
     const customerEmail = event.data.object.customer_details?.email;
     await MailingService.sendOrderConfirmationEmail(customerEmail!);
   }

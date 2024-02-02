@@ -1,4 +1,5 @@
 import axios from "axios";
+import request from "axios";
 import { stripe, type Products } from "@/lib/stripe";
 import type { ProductCart } from "../../../../features/Shop/stores/useCartStore";
 import { API_CHECKOUT_URL } from "@/constants/urls";
@@ -61,8 +62,11 @@ export class StripeService {
       if (!data) throw new Error("No data returned from checkout session");
 
       window.location.href = data.url;
-    } catch (error) {
-      throw error;
+      return { data };
+    } catch (err) {
+      if (request.isAxiosError(err)) {
+        return { error: err.response?.data };
+      }
     }
   }
 
