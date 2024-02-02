@@ -4,7 +4,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { checkoutHandler } from "@/modules/payments/checkoutHandler";
 import { paymentErrorHandler } from "@/modules/payments/paymentErrorHandler";
 import { PRODUCT_URL } from "@/constants/urls";
-import CheckoutService from "@/features/Shop/services/checkout.service";
+import ValidationService from "@/features/Shop/services/validation.service";
 
 export const POST = async (request: Request) => {
   try {
@@ -16,7 +16,7 @@ export const POST = async (request: Request) => {
     if (!checkout_session) throw new Error("Checkout session is undefined");
 
     //Extract logic outside of route
-    await CheckoutService.validateTotalAmountInCheckoutSession(
+    await ValidationService.validateTotalAmountInCheckoutSession(
       checkout_session,
     );
 

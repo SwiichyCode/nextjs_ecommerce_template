@@ -1,5 +1,6 @@
 import StripeService from "@/modules/payments/stripe/service/stripe.service";
 import CheckoutService from "@/features/Shop/services/checkout.service";
+import ValidationService from "@/features/Shop/services/validation.service";
 import type { Products } from "@/lib/stripe";
 import { Session } from "next-auth";
 
@@ -9,7 +10,7 @@ export const StripeCheckout = async (
 ) => {
   const { products } = (await request.json()) as { products: Products };
 
-  await CheckoutService.checkValidityOfStockBeforeCheckout(products);
+  await ValidationService.checkValidityOfStockBeforeCheckout(products);
 
   const checkout_session = await StripeService.createCheckoutSession(products);
 

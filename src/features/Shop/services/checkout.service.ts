@@ -12,11 +12,6 @@ import type {
   updateProductStockType,
 } from "../types/checkoutservice.type";
 import { xor } from "@/lib/utils";
-import Stripe from "stripe";
-import ProductService from "@/features/Admin/services/productService";
-import { Products } from "@/lib/stripe";
-
-type ProductQuantities = Record<number, number>;
 
 class CheckoutService {
   static async createCheckoutSession(data: createCheckoutSessionType) {
@@ -47,74 +42,6 @@ class CheckoutService {
         sessionId: data.sessionId,
       },
     });
-  }
-
-  static async checkValidityOfStockBeforeCheckout(products: Products) {
-    const { updatedProducts } = await ProductService.updatedProducts();
-
-    const productQuantities = products.reduce(
-      (acc, { price_data, quantity = 0 }) => {
-        const id = price_data?.product_data?.metadata?.product_id;
-        if (id != null) {
-          acc[typeof id === "number" ? id : parseInt(id, 10)] = quantity;
-        }
-        return acc;
-      },
-      {} as ProductQuantities,
-    );
-
-    const outOfStockProducts = updatedProducts.filter(
-      ({ id, stock }) => stock < productQuantities[id]! || 0,
-    );
-
-    if (outOfStockProducts.length > 0) {
-      const errorDetails = outOfStockProducts
-        .map(({ name, stock }) => `${name} (available stock: ${stock})`)
-        .join(", ");
-
-      throw new Error(`Stock not available for ${errorDetails}`);
-    }
-  }
-
-  static async validateTotalAmountInCheckoutSession(
-    checkout_session: Stripe.Checkout.Session,
-  ) {
-    const productIds = JSON.parse(
-      checkout_session.metadata?.product_id ?? "[]",
-    ) as number[];
-
-    const quantities = JSON.parse(
-      checkout_session.metadata?.quantity ?? "[]",
-    ) as number[];
-
-    const dbProducts = await db.product.findMany({
-      where: {
-        id: {
-          in: productIds,
-        },
-      },
-    });
-
-    const calculatedTotalAmount = dbProducts.reduce((acc, product, index) => {
-      const quantity = Number(quantities[index]);
-      const price = Number(product.price);
-
-      if (isNaN(quantity) || isNaN(price)) {
-        throw new Error(
-          `Invalid value: quantity = ${quantities[index]}, price = ${product.price}`,
-        );
-      }
-
-      return acc + price * 100 * quantity;
-    }, 0);
-
-    const totalAmount = checkout_session.amount_total ?? 0;
-
-    if (totalAmount !== calculatedTotalAmount) {
-      throw new Error(
-        `Invalid total amount: ${totalAmount} !== ${calculatedTotalAmount}`,
-      );
-    }
   }
 
   static async updateProductStock(data: updateProductStockType) {
@@ -187,7 +114,7 @@ class CheckoutService {
 
   static async getIdempotencyKey(data: { sessionId: string }) {
     try {
-      return await db.order.findFirstOrThrow({
+      const { idempotencyKey } = await db.order.findFirstOrThrow({
         where: {
           sessionId: data.sessionId,
         },
@@ -196,6 +123,8 @@ class CheckoutService {
           idempotencyKey: true,
         },
       });
+
+      return idempotencyKey;
     } catch (error) {
       console.log(error);
     }

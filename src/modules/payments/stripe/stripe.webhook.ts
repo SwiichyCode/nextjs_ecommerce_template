@@ -21,12 +21,12 @@ export const StripeWebhook = async (request: Request) => {
       throw new Error("Payment intent is not defined");
     }
 
-    const idempotency_key = await CheckoutService.getIdempotencyKey({
+    const idempotencyKey = await CheckoutService.getIdempotencyKey({
       sessionId: session.id,
     });
 
     // Check if webhook is already processing
-    if (!idempotency_key?.idempotencyKey) {
+    if (idempotencyKey) {
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
         await CheckoutService.processCheckoutSession({
