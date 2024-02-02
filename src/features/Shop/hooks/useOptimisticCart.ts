@@ -11,7 +11,16 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
     (state: ProductCart[], { action, product }: SetOptimisticType) => {
       switch (action) {
         case "add":
-          return [...state, product];
+          const productInCart = state.find((item) => item.id === product.id);
+          if (productInCart) {
+            return state.map((item) => {
+              if (item.id === product.id) {
+                return { ...item, quantity: item.quantity + 1 };
+              }
+              return item;
+            });
+          }
+          return [...state, { ...product, quantity: 1 }];
 
         case "increment":
           return state.map((item) => {

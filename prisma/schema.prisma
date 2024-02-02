@@ -145,6 +145,7 @@ model Order {
     id                    Int                 @id @default(autoincrement())
     userId                String
     sessionId             String
+    orderNumber           String              @unique
     idempotencyKey        String?
     paymentIntentId       String              @unique
     amountTotal           Int

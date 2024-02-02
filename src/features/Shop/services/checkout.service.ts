@@ -12,6 +12,7 @@ import type {
   updateProductStockType,
 } from "../types/checkoutservice.type";
 import { xor } from "@/lib/utils";
+import { generateRandomOrderNumber } from "../utils/generateRandomString";
 
 class CheckoutService {
   static async createCheckoutSession(data: createCheckoutSessionType) {
@@ -152,6 +153,7 @@ class CheckoutService {
     const order = await this.createOrder({
       sessionId: checkout_session.sessionId,
       userId: checkout_session.userId,
+      orderNumber: generateRandomOrderNumber(8),
       paymentIntentId: data.paymentIntentId,
       idempotencyKey: data.idempotencyKey,
       customerInformationId: customer_information.id,

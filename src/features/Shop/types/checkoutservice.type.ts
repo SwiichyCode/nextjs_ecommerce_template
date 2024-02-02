@@ -29,6 +29,7 @@ export type getOrderType = {
 export type createOrderType = {
   sessionId: string;
   userId: string;
+  orderNumber: string;
   idempotencyKey?: string;
   paymentIntentId: string;
   customerInformationId: number;

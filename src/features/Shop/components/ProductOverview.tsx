@@ -13,6 +13,7 @@ import { addProduct } from "../actions/cart/addproduct.action";
 import type { Product } from "@prisma/client";
 import type { Session } from "next-auth";
 import { isProductAvailable } from "../actions/cart/productavailable.action";
+import { useCartContext } from "./CartContext";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -29,6 +30,7 @@ export const ProductOverview = ({ session, product }: Props) => {
   const { id, name, price, description, pictures } = product;
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
+  const [optimisticCart, setOptimisticCart] = useCartContext();
 
   const editor = useEditor({
     extensions: [StarterKit.configure({})],
@@ -62,6 +64,14 @@ export const ProductOverview = ({ session, product }: Props) => {
         toast({
           title: "Product added to cart",
           description: "Your product has been added to the cart.",
+        });
+
+        setOptimisticCart({
+          action: "add",
+          product: {
+            ...product,
+            quantity: 1,
+          },
         });
 
         await addProduct({

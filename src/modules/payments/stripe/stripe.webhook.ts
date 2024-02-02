@@ -26,7 +26,7 @@ export const StripeWebhook = async (request: Request) => {
     });
 
     // Check if webhook is already processing
-    if (idempotencyKey) {
+    if (!idempotencyKey) {
       // Fix case if not a physical product
       if (customerDetails?.name && customerDetails?.address) {
         await CheckoutService.processCheckoutSession({
