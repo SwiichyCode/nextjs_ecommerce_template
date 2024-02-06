@@ -1,5 +1,6 @@
-import Image from "next/image";
-import type { OrderProduct } from "../../types/order.type";
+import Image from 'next/image';
+
+import type { OrderProduct } from '../../types/order.type';
 
 type Props = {
   currentOrder: OrderProduct[];

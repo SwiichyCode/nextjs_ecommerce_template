@@ -1,18 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useTransition } from "react";
-import { useToast } from "@/components/ui/use-toast";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
-
-import { addProduct } from "../actions/cart/addproduct.action";
 import type { Product } from "@prisma/client";
 import type { Session } from "next-auth";
-import { isProductAvailable } from "../actions/cart/productavailable.action";
-import { useCartContext } from "./CartContext";
 import { Editor } from "./Editor";
+import { useAddToCart } from "../hooks/useAddToCart";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -26,56 +21,8 @@ type Props = {
 };
 
 export const ProductOverview = ({ session, product }: Props) => {
-  const { id, name, price, description, pictures } = product;
-  const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
-  const [optimisticCart, setOptimisticCart] = useCartContext();
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    startTransition(async () => {
-      try {
-        const isAvailable = await isProductAvailable(product.id);
-
-        if (!isAvailable) {
-          toast({
-            title: "Product is not available",
-            description: "Sorry, this product is not available at the moment.",
-          });
-          return;
-        }
-
-        if (!session) {
-          toast({
-            title: "You are not logged in",
-            description: "Please log in to add this product to your cart.",
-          });
-          return;
-        }
-
-        toast({
-          title: "Product added to cart",
-          description: "Your product has been added to the cart.",
-        });
-
-        setOptimisticCart({
-          action: "add",
-          product: {
-            ...product,
-            quantity: 1,
-          },
-        });
-
-        await addProduct({
-          userId: session?.user.id ?? "",
-          products: [{ productId: id, quantity: 1 }],
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  };
+  const { name, price, description, pictures } = product;
+  const { handleSubmit } = useAddToCart(session);
 
   return (
     <div className="bg-white">
@@ -168,7 +115,7 @@ export const ProductOverview = ({ session, product }: Props) => {
               Product options
             </h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e, product)}>
               <div className="mt-10">
                 <button
                   type="submit"

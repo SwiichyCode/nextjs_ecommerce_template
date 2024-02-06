@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useCartStore } from "../../stores/useCartStore";
-import { SHOP_URL } from "@/constants/urls";
+import { SHOP_URL } from '@/constants/urls';
+import Link from 'next/link';
+
+import { useCartStore } from '../../stores/useCartStore';
 
 export const OrderSummariesRedirect = () => {
   const { clear } = useCartStore();

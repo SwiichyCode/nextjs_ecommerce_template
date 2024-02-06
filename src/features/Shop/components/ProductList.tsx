@@ -1,6 +1,6 @@
-import Image from "next/image";
-import type { Product } from "@prisma/client";
-import { SHOP_URL } from "@/constants/urls";
+import { SHOP_URL } from '@/constants/urls';
+import type { Product } from '@prisma/client';
+import Image from 'next/image';
 
 type Props = {
   products: Product[];

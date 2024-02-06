@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { Menu } from "@headlessui/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { Prisma } from "@prisma/client";
-import { formatPriceCents } from "../../utils/formatPrice";
-import { Editor } from "../Editor";
+import { Menu } from '@headlessui/react';
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
+import { Prisma } from '@prisma/client';
+import { Session } from 'next-auth';
+
+import { formatPriceCents } from '../../utils/formatPrice';
+import { OrderProduct } from './OrderProduct';
 
 export const revalidate = 10;
 
@@ -14,10 +15,11 @@ type OrderWithOrderItems = Prisma.OrderGetPayload<{
 }>;
 
 type Props = {
+  session: Session | null;
   orders: OrderWithOrderItems[];
 };
 
-export const OrderHistory = ({ orders }: Props) => {
+export const OrderHistory = ({ session, orders }: Props) => {
   return (
     <>
       <div className=" max-w-7xl sm:px-2 lg:px-8">
@@ -42,9 +44,9 @@ export const OrderHistory = ({ orders }: Props) => {
                 className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
               >
                 <h3 className="sr-only">
-                  Order placed on{" "}
-                  <time dateTime={order.createdAt.toLocaleDateString("en-EN")}>
-                    {order.createdAt.toLocaleTimeString("en-EN")}
+                  Order placed on{' '}
+                  <time dateTime={order.createdAt.toLocaleDateString('en-EN')}>
+                    {order.createdAt.toLocaleTimeString('en-EN')}
                   </time>
                 </h3>
 
@@ -62,9 +64,9 @@ export const OrderHistory = ({ orders }: Props) => {
                       <dt className="font-medium text-gray-900">Date placed</dt>
                       <dd className="mt-1 text-gray-500">
                         <time
-                          dateTime={order.createdAt.toLocaleDateString("en-EN")}
+                          dateTime={order.createdAt.toLocaleDateString('en-EN')}
                         >
-                          {order.createdAt.toLocaleTimeString("en-EN")}
+                          {order.createdAt.toLocaleTimeString('en-EN')}
                         </time>
                       </dd>
                     </div>
@@ -116,59 +118,7 @@ export const OrderHistory = ({ orders }: Props) => {
                 <h4 className="sr-only">Items</h4>
                 <ul role="list" className="divide-y divide-gray-200">
                   {order.orderItem.map(({ product }) => (
-                    <li key={product.id} className="p-4 sm:p-6">
-                      <div className="flex items-center sm:items-start">
-                        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 sm:h-40 sm:w-40">
-                          <img
-                            src={product.pictures[0]}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
-                        <div className="ml-6 flex-1 text-sm">
-                          <div className="font-medium text-gray-900 sm:flex sm:justify-between">
-                            <h5>{product.name}</h5>
-                            <p className="mt-2 sm:mt-0">${product.price}</p>
-                          </div>
-                          <div className="hidden text-gray-500 sm:mt-2 sm:block">
-                            <Editor content={product.description} />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-6 sm:flex sm:justify-between">
-                        <div className="flex items-center">
-                          <CheckCircleIcon
-                            className="h-5 w-5 text-green-500"
-                            aria-hidden="true"
-                          />
-                          <p className="ml-2 text-sm font-medium text-gray-500">
-                            Delivered on{" "}
-                            {/* <time dateTime={order.deliveredDatetime}>
-                                {order.deliveredDate}
-                              </time> */}
-                          </p>
-                        </div>
-
-                        <div className="mt-6 flex items-center space-x-4 divide-x divide-gray-200 border-t border-gray-200 pt-4 text-sm font-medium sm:ml-4 sm:mt-0 sm:border-none sm:pt-0">
-                          <div className="flex flex-1 justify-center">
-                            <a
-                              href={product.slug}
-                              className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
-                            >
-                              View product
-                            </a>
-                          </div>
-                          <div className="flex flex-1 justify-center pl-4">
-                            <a
-                              href="#"
-                              className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
-                            >
-                              Buy again
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+                    <OrderProduct session={session} product={product} />
                   ))}
                 </ul>
               </div>

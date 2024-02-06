@@ -1,13 +1,14 @@
-import Image from "next/image";
-import { OrderSummariesRedirect } from "./OrderSummariesRedirect";
-import { OrderSummariesClient } from "./OrderSummariesClient";
-import { OrderSummariesSubtotal } from "./OrderSummariesSubtotal";
-import { OrderSummariesProduct } from "./OrderSummariesProduct";
-import { OrderSummariesHeading } from "./OrderSummariesHeading";
-import { transformOrderData } from "../../utils/transformOrderData";
-import { formatPriceCents } from "../../utils/formatPrice";
-import type { OrderWithProduct } from "@/features/Shop/types/order.type";
-import type Stripe from "stripe";
+import type { OrderWithProduct } from '@/features/Shop/types/order.type';
+import Image from 'next/image';
+import type Stripe from 'stripe';
+
+import { formatPriceCents } from '../../utils/formatPrice';
+import { transformOrderData } from '../../utils/transformOrderData';
+import { OrderSummariesClient } from './OrderSummariesClient';
+import { OrderSummariesHeading } from './OrderSummariesHeading';
+import { OrderSummariesProduct } from './OrderSummariesProduct';
+import { OrderSummariesRedirect } from './OrderSummariesRedirect';
+import { OrderSummariesSubtotal } from './OrderSummariesSubtotal';
 
 type Props = {
   order: OrderWithProduct;

@@ -1,7 +1,8 @@
-"use client";
-import React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 type Props = {
   homeElement?: React.ReactNode;
@@ -23,19 +24,19 @@ export const Breadcrumb = (props: Props) => {
   } = props;
 
   const paths = usePathname();
-  const pathNames = paths.split("/").filter((x) => x);
+  const pathNames = paths.split('/').filter((x) => x);
 
   return (
     <div>
       <ul className={containerClasses}>
         {homeElement && (
           <li className={listClasses}>
-            <Link href={"/"}>{homeElement}</Link>
+            <Link href={'/'}>{homeElement}</Link>
           </li>
         )}
         {pathNames.length > 0 && separator}
         {pathNames.map((link, index) => {
-          const href = `/${pathNames.slice(0, index + 1).join("/")}`;
+          const href = `/${pathNames.slice(0, index + 1).join('/')}`;
           const itemClasses =
             paths === href ? `${listClasses} ${activeClasses}` : listClasses;
           const itemLink = capitalizeLinks

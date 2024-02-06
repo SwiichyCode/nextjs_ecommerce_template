@@ -1,6 +1,6 @@
-import { stripe } from "@/lib/stripe";
-import { PaymentsDataTable } from "@/features/Admin/components/PaymentsDataTable";
-import { PaymentsTabs } from "@/features/Admin/components/PaymentsTabs";
+import { stripe } from '@/lib/stripe';
+import { PaymentsDataTable } from '@/features/Admin/components/PaymentsDataTable';
+import { PaymentsTabs } from '@/features/Admin/components/PaymentsTabs';
 
 export default async function PaymentsPage() {
   const payments = await stripe.paymentIntents.list({

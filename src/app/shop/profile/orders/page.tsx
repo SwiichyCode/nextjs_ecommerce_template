@@ -17,5 +17,5 @@ export default async function OrdersPage() {
       },
     },
   });
-  return <OrderHistory orders={orders} />;
+  return <OrderHistory session={session} orders={orders} />;
 }

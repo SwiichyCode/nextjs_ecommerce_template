@@ -1,7 +1,7 @@
-import { useOptimistic } from "react";
-import type { ProductCart } from "../stores/useCartStore";
+import { useOptimistic } from 'react';
+import type { ProductCart } from '../stores/useCartStore';
 
-export type Action = "add" | "increment" | "decrement" | "remove";
+export type Action = 'add' | 'increment' | 'decrement' | 'remove';
 export type SetOptimisticType = { action: Action; product: ProductCart };
 export type SetOptimisticCartFunction = (action: SetOptimisticType) => void;
 
@@ -10,7 +10,7 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
     currentCart,
     (state: ProductCart[], { action, product }: SetOptimisticType) => {
       switch (action) {
-        case "add":
+        case 'add':
           const productInCart = state.find((item) => item.id === product.id);
           if (productInCart) {
             return state.map((item) => {
@@ -22,7 +22,7 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
           }
           return [...state, { ...product, quantity: 1 }];
 
-        case "increment":
+        case 'increment':
           return state.map((item) => {
             if (item.id === product.id) {
               return { ...item, quantity: item.quantity + 1 };
@@ -30,7 +30,7 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
             return item;
           });
 
-        case "decrement":
+        case 'decrement':
           return state.map((item) => {
             if (item.id === product.id) {
               return { ...item, quantity: item.quantity - 1 };
@@ -38,7 +38,7 @@ export const useOptimisticCartWithReducer = (currentCart: ProductCart[]) => {
             return item;
           });
 
-        case "remove":
+        case 'remove':
           return state.filter((item) => item.id !== product.id);
         default:
           return state;

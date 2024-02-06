@@ -1,12 +1,8 @@
-import { ProductForm } from "@/features/Admin/components/forms/product.form";
-import { ProductStatusForm } from "@/features/Admin/components/forms/updateproductstatus.form";
-import ProductService from "@/features/Admin/services/productService";
+import { ProductForm } from '@/features/Admin/components/forms/product.form';
+import { ProductStatusForm } from '@/features/Admin/components/forms/updateproductstatus.form';
+import ProductService from '@/features/Admin/services/productService';
 
-export default async function EditProductPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function EditProductPage({ params }: { params: { id: string } }) {
   const product = await ProductService.findProduct({ id: params.id });
 
   return (

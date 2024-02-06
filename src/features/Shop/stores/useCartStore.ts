@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type { Product } from "@prisma/client";
+import type { Product } from '@prisma/client';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type CartState = {
   open: boolean;
@@ -55,7 +55,7 @@ export const useCartStore = create<CartStore>()(
       clear: () => set({ cart: [] }),
     }),
     {
-      name: "cart-store",
+      name: 'cart-store',
     },
   ),
 );

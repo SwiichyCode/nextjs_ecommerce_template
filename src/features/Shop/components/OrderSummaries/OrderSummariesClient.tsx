@@ -1,6 +1,7 @@
-import { PaymentMethodCard } from "../PaymentMethodCard";
-import type { CreditCard } from "@/features/Shop/types/order.type";
-import type Stripe from "stripe";
+import type { CreditCard } from '@/features/Shop/types/order.type';
+import type Stripe from 'stripe';
+
+import { PaymentMethodCard } from '../PaymentMethodCard';
 
 type Props = {
   paymentMethod: Stripe.PaymentMethod;
@@ -17,19 +18,19 @@ export const OrderSummariesClient = ({ paymentMethod }: Props) => {
             <span className="block">
               {paymentMethod.billing_details.address?.line1
                 ? paymentMethod.billing_details.address?.line1
-                : "7363 Cynthia Pass"}
+                : '7363 Cynthia Pass'}
             </span>
             <span className="block">
               {paymentMethod.billing_details.address?.city
                 ? paymentMethod.billing_details.address?.city
-                : "Toronto"}
-              ,{" "}
+                : 'Toronto'}
+              ,{' '}
               {paymentMethod.billing_details.address?.state
                 ? paymentMethod.billing_details.address?.state
-                : "ON"}{" "}
+                : 'ON'}{' '}
               {paymentMethod.billing_details.address?.postal_code
                 ? paymentMethod.billing_details.address?.postal_code
-                : "N3Y 4H8"}
+                : 'N3Y 4H8'}
             </span>
           </address>
         </dd>
@@ -47,8 +48,8 @@ export const OrderSummariesClient = ({ paymentMethod }: Props) => {
                   Ending with {paymentMethod.card.last4}
                 </p>
                 <p>
-                  Expires{" "}
-                  {paymentMethod.card.exp_month.toString().padStart(2, "0")} /
+                  Expires{' '}
+                  {paymentMethod.card.exp_month.toString().padStart(2, '0')} /
                   {paymentMethod.card.exp_year.toString().slice(-2)}
                 </p>
               </div>

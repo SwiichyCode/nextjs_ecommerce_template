@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRouter } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useRouter } from 'next/navigation';
 
-type TabsList = "account" | "orders";
+type TabsList = 'account' | 'orders';
 
 export const TabsProfile = () => {
   const router = useRouter();
 
   const handleValueChange = (value: TabsList) => {
-    if (value === "account") {
-      router.push("/shop/profile");
+    if (value === 'account') {
+      router.push('/shop/profile');
       return;
     }
 

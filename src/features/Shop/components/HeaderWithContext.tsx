@@ -1,18 +1,20 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useCartContext } from "./CartContext";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ADMIN_URL, SHOP_URL } from "@/constants/urls";
-import { LoginLink } from "../../Auth/components/LoginLink";
-import { CartButton } from "./CartButton";
-import type { Session } from "next-auth";
+'use client';
+
+import { ADMIN_URL, SHOP_URL } from '@/constants/urls';
+import { Dialog } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import type { Session } from 'next-auth';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+
+import { LoginLink } from '../../Auth/components/LoginLink';
+import { CartButton } from './CartButton';
+import { useCartContext } from './CartContext';
 
 const navigation = [
-  { name: "Product", href: SHOP_URL },
-  { name: "Dashboard", href: ADMIN_URL },
+  { name: 'Product', href: SHOP_URL },
+  { name: 'Dashboard', href: ADMIN_URL },
 ];
 
 type Props = {
