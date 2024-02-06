@@ -3,17 +3,16 @@
 import Image from "next/image";
 import { useTransition } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import StarterKit from "@tiptap/starter-kit";
-import { EditorContent, useEditor } from "@tiptap/react";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Breadcrumb } from "./Breadcrumb";
-import ValidationService from "../services/validation.service";
+
 import { addProduct } from "../actions/cart/addproduct.action";
 import type { Product } from "@prisma/client";
 import type { Session } from "next-auth";
 import { isProductAvailable } from "../actions/cart/productavailable.action";
 import { useCartContext } from "./CartContext";
+import { Editor } from "./Editor";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -31,12 +30,6 @@ export const ProductOverview = ({ session, product }: Props) => {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [optimisticCart, setOptimisticCart] = useCartContext();
-
-  const editor = useEditor({
-    extensions: [StarterKit.configure({})],
-    content: description,
-    editable: false,
-  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -139,7 +132,7 @@ export const ProductOverview = ({ session, product }: Props) => {
 
             <div className="mt-4 space-y-6">
               <div className="text-base text-gray-500">
-                <EditorContent editor={editor} />
+                <Editor content={description} />
               </div>
             </div>
 

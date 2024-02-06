@@ -1,5 +1,4 @@
 import { db } from "@/server/db";
-
 import { ProductList } from "@/features/Shop/components/ProductList";
 
 export default async function ShopPage() {
