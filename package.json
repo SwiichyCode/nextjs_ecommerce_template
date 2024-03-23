@@ -49,7 +49,7 @@
     "lucide-react": "^0.304.0",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
-    "next-safe-action": "^6.0.1",
+    "next-safe-action": "^6.0.2",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",

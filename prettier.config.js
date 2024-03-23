@@ -10,7 +10,6 @@ const config = {
   semi: true,
   importOrder: [
     '<THIRD_PARTY_MODULES>',
-
     '^@/(.*)$', // Absolute imports
     '^[./].*(?<!\\.(c|le|sc)ss)$',
     '^[.]/[-a-zA-Z0-9_]+[.](module)[.](css|scss|less)$',

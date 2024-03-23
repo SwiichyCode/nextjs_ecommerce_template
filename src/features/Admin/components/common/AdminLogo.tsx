@@ -1,11 +1,11 @@
-import Link from "next/link";
-import Image from "next/image";
-import { ADMIN_URL } from "@/constants/urls";
+import { SHOP_URL } from '@/constants/urls';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const AdminLogo = () => {
   return (
     <div className="py-4">
-      <Link href={ADMIN_URL}>
+      <Link href={SHOP_URL}>
         <Image
           src="/icons/strapi.svg"
           width={40}
